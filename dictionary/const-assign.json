@@ -1,0 +1,22 @@
+{
+  "id": "const-assign",
+  "match": "^TypeError: Assignment to constant variable",
+  "samples": [
+    "TypeError: Assignment to constant variable."
+  ],
+  "fix_code": "let age = 20;",
+  "reviewed": false,
+  "what": "A variable created with `const` cannot be reassigned. The value was locked when it was declared, so the later assignment throws a TypeError.",
+  "tone": {
+    "street": {
+      "happen": "You use `const` lock `age`, then you wan change am. E no go gree.",
+      "todo": "If the value go change, use `let`:",
+      "learn": "\"constant\" mean value wey no dey change."
+    },
+    "normal": {
+      "happen": "You use `const` create `age`, then you try change am. `const` no dey allow change.",
+      "todo": "If the value go change, use `let`:",
+      "learn": "\"constant\" mean value wey no dey change."
+    }
+  }
+}

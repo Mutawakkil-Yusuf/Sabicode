@@ -1,0 +1,22 @@
+{
+  "id": "undefined-property",
+  "match": "^TypeError: Cannot read properties of (undefined|null) \\(reading '(.+)'\\)",
+  "samples": [
+    "TypeError: Cannot read properties of undefined (reading 'name')"
+  ],
+  "fix_code": "thing?.{2}",
+  "reviewed": false,
+  "what": "The code tried to read `{2}` from a value that is `{1}`. `undefined` and `null` have no properties, so JavaScript stops before it can read anything.",
+  "tone": {
+    "street": {
+      "happen": "You wan pick `{2}` from inside empty hand. The thing na `{1}`, e get nothing to give you.",
+      "todo": "Check am first before you collect:",
+      "learn": "`{1}` mean say nothing dey there."
+    },
+    "normal": {
+      "happen": "You wan collect `{2}` from something wey no get value. That thing na `{1}`.",
+      "todo": "Check say the thing dey before you use am:",
+      "learn": "`{1}` mean say nothing dey there."
+    }
+  }
+}

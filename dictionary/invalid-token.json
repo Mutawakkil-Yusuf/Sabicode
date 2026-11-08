@@ -1,0 +1,21 @@
+{
+  "id": "invalid-token",
+  "match": "^SyntaxError: Invalid or unexpected token",
+  "samples": [
+    "SyntaxError: Invalid or unexpected token"
+  ],
+  "reviewed": false,
+  "what": "The parser found a character it cannot read as JavaScript. An unclosed quote or a character pasted from another program is a common cause.",
+  "tone": {
+    "street": {
+      "happen": "JavaScript see one character wey e no understand. Most times, na quote wey no close, or strange symbol wey you paste.",
+      "todo": "Check your quotes. Every opening quote must get a closing one. Remove strange characters wey you copy from outside.",
+      "learn": "\"invalid\" mean say JavaScript no fit read am as code."
+    },
+    "normal": {
+      "happen": "JavaScript meet one character wey e no fit read. Maybe a quote no close, or you paste a strange symbol.",
+      "todo": "Check your quotes. Every opening quote must get a closing one. Remove strange characters wey you copy from outside.",
+      "learn": "\"invalid\" mean say JavaScript no fit read am as code."
+    }
+  }
+}
