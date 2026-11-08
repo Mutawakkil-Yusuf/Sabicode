@@ -20,7 +20,7 @@
     "node": ">=18"
   },
   "scripts": {
-    "test": "node --test",
+    "test": "node scripts/test.js",
     "build": "node scripts/build-site.js"
   },
   "keywords": [

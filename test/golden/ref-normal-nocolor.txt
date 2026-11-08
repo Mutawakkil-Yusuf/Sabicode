@@ -1,0 +1,9 @@
+
+🦜 Wetin happen: You dey use `name`, but JavaScript no sabi am. You never create
+                 am.
+   Wetin to do:  Create am first:
+                 `let name = "Ada";`
+   Learn am:     "not defined" mean say the variable no dey anywhere JavaScript
+                 fit see.
+
+   Polly: Fix am, then run am again.

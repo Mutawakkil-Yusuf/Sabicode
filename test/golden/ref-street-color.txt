@@ -1,0 +1,9 @@
+
+🦜 Wetin happen: You dey call [36mname[39m like say JavaScript know am, but e no sabi
+                 who be that. You never introduce am o.
+   Wetin to do:  Create am first:
+                 [36mlet name = "Ada";[39m
+   Learn am:     "not defined" mean say the variable no dey anywhere JavaScript
+                 fit see.
+
+   Polly: Oya, run am again.
