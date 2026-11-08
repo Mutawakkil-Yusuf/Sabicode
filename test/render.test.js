@@ -14,7 +14,8 @@ const {
 } = require('../src/render');
 
 const goldenDir = path.join(__dirname, 'golden');
-const golden = (name) => fs.readFileSync(path.join(goldenDir, name), 'utf8');
+const golden = (name) =>
+  fs.readFileSync(path.join(goldenDir, name), 'utf8').replace(/\r\n/g, '\n');
 const entries = loadDictionary();
 const entry = entries.find((item) => item.id === 'ref-not-defined');
 const result = matchError(entry.samples[0], entries);

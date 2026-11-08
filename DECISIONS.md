@@ -74,3 +74,18 @@ room for interpretation.
   SVG if required.
 - The page loads Poppins and JetBrains Mono from Google Fonts and keeps full
   local fallback stacks.
+
+## Verification
+
+- `npm test` passed on Node 18.20.8, 20.20.2, and 22.23.2 (102 tests each).
+- All 11 fixture scripts were run manually in both tones (22 runs); each kept
+  the original English error, appended the expected Pidgin block, and returned
+  the child's exit code.
+- `npm pack --dry-run` contains 23 files, 11.3 kB packed, with only `bin/`,
+  `src/`, `dictionary/`, the licence, README, style guide, and package metadata.
+- `npm view sabicode` returned `E404` on 2026-11-08, so the public package name
+  was free at that moment. Nothing was published.
+- The site was checked with static HTML parsing, link checks, inline script
+  syntax checks, page-size checks, and the automated site test. A browser and
+  Lighthouse were not available in the build environment, so the animation and
+  Lighthouse scores still need a visual pass.
