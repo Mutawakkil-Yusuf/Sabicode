@@ -32,6 +32,12 @@ room for interpretation.
 - `sabi explain` scans the pasted text for the first line matching the same
   error-line pattern used by the runner, so stack traces and `[CODE]` suffixes
   work.
+- The child is spawned as `process.execPath` with an argument array and no
+  shell, so paths with spaces work on Windows and Unix. Script arguments after
+  the path are never re-parsed by Sabicode.
+- `npm test` uses `scripts/test.js` to pass only `test/*.test.js` files to
+  `node --test`. The fixture programs under `test/fixtures/` are data, not test
+  files, so they must not be auto-discovered and executed.
 
 ## Dictionary
 
@@ -42,20 +48,27 @@ room for interpretation.
   captured sample is realistic. The fixture relies on the project having no
   installed copy of that package.
 - `reviewed` is `false` on every entry until a Pidgin speaker signs off.
+- The demo and `sabi list` use the order the entries appear in the brief, not
+  alphabetical order, so the most familiar error appears first. Unknown future
+  ids sort alphabetically after that list.
 
 ## Site
 
-- The editable page source is `scripts/landing.template.html`; the build writes
-  `site/index.html`. Generated site files are committed so the static host can
-  deploy the repository output directly.
+- The editable page source is `scripts/landing.template.html` and
+  `scripts/site.css`; the build writes `site/index.html` and
+  `site/errors/<id>.html`. Generated site files are committed so the static
+  host can deploy the repository output directly. `SABI_SITE_OUT` can redirect
+  the build to another directory for tests.
 - The canonical base URL is the placeholder `https://sabicode.dev`. Change
-  `SITE_URL` in `scripts/build-site.js` when the real domain is chosen.
+  `SITE_URL` or set `SABI_SITE_URL` when the real domain is chosen.
 - The schools form uses a `mailto:` form action built from the single
-  `SCHOOLS_EMAIL` constant at the top of `scripts/build-site.js`. There is no
-  backend and no data is stored.
+  `SCHOOLS_EMAIL` constant at the top of `scripts/build-site.js`. `PIDGIN_EMAIL`
+  handles Pidgin suggestions. There is no backend and no data is stored.
 - The mascot is an early placeholder drawing. `site/assets/polly.svg` is the
   favicon version. Final art can replace the shape without changing the
-  animation hooks (`.crest`, `.beak`, `.lid`).
+  animation hooks (`.crest`, `.beak`, `.lid`). The beak is currently one shape
+  that tilts; if final art splits it into upper and lower parts, only `.beak`
+  and the `flap` keyframes need to change.
 - The share image is generated as `site/assets/og.svg` because the build has no
   image dependencies. Some social networks prefer PNG; generate one from the
   SVG if required.

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{{HEAD}}
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+{{SVG_DEFS}}
+<div class="wrap">
+  <nav>
+    <a class="logo" href="#top">{{LOGO_SVG}}<span>sabicode</span></a>
+    <a class="s" href="#schools">For schools</a>
+  </nav>
+
+  <header class="hero" id="top">
+    <div>
+      <h1>Your errors, finally in your language.</h1>
+      <p class="lead">Sabicode runs your JavaScript and explains every error in Nigerian Pidgin, right under the original message. You fix the bug and learn the real term along the way. More languages are planned.</p>
+      <div class="cta">
+        <button class="btn" id="copy" type="button" title="Copy the install command">npx sabicode app.js</button>
+        <a class="btn alt" href="#schools">For schools</a>
+      </div>
+      <p class="note">Coming to npm soon. The package is not published yet.</p>
+      <p class="note" id="copied" aria-live="polite"></p>
+    </div>
+
+    <div class="term" aria-label="Live demo of Sabicode">
+      <div class="bar">
+        {{POLLY_TERMINAL}}<span class="nm">Polly Glot says: Wetin happen?</span>
+        <div class="seg" role="group" aria-label="Tone">
+          <button type="button" data-tone="street" aria-pressed="true">street</button>
+          <button type="button" data-tone="normal" aria-pressed="false">normal</button>
+        </div>
+      </div>
+      <div class="pick" id="pick" role="group" aria-label="Choose an error"></div>
+      <div class="out" id="out" aria-live="polite" aria-atomic="true"></div>
+      <noscript><p class="out">Enable JavaScript for the live demo. Every error page still works without it.</p></noscript>
+    </div>
+  </header>
+</div>
+
+<main id="main">
+<section>
+  <div class="wrap">
+    <h2>Error messages assume you already know the jargon</h2>
+    <p class="sub">Learning to code is hard enough without decoding red text in a second language. Sabicode keeps the original error and adds a plain explanation in the language you think in.</p>
+    <div class="steps">
+      <div class="step"><h3>Run your file</h3><p>Use sabi instead of node. Nothing else changes.</p><pre>sabi run app.js</pre></div>
+      <div class="step"><h3>Read it</h3><p>The original error stays. A plain explanation and a fix appear under it.</p><pre>Wetin happen: ...
+Wetin to do: ...</pre></div>
+      <div class="step"><h3>Learn it</h3><p>Every explanation ends with the real English term, so you recognize it at work.</p><pre>Learn am: "undefined"
+mean say nothing dey there.</pre></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Errors we cover</h2>
+    <p class="sub">{{ERROR_COUNT}} at launch, more on the way. Each one has its own page with both tones.</p>
+    <div class="grid" id="errs">{{ERRORS_GRID}}</div>
+  </div>
+</section>
+
+<section id="schools">
+  <div class="wrap">
+    <h2>For schools and bootcamps</h2>
+    <div class="two">
+      <ul class="list">
+        <li>One <code>.sabirc</code> file sets the tone for the whole class.</li>
+        <li>Use the normal tone in class and the street tone for practice at home.</li>
+        <li>Progress reports on the errors your students hit most. Coming later.</li>
+      </ul>
+      <div>
+        <p style="color:var(--muted)">We’re running pilots with two or three schools. Email us and we’ll be in touch.</p>
+        <form id="lead" action="{{SCHOOLS_ACTION}}" method="post" enctype="text/plain">
+          <input type="hidden" name="subject" value="Sabicode school pilot">
+          <input type="email" id="em" name="email" placeholder="school@example.com" aria-label="School email" required>
+          <button class="btn" type="submit" style="font-family:var(--sans);font-weight:600">Join pilot</button>
+        </form>
+        <p class="note">This opens your email app. Or write to <a href="mailto:{{SCHOOLS_EMAIL}}">{{SCHOOLS_EMAIL}}</a>. No data is stored on a server.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Pricing</h2>
+    <div class="plans">
+      <div class="plan"><h3>Individual</h3><div class="pr">Free</div><p>All errors, both tones, JavaScript. For anyone learning to code.</p><a class="btn" href="#top" style="font-family:var(--sans);font-weight:600">Try it now</a></div>
+      <div class="plan hl"><h3>School</h3><div class="pr">Let's talk</div><p>Shared class settings, progress reports, and support for your teachers.</p><a class="btn alt" href="#schools">Join pilot</a></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<div class="wrap">
+  <footer>
+    <span>Sabicode is in development. Pidgin explanations are a draft until reviewers sign off.</span>
+    <span>Pidgin reviewers: <span class="credit-placeholder">[reviewer credits placeholder]</span> · <a href="mailto:{{PIDGIN_EMAIL}}?subject=Suggest%20a%20Pidgin%20phrase">Suggest a phrase</a></span>
+  </footer>
+</div>
+
+<script>
+var E = {{DEMO_DATA}};
+var cur = 0;
+var timer = null;
+var out = document.getElementById("out");
+var pick = document.getElementById("pick");
+var still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+function readTone() {
+  try {
+    var saved = localStorage.getItem("sabicode-tone");
+    return saved === "normal" || saved === "street" ? saved : "street";
+  } catch (error) {
+    return "street";
+  }
+}
+
+function saveTone(value) {
+  try {
+    localStorage.setItem("sabicode-tone", value);
+  } catch (error) {
+    // Storage can be unavailable; the page still renders with the current tone.
+  }
+}
+
+var tone = readTone();
+
+function esc(s) {
+  return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+function card(e) {
+  var p = e[tone === "street" ? "s" : "n"];
+  return '<div class="pg"><div><b>Wetin happen:</b> ' + p.h + '</div><div><b>Wetin to do:</b> ' + p.t + '</div><div><b>Learn am:</b> ' + p.l + '</div></div>';
+}
+
+function talk() {
+  var parrot = document.getElementById("polly");
+  if (!parrot || still) return;
+  parrot.classList.remove("talk");
+  void parrot.getBoundingClientRect();
+  parrot.classList.add("talk");
+}
+
+function render(animate) {
+  var e = E[cur];
+  var head = '<span class="cmd">$ sabi run app.js</span>\n<span class="err">' + esc(e.cmd) + '</span>';
+  clearTimeout(timer);
+  if (!animate || still) {
+    out.setAttribute("aria-live", "polite");
+    out.innerHTML = head + card(e);
+    talk();
+    return;
+  }
+  out.setAttribute("aria-live", "off");
+  out.innerHTML = '<span class="cmd">$ </span>';
+  var full = "sabi run app.js";
+  var i = 0;
+  (function type() {
+    i++;
+    out.innerHTML = '<span class="cmd">$ ' + full.slice(0, i) + '</span>';
+    if (i < full.length) {
+      timer = setTimeout(type, 45);
+    } else {
+      timer = setTimeout(function () {
+        out.innerHTML = head;
+        timer = setTimeout(function () {
+          out.innerHTML = head + card(e);
+          out.setAttribute("aria-live", "polite");
+          talk();
+        }, 450);
+      }, 300);
+    }
+  })();
+}
+
+function setToneButtons() {
+  var buttons = document.querySelectorAll(".seg button");
+  for (var i = 0; i < buttons.length; i++) {
+    buttons[i].setAttribute("aria-pressed", String(buttons[i].dataset.tone === tone));
+  }
+}
+
+E.forEach(function (e, i) {
+  var button = document.createElement("button");
+  button.type = "button";
+  button.textContent = e.label;
+  button.title = e.cmd;
+  button.setAttribute("aria-pressed", String(i === 0));
+  button.onclick = function () {
+    cur = i;
+    for (var j = 0; j < pick.children.length; j++) {
+      pick.children[j].setAttribute("aria-pressed", String(j === i));
+    }
+    render(false);
+  };
+  pick.appendChild(button);
+});
+
+var toneButtons = document.querySelectorAll(".seg button");
+for (var t = 0; t < toneButtons.length; t++) {
+  toneButtons[t].onclick = function () {
+    tone = this.dataset.tone;
+    saveTone(tone);
+    setToneButtons();
+    render(false);
+  };
+}
+
+setToneButtons();
+render(true);
+
+document.getElementById("copy").onclick = function () {
+  var note = document.getElementById("copied");
+  var command = "npx sabicode app.js";
+  var done = function () {
+    note.textContent = "Copied. Sabicode is coming to npm soon.";
+  };
+  var fail = function () {
+    note.textContent = "Copy failed. Select the command and copy it by hand.";
+  };
+  try {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(command).then(done, function () {
+        if (legacyCopy(command)) done(); else fail();
+      });
+    } else if (legacyCopy(command)) {
+      done();
+    } else {
+      fail();
+    }
+  } catch (error) {
+    if (legacyCopy(command)) done(); else fail();
+  }
+};
+
+function legacyCopy(text) {
+  try {
+    var area = document.createElement("textarea");
+    area.value = text;
+    area.setAttribute("readonly", "");
+    area.style.position = "fixed";
+    area.style.opacity = "0";
+    document.body.appendChild(area);
+    area.select();
+    var ok = document.execCommand("copy");
+    document.body.removeChild(area);
+    return ok;
+  } catch (error) {
+    return false;
+  }
+}
+</script>
+</body>
+</html>

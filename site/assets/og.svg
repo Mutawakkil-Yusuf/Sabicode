@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="og-title og-desc">
+  <title id="og-title">Sabicode</title>
+  <desc id="og-desc">Your errors, finally in your language.</desc>
+  <rect width="1200" height="630" fill="#faf7ef"/>
+  <circle cx="1050" cy="110" r="210" fill="#f5c518" opacity=".18"/>
+  <circle cx="90" cy="590" r="160" fill="#0c6b3f" opacity=".08"/>
+  <g transform="translate(888 198) scale(7.2)">
+    <path d="M13 14C10 7 15 3 18 9C19 3 25 3 25 11C29 7 32 11 28 16Z" fill="#f5c518"/>
+    <circle cx="22" cy="27" r="16" fill="#0c6b3f"/>
+    <path d="M34 21C46 20 48 31 40 38C39 33 36 31 33 31Z" fill="#f5c518"/>
+    <circle cx="26" cy="23" r="5" fill="#ffffff"/>
+    <circle cx="27.5" cy="23" r="2.3" fill="#16241c"/>
+  </g>
+  <text x="80" y="180" font-family="Poppins, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="92" font-weight="700" fill="#0c6b3f">Sabicode</text>
+  <text x="80" y="252" font-family="Poppins, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="36" font-weight="500" fill="#16241c">Your errors, finally in your language.</text>
+  <rect x="80" y="330" width="760" height="112" rx="16" fill="#0e1a14"/>
+  <text x="112" y="400" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace" font-size="32" fill="#d8e6dc">$ npx sabicode app.js</text>
+  <text x="80" y="520" font-family="Poppins, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="26" font-weight="500" fill="#5a6a60">Nigerian Pidgin explanations, right under the English error.</text>
+  <rect x="80" y="548" width="150" height="8" rx="4" fill="#f5c518"/>
+</svg>

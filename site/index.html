@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sabicode — Your errors, finally in your language.</title>
+<meta name="description" content="Sabicode runs your JavaScript and explains errors in Nigerian Pidgin, right under the original message. Zero dependencies, Node 18+, street and normal tones.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://sabicode.dev/">
+<meta name="theme-color" content="#faf7ef" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#101712" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="assets/polly.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Sabicode">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Sabicode — Your errors, finally in your language.">
+<meta property="og:description" content="Sabicode runs your JavaScript and explains errors in Nigerian Pidgin, right under the original message. Zero dependencies, Node 18+, street and normal tones.">
+<meta property="og:url" content="https://sabicode.dev/">
+<meta property="og:image" content="https://sabicode.dev/assets/og.svg">
+<meta property="og:image:type" content="image/svg+xml">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Sabicode, with Polly Glot the parrot and the command npx sabicode app.js">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Sabicode — Your errors, finally in your language.">
+<meta name="twitter:description" content="Sabicode runs your JavaScript and explains errors in Nigerian Pidgin, right under the original message. Zero dependencies, Node 18+, street and normal tones.">
+<meta name="twitter:image" content="https://sabicode.dev/assets/og.svg">
+<meta name="twitter:image:alt" content="Sabicode, with Polly Glot the parrot and the command npx sabicode app.js">
+<style>
+:root {
+  box-sizing: border-box;
+  --bg: #faf7ef;
+  --surface: #ffffff;
+  --ink: #16241c;
+  --muted: #5a6a60;
+  --green: #0c6b3f;
+  --green-d: #084d2d;
+  --yellow: #f5c518;
+  --line: #e2dccb;
+  --term: #0e1a14;
+  --term-ink: #d8e6dc;
+  --term-err: #ff8a7a;
+  --term-dim: #7d9486;
+  --btn-ink: #ffffff;
+  --focus: #084d2d;
+  --sans: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --bg: #101712;
+    --surface: #18221b;
+    --ink: #eef3ec;
+    --muted: #9db0a3;
+    --green: #3fc17a;
+    --green-d: #2fa463;
+    --line: #2a382e;
+    --term: #0a110d;
+    --btn-ink: #08130d;
+    --focus: #f5c518;
+  }
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #101712;
+  --surface: #18221b;
+  --ink: #eef3ec;
+  --muted: #9db0a3;
+  --green: #3fc17a;
+  --green-d: #2fa463;
+  --line: #2a382e;
+  --term: #0a110d;
+  --btn-ink: #08130d;
+  --focus: #f5c518;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+html {
+  scroll-padding-top: 20px;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  line-height: 1.6;
+  font-size: 16px;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.wrap {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.15;
+  margin: 0;
+}
+
+h1 {
+  font-size: clamp(2.1rem, 6vw, 3.6rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  font-size: clamp(1.5rem, 3.5vw, 2.1rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+
+.term :focus-visible {
+  outline-color: var(--yellow);
+}
+
+.skip {
+  position: absolute;
+  left: -999px;
+  top: 0;
+  z-index: 20;
+  background: var(--yellow);
+  color: #16241c;
+  padding: 10px 16px;
+  border-radius: 0 0 10px 0;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.skip:focus {
+  left: 0;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 0;
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 1.35rem;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo svg {
+  width: 34px;
+  height: 34px;
+  flex: none;
+}
+
+nav a.s {
+  font-size: 0.9rem;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+nav a.s:hover {
+  color: var(--green-d);
+}
+
+.hero {
+  padding: 28px 0 64px;
+  display: grid;
+  gap: 36px;
+  grid-template-columns: 1fr;
+}
+
+.hero p.lead {
+  font-size: 1.1rem;
+  color: var(--muted);
+  max-width: 46ch;
+  margin-top: 16px;
+}
+
+.cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 26px;
+}
+
+.btn {
+  font: 500 0.95rem var(--mono);
+  border: 0;
+  border-radius: 10px;
+  padding: 13px 18px;
+  cursor: pointer;
+  background: var(--green);
+  color: var(--btn-ink);
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn:hover {
+  background: var(--green-d);
+}
+
+.btn.alt {
+  background: transparent;
+  color: var(--ink);
+  box-shadow: inset 0 0 0 2px var(--ink);
+  font-family: var(--sans);
+  font-weight: 600;
+}
+
+.btn.alt:hover {
+  background: var(--yellow);
+  color: #16241c;
+  box-shadow: inset 0 0 0 2px var(--yellow);
+}
+
+.note {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-top: 10px;
+  min-height: 1.3em;
+}
+
+.note a {
+  color: var(--green-d);
+  font-weight: 500;
+}
+
+#copied {
+  color: var(--green-d);
+  min-height: 1.3em;
+}
+
+.term {
+  background: var(--term);
+  color: var(--term-ink);
+  border-radius: 14px;
+  overflow: hidden;
+  font-family: var(--mono);
+  font-size: 0.86rem;
+  box-shadow: 0 0 0 1px var(--line);
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.05);
+  flex-wrap: wrap;
+}
+
+.bar .dots {
+  display: flex;
+  gap: 6px;
+  margin-right: 4px;
+}
+
+.bar .dots b {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #3a4a40;
+}
+
+.bar .p {
+  width: 36px;
+  height: 36px;
+  flex: none;
+  transform-origin: 50% 90%;
+}
+
+.bar .nm {
+  font: 500 0.8rem var(--sans);
+  color: var(--term-dim);
+}
+
+.seg {
+  display: inline-flex;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px #3a4a40;
+  margin-left: auto;
+}
+
+.seg button {
+  font: 500 0.78rem var(--mono);
+  background: transparent;
+  color: var(--term-dim);
+  border: 0;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.seg button[aria-pressed='true'] {
+  background: var(--yellow);
+  color: #16241c;
+}
+
+.pick {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding: 12px 14px 0;
+}
+
+.pick button {
+  font: 400 0.72rem var(--mono);
+  background: transparent;
+  color: var(--term-dim);
+  border: 1px solid #2e3d34;
+  border-radius: 999px;
+  padding: 4px 10px;
+  cursor: pointer;
+}
+
+.pick button[aria-pressed='true'] {
+  color: var(--term-ink);
+  border-color: var(--yellow);
+}
+
+.pick button:hover {
+  color: var(--term-ink);
+}
+
+.out {
+  padding: 14px;
+  min-height: 300px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.cmd {
+  color: var(--term-dim);
+}
+
+.err {
+  color: var(--term-err);
+}
+
+.pg {
+  margin-top: 14px;
+  padding: 12px;
+  border-left: 3px solid var(--yellow);
+  background: rgba(245, 197, 24, 0.07);
+  border-radius: 0 8px 8px 0;
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.pg b {
+  color: var(--yellow);
+  font-weight: 600;
+}
+
+.pg code {
+  font-family: var(--mono);
+  background: rgba(255, 255, 255, 0.1);
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-size: 0.82rem;
+}
+
+.pg div + div {
+  margin-top: 8px;
+}
+
+section {
+  padding: 56px 0;
+  border-top: 1px solid var(--line);
+}
+
+section > .wrap > p.sub {
+  color: var(--muted);
+  margin-top: 10px;
+  max-width: 52ch;
+}
+
+.steps {
+  display: grid;
+  gap: 18px;
+  margin-top: 28px;
+  grid-template-columns: 1fr;
+}
+
+.step {
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 0 0 1px var(--line);
+}
+
+.step h3 {
+  font-size: 1.05rem;
+  margin-bottom: 6px;
+}
+
+.step p {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.step pre {
+  margin: 12px 0 0;
+  font: 400 0.8rem var(--mono);
+  background: var(--term);
+  color: var(--term-ink);
+  padding: 10px 12px;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+
+.grid {
+  display: grid;
+  gap: 10px;
+  margin-top: 26px;
+  grid-template-columns: 1fr;
+}
+
+.grid a {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: var(--surface);
+  border-radius: 10px;
+  padding: 14px;
+  font: 400 0.82rem var(--mono);
+  text-decoration: none;
+  box-shadow: 0 0 0 1px var(--line);
+  overflow-wrap: anywhere;
+}
+
+.grid a:hover {
+  box-shadow: 0 0 0 2px var(--green);
+}
+
+.grid .g-err {
+  color: var(--ink);
+}
+
+.grid .g-go {
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+.grid a:hover .g-go {
+  color: var(--green-d);
+}
+
+.two {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: 1fr;
+  margin-top: 26px;
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+
+.list li {
+  padding-left: 22px;
+  position: relative;
+  color: var(--muted);
+}
+
+.list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--yellow);
+}
+
+.list code {
+  font-family: var(--mono);
+  font-size: 0.88em;
+}
+
+.plans {
+  display: grid;
+  gap: 16px;
+  margin-top: 26px;
+  grid-template-columns: 1fr;
+}
+
+.plan {
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 22px;
+  box-shadow: 0 0 0 1px var(--line);
+}
+
+.plan.hl {
+  box-shadow: 0 0 0 2px var(--green);
+}
+
+.plan h3 {
+  font-size: 1.1rem;
+}
+
+.plan .pr {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 6px 0 10px;
+}
+
+.plan p {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.plan .btn {
+  margin-top: 16px;
+  font-family: var(--sans);
+  font-weight: 600;
+}
+
+form {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+input {
+  flex: 1 1 180px;
+  min-width: 0;
+  font: 400 0.95rem var(--sans);
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--ink);
+}
+
+footer {
+  padding: 36px 0 48px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.9rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 28px;
+  justify-content: space-between;
+}
+
+footer a {
+  color: var(--green-d);
+}
+
+.credit-placeholder {
+  border-bottom: 1px dashed var(--muted);
+}
+
+/* Error pages */
+.error-page {
+  padding: 22px 0 28px;
+}
+
+.back-link {
+  display: inline-block;
+  margin-top: 14px;
+  font: 500 0.85rem var(--mono);
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.back-link:hover {
+  color: var(--green-d);
+}
+
+.error-hero {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: 1fr;
+  margin-top: 16px;
+}
+
+.error-title {
+  font-family: var(--mono);
+  font-size: clamp(1.3rem, 4vw, 2rem);
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  overflow-wrap: anywhere;
+}
+
+.error-term {
+  margin-top: 18px;
+}
+
+.error-term .out {
+  min-height: 0;
+  padding: 16px;
+}
+
+.polly-bubble {
+  background: var(--surface);
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 0 0 1px var(--line);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.polly-bubble .p {
+  width: 76px;
+  height: 76px;
+  flex: none;
+}
+
+.polly-bubble p {
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+.polly-bubble strong {
+  color: var(--ink);
+}
+
+.prose {
+  max-width: 68ch;
+  margin-top: 34px;
+}
+
+.prose h2,
+.error-page section h2 {
+  font-size: 1.35rem;
+}
+
+.prose p {
+  color: var(--muted);
+  margin-top: 10px;
+}
+
+.prose code {
+  font-family: var(--mono);
+  font-size: 0.9em;
+  background: rgba(22, 36, 28, 0.07);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+.tone-grid {
+  display: grid;
+  gap: 16px;
+  margin-top: 20px;
+  grid-template-columns: 1fr;
+}
+
+.tone-card {
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 0 0 1px var(--line);
+}
+
+.tone-card h3 {
+  font: 500 0.8rem var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--green-d);
+  margin-bottom: 12px;
+}
+
+.tone-card .pg {
+  margin-top: 0;
+  padding: 0 0 0 14px;
+  border-left: 3px solid var(--yellow);
+  background: none;
+  border-radius: 0;
+  color: var(--ink);
+  font-size: 0.92rem;
+}
+
+.tone-card .pg b {
+  color: var(--green-d);
+}
+
+.tone-card .pg code {
+  background: rgba(22, 36, 28, 0.07);
+}
+
+.error-page .back-bottom {
+  margin-top: 34px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .prose code,
+  :root:not([data-theme='light']) .tone-card .pg code {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  :root:not([data-theme='light']) .tone-card .pg b {
+    color: var(--yellow);
+  }
+}
+
+:root[data-theme='dark'] .prose code,
+:root[data-theme='dark'] .tone-card .pg code {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+:root[data-theme='dark'] .tone-card .pg b {
+  color: var(--yellow);
+}
+
+@media (min-width: 560px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 760px) {
+  .hero {
+    grid-template-columns: 1fr 1.1fr;
+    align-items: center;
+    gap: 44px;
+  }
+  .steps,
+  .plans {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .plans {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 720px;
+  }
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .two {
+    grid-template-columns: 1fr 1fr;
+  }
+  .error-hero {
+    grid-template-columns: 1.4fr 0.6fr;
+    align-items: start;
+  }
+  .tone-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .p {
+    animation: bob 3.2s ease-in-out infinite;
+  }
+  .p .lid {
+    transform-box: fill-box;
+    transform-origin: center;
+    transform: scaleY(0);
+    animation: blink 4.6s infinite;
+  }
+  .p .crest {
+    transform-origin: 20px 15px;
+    animation: crest 7s ease-in-out infinite;
+  }
+  .p.talk .beak {
+    transform-origin: 34px 26px;
+    animation: flap 0.24s ease-in-out 6;
+  }
+  .logo:hover .logo-parrot {
+    animation: wig 0.6s ease-in-out;
+  }
+
+  @keyframes blink {
+    0%, 93%, 100% { transform: scaleY(0); }
+    96% { transform: scaleY(1); }
+  }
+  @keyframes crest {
+    0%, 86%, 100% { transform: rotate(0); }
+    90% { transform: rotate(-10deg); }
+    94% { transform: rotate(6deg); }
+  }
+  @keyframes bob {
+    0%, 100% { transform: rotate(-2deg); }
+    50% { transform: rotate(3deg); }
+  }
+  @keyframes flap {
+    0%, 100% { transform: rotate(0); }
+    50% { transform: rotate(10deg); }
+  }
+  @keyframes wig {
+    0%, 100% { transform: rotate(0); }
+    25% { transform: rotate(-12deg); }
+    60% { transform: rotate(10deg); }
+  }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="parrot" viewBox="0 0 48 48"><path d="M13 14C10 7 15 3 18 9C19 3 25 3 25 11C29 7 32 11 28 16Z" fill="var(--yellow)"/><circle cx="22" cy="27" r="16" fill="var(--green)"/><path d="M34 21C46 20 48 31 40 38C39 33 36 31 33 31Z" fill="var(--yellow)"/><circle cx="26" cy="23" r="5" fill="#fff"/><circle cx="27.5" cy="23" r="2.3" fill="#16241c"/></symbol></svg>
+<div class="wrap">
+  <nav>
+    <a class="logo" href="#top"><svg class="logo-parrot" viewBox="0 0 48 48" aria-hidden="true"><use href="#parrot"/></svg><span>sabicode</span></a>
+    <a class="s" href="#schools">For schools</a>
+  </nav>
+
+  <header class="hero" id="top">
+    <div>
+      <h1>Your errors, finally in your language.</h1>
+      <p class="lead">Sabicode runs your JavaScript and explains every error in Nigerian Pidgin, right under the original message. You fix the bug and learn the real term along the way. More languages are planned.</p>
+      <div class="cta">
+        <button class="btn" id="copy" type="button" title="Copy the install command">npx sabicode app.js</button>
+        <a class="btn alt" href="#schools">For schools</a>
+      </div>
+      <p class="note">Coming to npm soon. The package is not published yet.</p>
+      <p class="note" id="copied" aria-live="polite"></p>
+    </div>
+
+    <div class="term" aria-label="Live demo of Sabicode">
+      <div class="bar">
+        <svg class="p" id="polly" viewBox="0 0 48 48" aria-hidden="true"><path class="crest" d="M13 14C10 7 15 3 18 9C19 3 25 3 25 11C29 7 32 11 28 16Z" fill="var(--yellow)"/><circle cx="22" cy="27" r="16" fill="var(--green)"/><path class="beak" d="M34 21C46 20 48 31 40 38C39 33 36 31 33 31Z" fill="var(--yellow)"/><circle cx="26" cy="23" r="5" fill="#fff"/><circle cx="27.5" cy="23" r="2.3" fill="#16241c"/><ellipse class="lid" cx="26" cy="23" rx="5.4" ry="5.4" fill="var(--green)"/></svg><span class="nm">Polly Glot says: Wetin happen?</span>
+        <div class="seg" role="group" aria-label="Tone">
+          <button type="button" data-tone="street" aria-pressed="true">street</button>
+          <button type="button" data-tone="normal" aria-pressed="false">normal</button>
+        </div>
+      </div>
+      <div class="pick" id="pick" role="group" aria-label="Choose an error"></div>
+      <div class="out" id="out" aria-live="polite" aria-atomic="true"></div>
+      <noscript><p class="out">Enable JavaScript for the live demo. Every error page still works without it.</p></noscript>
+    </div>
+  </header>
+</div>
+
+<main id="main">
+<section>
+  <div class="wrap">
+    <h2>Error messages assume you already know the jargon</h2>
+    <p class="sub">Learning to code is hard enough without decoding red text in a second language. Sabicode keeps the original error and adds a plain explanation in the language you think in.</p>
+    <div class="steps">
+      <div class="step"><h3>Run your file</h3><p>Use sabi instead of node. Nothing else changes.</p><pre>sabi run app.js</pre></div>
+      <div class="step"><h3>Read it</h3><p>The original error stays. A plain explanation and a fix appear under it.</p><pre>Wetin happen: ...
+Wetin to do: ...</pre></div>
+      <div class="step"><h3>Learn it</h3><p>Every explanation ends with the real English term, so you recognize it at work.</p><pre>Learn am: "undefined"
+mean say nothing dey there.</pre></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Errors we cover</h2>
+    <p class="sub">11 at launch, more on the way. Each one has its own page with both tones.</p>
+    <div class="grid" id="errs"><a href="errors/ref-not-defined.html"><span class="g-err">ReferenceError: name is not defined</span><span class="g-go">Open page →</span></a>
+      <a href="errors/undefined-property.html"><span class="g-err">TypeError: Cannot read properties of undefined (reading 'name')</span><span class="g-go">Open page →</span></a>
+      <a href="errors/not-a-function.html"><span class="g-err">TypeError: greet is not a function</span><span class="g-go">Open page →</span></a>
+      <a href="errors/unexpected-end.html"><span class="g-err">SyntaxError: Unexpected end of input</span><span class="g-go">Open page →</span></a>
+      <a href="errors/const-assign.html"><span class="g-err">TypeError: Assignment to constant variable.</span><span class="g-go">Open page →</span></a>
+      <a href="errors/module-not-found-package.html"><span class="g-err">Error: Cannot find module 'left-pad'</span><span class="g-go">Open page →</span></a>
+      <a href="errors/module-not-found-path.html"><span class="g-err">Error: Cannot find module './missing-config'</span><span class="g-go">Open page →</span></a>
+      <a href="errors/already-declared.html"><span class="g-err">SyntaxError: Identifier 'value' has already been declared</span><span class="g-go">Open page →</span></a>
+      <a href="errors/unexpected-token.html"><span class="g-err">SyntaxError: Unexpected token ';'</span><span class="g-go">Open page →</span></a>
+      <a href="errors/invalid-token.html"><span class="g-err">SyntaxError: Invalid or unexpected token</span><span class="g-go">Open page →</span></a>
+      <a href="errors/tdz.html"><span class="g-err">ReferenceError: Cannot access 'value' before initialization</span><span class="g-go">Open page →</span></a></div>
+  </div>
+</section>
+
+<section id="schools">
+  <div class="wrap">
+    <h2>For schools and bootcamps</h2>
+    <div class="two">
+      <ul class="list">
+        <li>One <code>.sabirc</code> file sets the tone for the whole class.</li>
+        <li>Use the normal tone in class and the street tone for practice at home.</li>
+        <li>Progress reports on the errors your students hit most. Coming later.</li>
+      </ul>
+      <div>
+        <p style="color:var(--muted)">We’re running pilots with two or three schools. Email us and we’ll be in touch.</p>
+        <form id="lead" action="mailto:schools@sabicode.dev" method="post" enctype="text/plain">
+          <input type="hidden" name="subject" value="Sabicode school pilot">
+          <input type="email" id="em" name="email" placeholder="school@example.com" aria-label="School email" required>
+          <button class="btn" type="submit" style="font-family:var(--sans);font-weight:600">Join pilot</button>
+        </form>
+        <p class="note">This opens your email app. Or write to <a href="mailto:schools@sabicode.dev">schools@sabicode.dev</a>. No data is stored on a server.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Pricing</h2>
+    <div class="plans">
+      <div class="plan"><h3>Individual</h3><div class="pr">Free</div><p>All errors, both tones, JavaScript. For anyone learning to code.</p><a class="btn" href="#top" style="font-family:var(--sans);font-weight:600">Try it now</a></div>
+      <div class="plan hl"><h3>School</h3><div class="pr">Let's talk</div><p>Shared class settings, progress reports, and support for your teachers.</p><a class="btn alt" href="#schools">Join pilot</a></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<div class="wrap">
+  <footer>
+    <span>Sabicode is in development. Pidgin explanations are a draft until reviewers sign off.</span>
+    <span>Pidgin reviewers: <span class="credit-placeholder">[reviewer credits placeholder]</span> · <a href="mailto:pidgin@sabicode.dev?subject=Suggest%20a%20Pidgin%20phrase">Suggest a phrase</a></span>
+  </footer>
+</div>
+
+<script>
+var E = [{"id":"ref-not-defined","label":"Ref not defined","cmd":"ReferenceError: name is not defined","s":{"h":"You dey call \u003ccode>name\u003c/code> like say JavaScript know am, but e no sabi who be that. You never introduce am o.","t":"Create am first: \u003ccode>let name = &quot;Ada&quot;;\u003c/code>","l":"&quot;not defined&quot; mean say the variable no dey anywhere JavaScript fit see."},"n":{"h":"You dey use \u003ccode>name\u003c/code>, but JavaScript no sabi am. You never create am.","t":"Create am first: \u003ccode>let name = &quot;Ada&quot;;\u003c/code>","l":"&quot;not defined&quot; mean say the variable no dey anywhere JavaScript fit see."}},{"id":"undefined-property","label":"Undefined property","cmd":"TypeError: Cannot read properties of undefined (reading 'name')","s":{"h":"You wan pick \u003ccode>name\u003c/code> from inside empty hand. The thing na \u003ccode>undefined\u003c/code>, e get nothing to give you.","t":"Check am first before you collect: \u003ccode>thing?.name\u003c/code>","l":"\u003ccode>undefined\u003c/code> mean say nothing dey there."},"n":{"h":"You wan collect \u003ccode>name\u003c/code> from something wey no get value. That thing na \u003ccode>undefined\u003c/code>.","t":"Check say the thing dey before you use am: \u003ccode>thing?.name\u003c/code>","l":"\u003ccode>undefined\u003c/code> mean say nothing dey there."}},{"id":"not-a-function","label":"Not a function","cmd":"TypeError: greet is not a function","s":{"h":"You shout \u003ccode>greet()\u003c/code>, but \u003ccode>greet\u003c/code> no be function o. Na another thing dey there.","t":"Check your spelling. Then ask am wetin e be: \u003ccode>console.log(typeof greet);\u003c/code>","l":"To &quot;call&quot; a function na to run am with \u003ccode>()\u003c/code>."},"n":{"h":"You try run \u003ccode>greet()\u003c/code>, but \u003ccode>greet\u003c/code> no be function.","t":"Check your spelling. Then check wetin \u003ccode>greet\u003c/code> be: \u003ccode>console.log(typeof greet);\u003c/code>","l":"To &quot;call&quot; a function na to run am with \u003ccode>()\u003c/code>."}},{"id":"unexpected-end","label":"Unexpected end","cmd":"SyntaxError: Unexpected end of input","s":{"h":"JavaScript reach the end of your file and e still dey wait. You leave one \u003ccode>}\u003c/code> or \u003ccode>)\u003c/code> open.","t":"Count your brackets. Every \u003ccode>{\u003c/code> must get im own \u003ccode>}\u003c/code>.","l":"&quot;syntax&quot; na the correct way to arrange code."},"n":{"h":"JavaScript don reach the end of your file, but e still dey wait for something. Most times, one \u003ccode>}\u003c/code> or \u003ccode>)\u003c/code> no close.","t":"Count your brackets. Every \u003ccode>{\u003c/code> must get one \u003ccode>}\u003c/code>.","l":"&quot;syntax&quot; na the correct way to write code."}},{"id":"const-assign","label":"Const assign","cmd":"TypeError: Assignment to constant variable.","s":{"h":"You use \u003ccode>const\u003c/code> lock \u003ccode>age\u003c/code>, then you wan change am. E no go gree.","t":"If the value go change, use \u003ccode>let\u003c/code>: \u003ccode>let age = 20;\u003c/code>","l":"&quot;constant&quot; mean value wey no dey change."},"n":{"h":"You use \u003ccode>const\u003c/code> create \u003ccode>age\u003c/code>, then you try change am. \u003ccode>const\u003c/code> no dey allow change.","t":"If the value go change, use \u003ccode>let\u003c/code>: \u003ccode>let age = 20;\u003c/code>","l":"&quot;constant&quot; mean value wey no dey change."}},{"id":"module-not-found-package","label":"Module not found package","cmd":"Error: Cannot find module 'left-pad'","s":{"h":"You ask Node to bring \u003ccode>left-pad\u003c/code>, but e no see am anywhere. Node don search well-well.","t":"Check the spelling. If na package, install am first: \u003ccode>npm install left-pad\u003c/code>","l":"A &quot;module&quot; na a file or package wey you dey bring come your code."},"n":{"h":"Node no fit find \u003ccode>left-pad\u003c/code>. Maybe you never install am, or the name no correct.","t":"Check the spelling. If na package, install am first: \u003ccode>npm install left-pad\u003c/code>","l":"A &quot;module&quot; na a file or package wey you dey bring come your code."}},{"id":"module-not-found-path","label":"Module not found path","cmd":"Error: Cannot find module './missing-config'","s":{"h":"You ask Node to bring \u003ccode>./missing-config\u003c/code>, but the file no dey that place.","t":"Check the file name and the folder. \u003ccode>./\u003c/code> mean &quot;this same folder&quot;.","l":"A &quot;path&quot; na the address of a file for your computer."},"n":{"h":"Node no fit find the file \u003ccode>./missing-config\u003c/code>.","t":"Check the file name and the folder. \u003ccode>./\u003c/code> mean &quot;this same folder&quot;.","l":"A &quot;path&quot; na the address of a file for your computer."}},{"id":"already-declared","label":"Already declared","cmd":"SyntaxError: Identifier 'value' has already been declared","s":{"h":"You don already use the name \u003ccode>value\u003c/code> for another thing. Two things no fit carry the same name for the same place.","t":"Rename one of them, or delete the extra line.","l":"To &quot;declare&quot; na to create a variable with \u003ccode>let\u003c/code>, \u003ccode>const\u003c/code> or \u003ccode>var\u003c/code>."},"n":{"h":"You declare \u003ccode>value\u003c/code> two times for the same place. JavaScript no dey allow that.","t":"Rename one of them, or delete the extra line.","l":"To &quot;declare&quot; na to create a variable with \u003ccode>let\u003c/code>, \u003ccode>const\u003c/code> or \u003ccode>var\u003c/code>."}},{"id":"unexpected-token","label":"Unexpected token","cmd":"SyntaxError: Unexpected token ';'","s":{"h":"JavaScript see \u003ccode>;\u003c/code> for place wey e no expect am. Something before am dey miss or dey extra.","t":"Look the line wey the error point to, and the one before am. Check for missing comma, bracket or quote.","l":"A &quot;token&quot; na one small piece of code, like a word, bracket or symbol."},"n":{"h":"JavaScript meet \u003ccode>;\u003c/code> where e no expect am. Maybe something before am dey miss.","t":"Look the line wey the error point to, and the one before am. Check for missing comma, bracket or quote.","l":"A &quot;token&quot; na one small piece of code, like a word, bracket or symbol."}},{"id":"invalid-token","label":"Invalid token","cmd":"SyntaxError: Invalid or unexpected token","s":{"h":"JavaScript see one character wey e no understand. Most times, na quote wey no close, or strange symbol wey you paste.","t":"Check your quotes. Every opening quote must get a closing one. Remove strange characters wey you copy from outside.","l":"&quot;invalid&quot; mean say JavaScript no fit read am as code."},"n":{"h":"JavaScript meet one character wey e no fit read. Maybe a quote no close, or you paste a strange symbol.","t":"Check your quotes. Every opening quote must get a closing one. Remove strange characters wey you copy from outside.","l":"&quot;invalid&quot; mean say JavaScript no fit read am as code."}},{"id":"tdz","label":"Tdz","cmd":"ReferenceError: Cannot access 'value' before initialization","s":{"h":"You dey use \u003ccode>value\u003c/code> before the line wey create am. Na like to enter room before dem open door.","t":"Move the \u003ccode>let\u003c/code> or \u003ccode>const\u003c/code> line for \u003ccode>value\u003c/code> go up, before the place wey you dey use am.","l":"&quot;initialization&quot; mean the moment value first enter the variable."},"n":{"h":"You use \u003ccode>value\u003c/code> before you create am. The line wey create am dey below.","t":"Move the \u003ccode>let\u003c/code> or \u003ccode>const\u003c/code> line for \u003ccode>value\u003c/code> go up, before the place wey you dey use am.","l":"&quot;initialization&quot; mean the moment value first enter the variable."}}];
+var cur = 0;
+var timer = null;
+var out = document.getElementById("out");
+var pick = document.getElementById("pick");
+var still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+function readTone() {
+  try {
+    var saved = localStorage.getItem("sabicode-tone");
+    return saved === "normal" || saved === "street" ? saved : "street";
+  } catch (error) {
+    return "street";
+  }
+}
+
+function saveTone(value) {
+  try {
+    localStorage.setItem("sabicode-tone", value);
+  } catch (error) {
+    // Storage can be unavailable; the page still renders with the current tone.
+  }
+}
+
+var tone = readTone();
+
+function esc(s) {
+  return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+function card(e) {
+  var p = e[tone === "street" ? "s" : "n"];
+  return '<div class="pg"><div><b>Wetin happen:</b> ' + p.h + '</div><div><b>Wetin to do:</b> ' + p.t + '</div><div><b>Learn am:</b> ' + p.l + '</div></div>';
+}
+
+function talk() {
+  var parrot = document.getElementById("polly");
+  if (!parrot || still) return;
+  parrot.classList.remove("talk");
+  void parrot.getBoundingClientRect();
+  parrot.classList.add("talk");
+}
+
+function render(animate) {
+  var e = E[cur];
+  var head = '<span class="cmd">$ sabi run app.js</span>\n<span class="err">' + esc(e.cmd) + '</span>';
+  clearTimeout(timer);
+  if (!animate || still) {
+    out.setAttribute("aria-live", "polite");
+    out.innerHTML = head + card(e);
+    talk();
+    return;
+  }
+  out.setAttribute("aria-live", "off");
+  out.innerHTML = '<span class="cmd">$ </span>';
+  var full = "sabi run app.js";
+  var i = 0;
+  (function type() {
+    i++;
+    out.innerHTML = '<span class="cmd">$ ' + full.slice(0, i) + '</span>';
+    if (i < full.length) {
+      timer = setTimeout(type, 45);
+    } else {
+      timer = setTimeout(function () {
+        out.innerHTML = head;
+        timer = setTimeout(function () {
+          out.innerHTML = head + card(e);
+          out.setAttribute("aria-live", "polite");
+          talk();
+        }, 450);
+      }, 300);
+    }
+  })();
+}
+
+function setToneButtons() {
+  var buttons = document.querySelectorAll(".seg button");
+  for (var i = 0; i < buttons.length; i++) {
+    buttons[i].setAttribute("aria-pressed", String(buttons[i].dataset.tone === tone));
+  }
+}
+
+E.forEach(function (e, i) {
+  var button = document.createElement("button");
+  button.type = "button";
+  button.textContent = e.label;
+  button.title = e.cmd;
+  button.setAttribute("aria-pressed", String(i === 0));
+  button.onclick = function () {
+    cur = i;
+    for (var j = 0; j < pick.children.length; j++) {
+      pick.children[j].setAttribute("aria-pressed", String(j === i));
+    }
+    render(false);
+  };
+  pick.appendChild(button);
+});
+
+var toneButtons = document.querySelectorAll(".seg button");
+for (var t = 0; t < toneButtons.length; t++) {
+  toneButtons[t].onclick = function () {
+    tone = this.dataset.tone;
+    saveTone(tone);
+    setToneButtons();
+    render(false);
+  };
+}
+
+setToneButtons();
+render(true);
+
+document.getElementById("copy").onclick = function () {
+  var note = document.getElementById("copied");
+  var command = "npx sabicode app.js";
+  var done = function () {
+    note.textContent = "Copied. Sabicode is coming to npm soon.";
+  };
+  var fail = function () {
+    note.textContent = "Copy failed. Select the command and copy it by hand.";
+  };
+  try {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(command).then(done, function () {
+        if (legacyCopy(command)) done(); else fail();
+      });
+    } else if (legacyCopy(command)) {
+      done();
+    } else {
+      fail();
+    }
+  } catch (error) {
+    if (legacyCopy(command)) done(); else fail();
+  }
+};
+
+function legacyCopy(text) {
+  try {
+    var area = document.createElement("textarea");
+    area.value = text;
+    area.setAttribute("readonly", "");
+    area.style.position = "fixed";
+    area.style.opacity = "0";
+    document.body.appendChild(area);
+    area.select();
+    var ok = document.execCommand("copy");
+    document.body.removeChild(area);
+    return ok;
+  } catch (error) {
+    return false;
+  }
+}
+</script>
+</body>
+</html>

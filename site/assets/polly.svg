@@ -1,0 +1,10 @@
+<!-- Placeholder mascot art. Replace with final art and keep the named parts if animation is reused. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-labelledby="polly-title polly-desc">
+  <title id="polly-title">Polly Glot, the Sabicode parrot</title>
+  <desc id="polly-desc">A placeholder green parrot with a yellow crest and beak.</desc>
+  <path d="M13 14C10 7 15 3 18 9C19 3 25 3 25 11C29 7 32 11 28 16Z" fill="#f5c518"/>
+  <circle cx="22" cy="27" r="16" fill="#0c6b3f"/>
+  <path d="M34 21C46 20 48 31 40 38C39 33 36 31 33 31Z" fill="#f5c518"/>
+  <circle cx="26" cy="23" r="5" fill="#ffffff"/>
+  <circle cx="27.5" cy="23" r="2.3" fill="#16241c"/>
+</svg>
