@@ -4,7 +4,11 @@
   "samples": [
     "SyntaxError: Unexpected token ';'"
   ],
-  "reviewed": false,
+  "review": {
+    "status": "draft",
+    "reviewers": [],
+    "contentHash": null
+  },
   "what": "The parser found `{1}` where it expected something else. A missing comma, bracket, or quote earlier in the line usually causes this.",
   "tone": {
     "street": {

@@ -5,7 +5,11 @@
     "TypeError: Cannot read properties of undefined (reading 'name')"
   ],
   "fix_code": "thing?.{2}",
-  "reviewed": false,
+  "review": {
+    "status": "draft",
+    "reviewers": [],
+    "contentHash": null
+  },
   "what": "The code tried to read `{2}` from a value that is `{1}`. `undefined` and `null` have no properties, so JavaScript stops before it can read anything.",
   "tone": {
     "street": {

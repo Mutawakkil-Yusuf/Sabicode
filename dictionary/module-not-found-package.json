@@ -5,7 +5,11 @@
     "Error: Cannot find module 'left-pad'"
   ],
   "fix_code": "npm install {1}",
-  "reviewed": false,
+  "review": {
+    "status": "draft",
+    "reviewers": [],
+    "contentHash": null
+  },
   "what": "Node could not resolve the package `{1}` from this project. It may not be installed, or the package name may be misspelled.",
   "tone": {
     "street": {

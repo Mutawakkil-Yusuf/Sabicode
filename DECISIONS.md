@@ -66,7 +66,17 @@ room for interpretation.
 - The fake package `left-pad` is used in the missing-package fixture so the
   captured sample is realistic. The fixture relies on the project having no
   installed copy of that package.
-- `reviewed` is `false` on every entry until a Pidgin speaker signs off.
+- Each entry has a `review` record: `status`, `reviewers`, `contentHash`, and an
+  optional `notes` string.
+- `reviewed` is computed from the record and the current content hash; it is not
+  stored as a boolean.
+- The hash covers the id, match, samples, `fix_code`, and both tone objects. Any
+  change to those fields invalidates the sign-off.
+- `sabi list` shows `yes`, `no`, or `stale`. `npm run review:verify` fails when a
+  reviewed entry is stale.
+- `scripts/review.js` is a maintainer tool and is not included in the npm
+  package. Reviewer credits appear in the entry, in `sabi list`, and on the
+  generated error pages.
 - The demo and `sabi list` use the order the entries appear in the brief, not
   alphabetical order, so the most familiar error appears first. Unknown future
   ids sort alphabetically after that list.

@@ -5,7 +5,11 @@
     "TypeError: greet is not a function"
   ],
   "fix_code": "console.log(typeof {1});",
-  "reviewed": false,
+  "review": {
+    "status": "draft",
+    "reviewers": [],
+    "contentHash": null
+  },
   "what": "The name `{1}` exists, but its value is not a function. JavaScript can only call values that are functions, so it throws a TypeError.",
   "tone": {
     "street": {

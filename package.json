@@ -22,6 +22,8 @@
   "scripts": {
     "test": "node scripts/test.js",
     "build": "node scripts/build-site.js",
+    "review": "node scripts/review.js",
+    "review:verify": "node scripts/review.js verify",
     "prepublishOnly": "npm test"
   },
   "keywords": [

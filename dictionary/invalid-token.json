@@ -4,7 +4,11 @@
   "samples": [
     "SyntaxError: Invalid or unexpected token"
   ],
-  "reviewed": false,
+  "review": {
+    "status": "draft",
+    "reviewers": [],
+    "contentHash": null
+  },
   "what": "The parser found a character it cannot read as JavaScript. An unclosed quote or a character pasted from another program is a common cause.",
   "tone": {
     "street": {

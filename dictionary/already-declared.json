@@ -4,7 +4,11 @@
   "samples": [
     "SyntaxError: Identifier 'value' has already been declared"
   ],
-  "reviewed": false,
+  "review": {
+    "status": "draft",
+    "reviewers": [],
+    "contentHash": null
+  },
   "what": "The same scope already has a declaration named `{1}`. JavaScript does not allow two `let`, `const`, or `var` declarations with the same name in one scope.",
   "tone": {
     "street": {

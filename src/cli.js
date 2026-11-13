@@ -172,7 +172,13 @@ function listErrors(entries) {
   process.stdout.write(`${'-'.repeat(width)}  --------\n`);
 
   for (const entry of entries) {
-    process.stdout.write(`${entry.id.padEnd(width)}  ${entry.reviewed ? 'yes' : 'no'}\n`);
+    const state =
+      entry.reviewStatus === 'reviewed'
+        ? 'yes'
+        : entry.reviewStatus === 'stale'
+          ? 'stale'
+          : 'no';
+    process.stdout.write(`${entry.id.padEnd(width)}  ${state}\n`);
   }
 
   return 0;

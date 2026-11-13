@@ -4,7 +4,11 @@
   "samples": [
     "Error: Cannot find module './missing-config'"
   ],
-  "reviewed": false,
+  "review": {
+    "status": "draft",
+    "reviewers": [],
+    "contentHash": null
+  },
   "what": "Node could not resolve the file path `{1}`. The file may not exist, or the relative path may point to the wrong folder.",
   "tone": {
     "street": {

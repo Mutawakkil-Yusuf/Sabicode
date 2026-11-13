@@ -162,31 +162,44 @@ shows every covered entry and whether a Pidgin speaker has reviewed it.
    `happen`, `todo`, and `learn` for the explanation block.
 3. Add at least one `samples` string captured from a real Node run.
 4. Add `test/fixtures/<id>.js` that triggers the error.
-5. Set `"reviewed": false` and add the plain-English `what` paragraph used by
-   the website.
+5. Start with `"review": { "status": "draft", "reviewers": [], "contentHash": null }`
+   and add the plain-English `what` paragraph used by the website.
 6. Run `npm test`. It checks the schema, that every sample matches only its own
-   entry, the Pidgin style rules, the renderer, and the real CLI.
+   entry, the Pidgin style rules, the renderer, the review hash, and the real
+   CLI.
 
 ## Help with the Pidgin
 
-The Pidgin here is a first draft. Pidgin speakers will review every entry before
-it is treated as final. If a phrase sounds wrong, too formal, or not like how
-people actually talk, open an issue or a pull request that changes only the
-`tone` strings (including `headline`) in the relevant dictionary file. Keep the
-layout and the English technical terms intact, then run `npm test`.
+The Pidgin here is a draft until a Pidgin speaker signs it off. If a phrase
+sounds wrong, too formal, or not like how people actually talk, open an issue or
+a pull request that changes only the `tone` strings (including `headline`) in
+the relevant dictionary file. Keep the layout and the English technical terms
+intact, then run `npm test`.
 
-Reviewer credits will live in the site footer once the first review round is
-done.
+A sign-off is recorded against a hash of the reviewed content. If the copy
+changes, the review becomes stale automatically:
+
+```sh
+npm run review -- list
+npm run review -- show ref-not-defined
+npm run review -- sign ref-not-defined --reviewer "Ada Obi" --github adaobi
+npm run review -- verify
+```
+
+See `docs/review.md` for the rubric and the full workflow. Reviewer credits
+appear in the entry, in `sabi list`, and on the generated error pages.
 
 ## Development
 
 ```sh
 npm test
-node scripts/build-site.js
+npm run build
+npm run review -- list
 ```
 
 The site is generated into `site/` from the dictionary. The build command and
-output directory are also in `site/DEPLOY.md`.
+output directory are also in `site/DEPLOY.md`. Contributor guidance is in
+`CONTRIBUTING.md`.
 
 ## Roadmap
 

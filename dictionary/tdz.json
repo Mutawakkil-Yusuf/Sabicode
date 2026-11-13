@@ -4,7 +4,11 @@
   "samples": [
     "ReferenceError: Cannot access 'value' before initialization"
   ],
-  "reviewed": false,
+  "review": {
+    "status": "draft",
+    "reviewers": [],
+    "contentHash": null
+  },
   "what": "The code used `{1}` before the line that initializes it. Variables declared with `let` and `const` exist but cannot be read until their declaration runs.",
   "tone": {
     "street": {

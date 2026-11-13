@@ -220,6 +220,12 @@ function errorPage(item) {
   const { entry, captures, sample, tones, what, description } = item;
   const title = `${sample} — Sabicode`;
   const canonical = `${SITE_URL}/errors/${entry.id}.html`;
+  const reviewers = entry.review.reviewers
+    .map((reviewer) => escapeHtml(reviewer.name))
+    .join(', ');
+  const reviewLine = reviewers
+    ? `Pidgin review: <strong>${entry.reviewStatus}</strong> · ${reviewers}`
+    : `Pidgin review: <strong>${entry.reviewStatus}</strong>`;
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -262,6 +268,8 @@ ${svgDefs()}
         ${toneCard('normal', tones.normal)}
       </div>
     </section>
+
+    <p class="review-state">${reviewLine}</p>
 
     <p class="back-bottom"><a class="btn alt" href="../index.html">Back to all errors</a></p>
   </main>

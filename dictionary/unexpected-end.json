@@ -4,7 +4,11 @@
   "samples": [
     "SyntaxError: Unexpected end of input"
   ],
-  "reviewed": false,
+  "review": {
+    "status": "draft",
+    "reviewers": [],
+    "contentHash": null
+  },
   "what": "The parser reached the end of the file while it was still inside a block. An opening `{`, `(`, or `[` is missing its closing partner.",
   "tone": {
     "street": {

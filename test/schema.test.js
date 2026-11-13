@@ -18,7 +18,41 @@ for (const entry of entries) {
     assert.doesNotThrow(() => new RegExp(entry.match), 'match must compile');
     assert.ok(Array.isArray(entry.samples) && entry.samples.length >= 1, 'at least one sample');
     assert.ok(entry.samples.every((sample) => typeof sample === 'string' && sample.length > 0));
-    assert.equal(entry.reviewed, false, 'entries stay unreviewed until a Pidgin speaker signs off');
+
+    assert.ok(entry.review && typeof entry.review === 'object', 'review record');
+    assert.ok(['draft', 'reviewed'].includes(entry.review.status), 'review status');
+    assert.ok(Array.isArray(entry.review.reviewers), 'reviewers array');
+
+    for (const reviewer of entry.review.reviewers) {
+      assert.equal(typeof reviewer.name, 'string', 'reviewer name');
+      assert.ok(reviewer.name.trim().length > 0, 'reviewer name must not be empty');
+      assert.match(reviewer.date, /^\d{4}-\d{2}-\d{2}$/, 'reviewer date must be YYYY-MM-DD');
+      if (reviewer.github !== undefined) {
+        assert.equal(typeof reviewer.github, 'string');
+        assert.ok(reviewer.github.trim().length > 0, 'reviewer github must not be empty');
+      }
+    }
+
+    assert.ok(
+      entry.review.contentHash === null ||
+        /^sha256:[a-f0-9]{64}$/.test(entry.review.contentHash),
+      'contentHash must be null or a sha256 digest'
+    );
+    assert.equal(typeof entry.reviewed, 'boolean');
+    assert.ok(['draft', 'reviewed', 'stale'].includes(entry.reviewStatus));
+
+    if (entry.review.status === 'reviewed') {
+      assert.ok(entry.review.reviewers.length > 0, 'reviewed entries need a reviewer');
+      assert.notEqual(
+        entry.reviewStatus,
+        'stale',
+        'reviewed entry is stale; re-review it or reset the review'
+      );
+      assert.equal(entry.review.contentHash, entry.currentHash, 'review must match current content');
+      assert.equal(entry.reviewStatus, 'reviewed');
+    } else {
+      assert.equal(entry.reviewStatus, 'draft');
+    }
 
     for (const tone of TONES) {
       assert.ok(entry.tone && entry.tone[tone], `missing ${tone} tone`);
