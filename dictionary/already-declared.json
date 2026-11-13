@@ -1,5 +1,7 @@
 {
   "id": "already-declared",
+  "language": "javascript",
+  "concept": "bindings",
   "match": "^SyntaxError: Identifier '(\\w+)' has already been declared",
   "samples": [
     "SyntaxError: Identifier 'value' has already been declared"

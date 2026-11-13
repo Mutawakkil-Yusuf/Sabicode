@@ -2,18 +2,23 @@
 
 const test = require('node:test');
 const assert = require('node:assert/strict');
+const { loadConcepts } = require('../src/concepts');
 const { loadDictionary } = require('../src/dictionary');
 
 const entries = loadDictionary();
+const concepts = loadConcepts();
+const conceptIds = new Set(concepts.map((concept) => concept.id));
 const TONES = ['street', 'normal'];
 
-test('the dictionary has all 11 entries', () => {
-  assert.equal(entries.length, 11);
+test('the dictionary has all 17 entries', () => {
+  assert.equal(entries.length, 17);
 });
 
 for (const entry of entries) {
   test(`schema: ${entry.id}`, () => {
     assert.equal(entry.id, entry.file.replace(/\.json$/, ''), 'id must equal the filename');
+    assert.ok(['javascript'].includes(entry.language), `unsupported language ${entry.language}`);
+    assert.ok(conceptIds.has(entry.concept), `unknown concept ${entry.concept}`);
     assert.equal(typeof entry.match, 'string');
     assert.doesNotThrow(() => new RegExp(entry.match), 'match must compile');
     assert.ok(Array.isArray(entry.samples) && entry.samples.length >= 1, 'at least one sample');
@@ -71,3 +76,11 @@ for (const entry of entries) {
     assert.ok(entry.what.trim().length > 0);
   });
 }
+
+test('every concept has at least one entry', () => {
+  const used = new Set(entries.map((entry) => entry.concept));
+
+  for (const concept of concepts) {
+    assert.ok(used.has(concept.id), `concept ${concept.id} has no entries`);
+  }
+});

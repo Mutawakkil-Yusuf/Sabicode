@@ -1,6 +1,8 @@
 {
   "id": "unexpected-token",
-  "match": "^SyntaxError: Unexpected token '(.+?)'",
+  "language": "javascript",
+  "concept": "syntax",
+  "match": "^SyntaxError: Unexpected token '(.+?)'$",
   "samples": [
     "SyntaxError: Unexpected token ';'"
   ],

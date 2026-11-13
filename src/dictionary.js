@@ -15,10 +15,16 @@ const ENTRY_ORDER = [
   'const-assign',
   'module-not-found-package',
   'module-not-found-path',
+  'import-outside-module',
   'already-declared',
   'unexpected-token',
   'invalid-token',
-  'tdz'
+  'tdz',
+  'await-outside-async',
+  'max-call-stack',
+  'not-iterable',
+  'json-parse',
+  'enoent'
 ];
 
 function loadDictionary(dir = DICTIONARY_DIR) {

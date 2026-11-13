@@ -1,5 +1,7 @@
 {
   "id": "undefined-property",
+  "language": "javascript",
+  "concept": "undefined-and-null",
   "match": "^TypeError: Cannot read properties of (undefined|null) \\(reading '(.+)'\\)",
   "samples": [
     "TypeError: Cannot read properties of undefined (reading 'name')"

@@ -12,9 +12,9 @@ A review covers the Pidgin strings and the fix that appears with them:
 - `tone.normal.headline`, `happen`, `todo`, `learn`
 - `fix_code`
 
-The English `what` paragraph, the regex, and the samples are context for the
-reviewer. They are included in the content hash so that a change to the error
-pattern also asks for a fresh look.
+The regex and the samples are included in the content hash, so a change to the
+error pattern also asks for a fresh look. The English `what` paragraph is
+context for the reviewer and is not hashed.
 
 ## The rubric
 
@@ -28,6 +28,8 @@ Read the English error and the Pidgin out loud. Then ask:
    careless.
 6. Is the fix correct and safe for a beginner?
 7. Does the headline fit on one line and name the thing that broke?
+8. Does the entry teach the concept it is tagged with, not just the surface
+   message?
 
 If any answer is no, suggest a change first. Do not sign off on copy you would
 not want a learner to read.

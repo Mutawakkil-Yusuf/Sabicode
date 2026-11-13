@@ -33,6 +33,10 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://sabicode.dev/errors/import-outside-module.html</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://sabicode.dev/errors/already-declared.html</loc>
     <priority>0.7</priority>
   </url>
@@ -46,6 +50,26 @@
   </url>
   <url>
     <loc>https://sabicode.dev/errors/tdz.html</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://sabicode.dev/errors/await-outside-async.html</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://sabicode.dev/errors/max-call-stack.html</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://sabicode.dev/errors/not-iterable.html</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://sabicode.dev/errors/json-parse.html</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://sabicode.dev/errors/enoent.html</loc>
     <priority>0.7</priority>
   </url>
 </urlset>

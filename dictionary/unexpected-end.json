@@ -1,5 +1,7 @@
 {
   "id": "unexpected-end",
+  "language": "javascript",
+  "concept": "syntax",
   "match": "^SyntaxError: Unexpected end of input",
   "samples": [
     "SyntaxError: Unexpected end of input"

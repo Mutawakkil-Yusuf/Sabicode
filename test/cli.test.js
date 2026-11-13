@@ -30,6 +30,7 @@ test('CLI: --help', () => {
   assert.match(result.stdout, /Usage:/);
   assert.match(result.stdout, /--mode=pidgin-first\|append\|raw/);
   assert.match(result.stdout, /--tone=street\|normal/);
+  assert.match(result.stdout, /sabi concepts/);
 });
 
 test('CLI: --version', () => {
@@ -57,12 +58,21 @@ test('CLI: missing file fails clearly', () => {
   assert.match(result.stderr, /cannot find "test\/fixtures\/not-here\.js"/);
 });
 
-test('CLI: list shows every entry and reviewed flag', () => {
+test('CLI: list shows every entry, its concept, and review state', () => {
   const result = run(['list']);
   assert.equal(result.status, 0);
-  assert.match(result.stdout, /Covered errors: 11/);
-  assert.match(result.stdout, /ref-not-defined\s+no/);
-  assert.match(result.stdout, /tdz\s+no/);
+  assert.match(result.stdout, /Covered errors: 17/);
+  assert.match(result.stdout, /ref-not-defined\s+scope\s+no/);
+  assert.match(result.stdout, /tdz\s+scope\s+no/);
+  assert.equal(result.stderr, '');
+});
+
+test('CLI: concepts shows the catalog and entry counts', () => {
+  const result = run(['concepts']);
+  assert.equal(result.status, 0);
+  assert.match(result.stdout, /Concepts: 11/);
+  assert.match(result.stdout, /scope\s+2 entries\s+Scope and references/);
+  assert.match(result.stdout, /data-formats\s+1 entry\s+Data formats/);
   assert.equal(result.stderr, '');
 });
 

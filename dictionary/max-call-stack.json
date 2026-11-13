@@ -1,0 +1,30 @@
+{
+  "id": "max-call-stack",
+  "language": "javascript",
+  "concept": "recursion",
+  "match": "^RangeError: Maximum call stack size exceeded$",
+  "samples": [
+    "RangeError: Maximum call stack size exceeded"
+  ],
+  "fix_code": "if (n <= 0) return;",
+  "review": {
+    "status": "draft",
+    "reviewers": [],
+    "contentHash": null
+  },
+  "what": "A recursive function kept calling itself without reaching a base case, so the call stack filled up. Add a condition that stops the recursion.",
+  "tone": {
+    "street": {
+      "headline": "Your function dey call itself forever",
+      "happen": "One function keep calling itself and e never reach a place to stop. The call stack don full.",
+      "todo": "Add a base case wey go stop the recursion:",
+      "learn": "Every function call take space on the call stack. Recursion need a base case."
+    },
+    "normal": {
+      "headline": "Your function no get base case",
+      "happen": "A function keep calling itself without a base case, so the call stack fill up.",
+      "todo": "Add a condition wey go stop the recursion:",
+      "learn": "Recursion need a base case, or e go run until the stack full."
+    }
+  }
+}

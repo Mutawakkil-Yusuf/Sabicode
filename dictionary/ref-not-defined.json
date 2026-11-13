@@ -1,11 +1,17 @@
 {
   "id": "ref-not-defined",
+  "language": "javascript",
+  "concept": "scope",
   "match": "^ReferenceError: (\\w+) is not defined",
   "samples": [
     "ReferenceError: name is not defined"
   ],
   "fix_code": "let {1} = \"Ada\";",
-  "reviewed": false,
+  "review": {
+    "status": "draft",
+    "reviewers": [],
+    "contentHash": null
+  },
   "what": "JavaScript looked for `{1}` in the current scope and did not find it. It was never created, or it was created in a different scope.",
   "tone": {
     "street": {

@@ -1,0 +1,30 @@
+{
+  "id": "not-iterable",
+  "language": "javascript",
+  "concept": "iteration",
+  "match": "^TypeError: (.+) is not iterable$",
+  "samples": [
+    "TypeError: 5 is not iterable"
+  ],
+  "fix_code": "for (const item of [1, 2, 3])",
+  "review": {
+    "status": "draft",
+    "reviewers": [],
+    "contentHash": null
+  },
+  "what": "The code used `for...of` on `{1}`, but that value is not iterable. Use an array, string, Map, Set, or another iterable.",
+  "tone": {
+    "street": {
+      "headline": "You no fit loop over `{1}`",
+      "happen": "You use `for...of` on `{1}`, but that value no get iterator.",
+      "todo": "Loop over something wey be array, string, or another iterable:",
+      "learn": "`for...of` need an iterable. Arrays and strings get am; numbers no get."
+    },
+    "normal": {
+      "headline": "You no fit loop over `{1}`",
+      "happen": "`for...of` need an iterable, but `{1}` no be one.",
+      "todo": "Loop over an array, string, Map, Set, or another iterable:",
+      "learn": "`for...of` dey work with iterables. Number no be iterable."
+    }
+  }
+}

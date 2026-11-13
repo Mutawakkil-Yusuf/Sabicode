@@ -1,5 +1,7 @@
 {
   "id": "not-a-function",
+  "language": "javascript",
+  "concept": "functions",
   "match": "^TypeError: (.+) is not a function",
   "samples": [
     "TypeError: greet is not a function"

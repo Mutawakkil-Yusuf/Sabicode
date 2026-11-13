@@ -1,5 +1,7 @@
 {
   "id": "module-not-found-path",
+  "language": "javascript",
+  "concept": "modules",
   "match": "^Error: Cannot find module '([./][^']*)'",
   "samples": [
     "Error: Cannot find module './missing-config'"

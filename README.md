@@ -10,7 +10,7 @@ teaches the real term along the way.
 
 - Pidgin-first output, with `append` and `raw` modes
 - JavaScript on Node 18, 20, or 22
-- 11 dictionary entries covering 10 common errors
+- 17 dictionary entries across 11 concepts
 - `street` tone (default) and `normal` tone
 - zero runtime dependencies
 - no network calls, telemetry, accounts, or AI fallback
@@ -130,43 +130,55 @@ An invalid tone prints a one-line warning and falls back to `street`.
 ```sh
 sabi explain "TypeError: x is not a function"
 sabi list
+sabi concepts
 sabi --help
 sabi --version
 ```
 
 `sabi explain` explains a pasted error without running anything. `sabi list`
-shows every covered entry and whether a Pidgin speaker has reviewed it.
+shows every covered entry, its concept, and whether a Pidgin speaker has
+reviewed it. `sabi concepts` shows the concept catalog and how many errors cover
+each idea.
 
 ## Covered errors
 
-| id | English |
-| --- | --- |
-| `ref-not-defined` | `ReferenceError: x is not defined` |
-| `undefined-property` | `TypeError: Cannot read properties of undefined (reading 'x')` |
-| `not-a-function` | `TypeError: x is not a function` |
-| `unexpected-end` | `SyntaxError: Unexpected end of input` |
-| `const-assign` | `TypeError: Assignment to constant variable.` |
-| `module-not-found-package` | `Error: Cannot find module 'package'` |
-| `module-not-found-path` | `Error: Cannot find module './file'` |
-| `already-declared` | `SyntaxError: Identifier 'x' has already been declared` |
-| `unexpected-token` | `SyntaxError: Unexpected token 'x'` |
-| `invalid-token` | `SyntaxError: Invalid or unexpected token` |
-| `tdz` | `ReferenceError: Cannot access 'x' before initialization` |
+| id | concept | English |
+| --- | --- | --- |
+| `ref-not-defined` | `scope` | `ReferenceError: x is not defined` |
+| `undefined-property` | `undefined-and-null` | `TypeError: Cannot read properties of undefined (reading 'x')` |
+| `not-a-function` | `functions` | `TypeError: x is not a function` |
+| `unexpected-end` | `syntax` | `SyntaxError: Unexpected end of input` |
+| `const-assign` | `bindings` | `TypeError: Assignment to constant variable.` |
+| `module-not-found-package` | `modules` | `Error: Cannot find module 'package'` |
+| `module-not-found-path` | `modules` | `Error: Cannot find module './file'` |
+| `already-declared` | `bindings` | `SyntaxError: Identifier 'x' has already been declared` |
+| `unexpected-token` | `syntax` | `SyntaxError: Unexpected token 'x'` |
+| `invalid-token` | `syntax` | `SyntaxError: Invalid or unexpected token` |
+| `tdz` | `scope` | `ReferenceError: Cannot access 'x' before initialization` |
+| `json-parse` | `data-formats` | `SyntaxError: Unexpected token ... in JSON` |
+| `import-outside-module` | `modules` | `SyntaxError: Cannot use import statement outside a module` |
+| `await-outside-async` | `async` | `SyntaxError: await is only valid in async functions...` |
+| `max-call-stack` | `recursion` | `RangeError: Maximum call stack size exceeded` |
+| `enoent` | `filesystem` | `Error: ENOENT: no such file or directory, open 'file'` |
+| `not-iterable` | `iteration` | `TypeError: x is not iterable` |
 
 ## Add a dictionary entry
 
-1. Create `dictionary/<id>.json`. The filename is the id.
-2. Follow the schema used by the existing entries. `match` is a JavaScript
-   regular expression. `{1}`, `{2}`, and so on are filled from its captures.
-   Each tone needs a short `headline` for the Pidgin-first error line, plus
-   `happen`, `todo`, and `learn` for the explanation block.
-3. Add at least one `samples` string captured from a real Node run.
-4. Add `test/fixtures/<id>.js` that triggers the error.
-5. Start with `"review": { "status": "draft", "reviewers": [], "contentHash": null }`
+1. Pick the concept first. Add or reuse an id from `concepts/concepts.json`.
+2. Create `dictionary/<id>.json`. The filename is the id.
+3. Follow the schema used by the existing entries. Set `"language": "javascript"`
+   and the `concept` id. `match` is a JavaScript regular
+   expression. `{1}`, `{2}`, and so on are filled from its captures. Each tone
+   needs a short `headline` for the Pidgin-first error line, plus `happen`,
+   `todo`, and `learn` for the explanation block.
+4. Add at least one `samples` string captured from a real Node run.
+5. Add `test/fixtures/<id>.js` that triggers the error. Use `.cjs` or `.mjs`
+   when the module mode matters.
+6. Start with `"review": { "status": "draft", "reviewers": [], "contentHash": null }`
    and add the plain-English `what` paragraph used by the website.
-6. Run `npm test`. It checks the schema, that every sample matches only its own
-   entry, the Pidgin style rules, the renderer, the review hash, and the real
-   CLI.
+7. Run `npm test`. It checks the schema, the concept catalog, that every sample
+   matches only its own entry, the Pidgin style rules, the renderer, the review
+   hash, and the real CLI.
 
 ## Help with the Pidgin
 

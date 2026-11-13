@@ -4,6 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const packageJson = require('../package.json');
 const { resolveMode, resolveTone } = require('./config');
+const { loadConcepts } = require('./concepts');
 const { loadDictionary } = require('./dictionary');
 const { matchError } = require('./match');
 const { findErrorLine } = require('./parse');
@@ -16,7 +17,7 @@ const {
 } = require('./render');
 const { runScript } = require('./run');
 
-const COMMANDS = new Set(['run', 'explain', 'list']);
+const COMMANDS = new Set(['run', 'explain', 'list', 'concepts']);
 
 const HELP = `Sabicode - your errors, finally in your language.
 
@@ -25,6 +26,7 @@ Usage:
   sabi run app.js [args...]
   sabi explain "<error message>"
   sabi list
+  sabi concepts
   sabi --help
   sabi --version
 
@@ -164,12 +166,13 @@ function usageError(message) {
   return 1;
 }
 
-function listErrors(entries) {
+function listErrors(entries, concepts) {
   const width = Math.max(2, ...entries.map((entry) => entry.id.length));
+  const conceptWidth = Math.max(7, ...entries.map((entry) => entry.concept.length));
 
   process.stdout.write(`Covered errors: ${entries.length}\n\n`);
-  process.stdout.write(`${'id'.padEnd(width)}  reviewed\n`);
-  process.stdout.write(`${'-'.repeat(width)}  --------\n`);
+  process.stdout.write(`${'id'.padEnd(width)}  ${'concept'.padEnd(conceptWidth)}  reviewed\n`);
+  process.stdout.write(`${'-'.repeat(width)}  ${'-'.repeat(conceptWidth)}  --------\n`);
 
   for (const entry of entries) {
     const state =
@@ -178,7 +181,28 @@ function listErrors(entries) {
         : entry.reviewStatus === 'stale'
           ? 'stale'
           : 'no';
-    process.stdout.write(`${entry.id.padEnd(width)}  ${state}\n`);
+    process.stdout.write(
+      `${entry.id.padEnd(width)}  ${entry.concept.padEnd(conceptWidth)}  ${state}\n`
+    );
+  }
+
+  return 0;
+}
+
+function listConcepts(entries, concepts) {
+  const counts = new Map();
+  for (const entry of entries) {
+    counts.set(entry.concept, (counts.get(entry.concept) || 0) + 1);
+  }
+
+  const width = Math.max(2, ...concepts.map((concept) => concept.id.length));
+
+  process.stdout.write(`Concepts: ${concepts.length}\n\n`);
+
+  for (const concept of concepts) {
+    const count = counts.get(concept.id) || 0;
+    const label = count === 1 ? '1 entry ' : `${count} entries`;
+    process.stdout.write(`${concept.id.padEnd(width)}  ${label.padEnd(9)}  ${concept.title}\n`);
   }
 
   return 0;
@@ -271,12 +295,20 @@ async function main(argv = []) {
     warn
   });
   const entries = loadDictionary();
+  const concepts = loadConcepts();
 
   if (command === 'list') {
     if (positionals.length > 0) {
       return usageError(`unexpected argument "${positionals[0]}"`);
     }
-    return listErrors(entries);
+    return listErrors(entries, concepts);
+  }
+
+  if (command === 'concepts') {
+    if (positionals.length > 0) {
+      return usageError(`unexpected argument "${positionals[0]}"`);
+    }
+    return listConcepts(entries, concepts);
   }
 
   if (command === 'explain') {

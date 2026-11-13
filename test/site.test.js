@@ -6,10 +6,20 @@ const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
 const { spawnSync } = require('node:child_process');
+const { conceptMap, loadConcepts } = require('../src/concepts');
 const { loadDictionary } = require('../src/dictionary');
 
 const ROOT = path.join(__dirname, '..');
 const entries = loadDictionary();
+const concepts = conceptMap(loadConcepts());
+
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
 
 test('site: builds every page from the dictionary', (t) => {
   const out = fs.mkdtempSync(path.join(os.tmpdir(), 'sabi-site-'));
@@ -22,7 +32,7 @@ test('site: builds every page from the dictionary', (t) => {
   });
 
   assert.equal(result.status, 0, result.stderr);
-  assert.match(result.stdout, /Built 12 pages/);
+  assert.match(result.stdout, /Built 18 pages/);
 
   const indexPath = path.join(out, 'index.html');
   const index = fs.readFileSync(indexPath, 'utf8');
@@ -44,7 +54,9 @@ test('site: builds every page from the dictionary', (t) => {
   assert.doesNotMatch(index, /<script\s+src=/i);
 
   for (const entry of entries) {
+    const concept = concepts.get(entry.concept);
     assert.ok(index.includes(`errors/${entry.id}.html`), `grid links to ${entry.id}`);
+    assert.ok(index.includes(concept.title), `grid shows the concept for ${entry.id}`);
     const streetPrefix = entry.tone.street.happen.split('`')[0].trim();
     const normalPrefix = entry.tone.normal.happen.split('`')[0].trim();
     assert.ok(index.includes(streetPrefix), `demo data includes street copy for ${entry.id}`);
@@ -54,15 +66,16 @@ test('site: builds every page from the dictionary', (t) => {
     assert.ok(fs.existsSync(pagePath), `error page exists for ${entry.id}`);
     const page = fs.readFileSync(pagePath, 'utf8');
 
-    assert.ok(page.includes(`<title>${entry.samples[0]} — Sabicode</title>`));
+    assert.ok(page.includes(`<title>${escapeHtml(entry.samples[0])} — Sabicode</title>`));
     assert.ok(page.includes('What this means'));
     assert.ok(page.includes('id="polly"'));
     assert.ok(page.includes('window.talk = talk'));
     assert.ok(page.includes('Wetin happen:'));
+    assert.ok(page.includes(`Concept: <strong>${concept.title}</strong>`));
     assert.ok(page.includes('>street</h3>'));
     assert.ok(page.includes('>normal</h3>'));
     assert.ok(page.includes('href="../index.html"'));
-    assert.ok(page.includes(entry.samples[0]));
+    assert.ok(page.includes(escapeHtml(entry.samples[0])));
     assert.doesNotMatch(page, /<script\s+src=/i);
   }
 

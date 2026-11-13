@@ -1,5 +1,7 @@
 {
   "id": "invalid-token",
+  "language": "javascript",
+  "concept": "syntax",
   "match": "^SyntaxError: Invalid or unexpected token",
   "samples": [
     "SyntaxError: Invalid or unexpected token"

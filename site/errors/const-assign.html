@@ -408,10 +408,15 @@ nav a.s:hover {
   font-size: 0.82rem;
 }
 
+.concept-state,
 .review-state {
   color: var(--muted);
   font-size: 0.9rem;
   margin-top: 18px;
+}
+
+.concept-state {
+  margin-bottom: -10px;
 }
 
 section {
@@ -481,6 +486,13 @@ section > .wrap > p.sub {
 
 .grid a:hover {
   box-shadow: 0 0 0 2px var(--green);
+}
+
+.grid .g-concept {
+  color: var(--green-d);
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .grid .g-err {
@@ -902,6 +914,7 @@ footer a {
       </div>
     </section>
 
+    <p class="concept-state">Concept: <strong>Variables and bindings</strong></p>
     <p class="review-state">Pidgin review: <strong>draft</strong></p>
 
     <p class="back-bottom"><a class="btn alt" href="../index.html">Back to all errors</a></p>

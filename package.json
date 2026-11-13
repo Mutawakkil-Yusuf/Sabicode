@@ -12,6 +12,7 @@
     "bin",
     "src",
     "dictionary",
+    "concepts",
     "README.md",
     "STYLE.md",
     "LICENSE"

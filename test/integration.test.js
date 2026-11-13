@@ -2,6 +2,7 @@
 
 const test = require('node:test');
 const assert = require('node:assert/strict');
+const fs = require('node:fs');
 const path = require('node:path');
 const { spawnSync } = require('node:child_process');
 const { loadDictionary } = require('../src/dictionary');
@@ -25,18 +26,31 @@ function run(args) {
   });
 }
 
+function fixtureFor(entry) {
+  for (const extension of ['.js', '.cjs', '.mjs']) {
+    const relative = path.join('test', 'fixtures', `${entry.id}${extension}`);
+    if (fs.existsSync(path.join(ROOT, relative))) return relative;
+  }
+  return null;
+}
+
 for (const entry of entries) {
   test(`integration: ${entry.id}`, () => {
-    const fixture = path.join('test', 'fixtures', `${entry.id}.js`);
-    const matched = matchError(entry.samples[0], entries);
-    const expected = renderBlock(entry, matched.captures, { tone: 'street' });
+    const fixture = fixtureFor(entry);
+    assert.ok(fixture, `fixture exists for ${entry.id}`);
+
     const result = run(['--mode=append', '--tone=street', fixture]);
+    const sample = entry.samples.find((value) => result.stderr.includes(value));
 
     assert.equal(result.status, 1, 'child exit code is preserved');
-    assert.ok(result.stderr.includes(entry.samples[0]), 'original English error is still in stderr');
+    assert.ok(sample, `stderr includes a sample for ${entry.id}`);
+
+    const matched = matchError(sample, entries);
+    const expected = renderBlock(entry, matched.captures, { tone: 'street' });
+
     assert.ok(result.stderr.includes(expected), 'Pidgin block follows the original error');
     assert.ok(
-      result.stderr.indexOf(expected.trim()) > result.stderr.indexOf(entry.samples[0]),
+      result.stderr.indexOf(expected.trim()) > result.stderr.indexOf(sample),
       'Pidgin block comes after the English error'
     );
   });

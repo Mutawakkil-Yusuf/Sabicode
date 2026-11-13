@@ -3,6 +3,7 @@
 
 const fs = require('node:fs');
 const path = require('node:path');
+const { conceptMap, loadConcepts } = require('../src/concepts');
 const { loadDictionary } = require('../src/dictionary');
 
 // Single place to change the public domain and the pilot inbox.
@@ -27,6 +28,7 @@ if (SITE_DIR === ROOT || SITE_DIR === path.parse(SITE_DIR).root) {
 }
 
 const entries = loadDictionary();
+const concepts = conceptMap(loadConcepts());
 const template = fs.readFileSync(TEMPLATE_PATH, 'utf8');
 const css = fs.readFileSync(CSS_PATH, 'utf8');
 
@@ -191,7 +193,8 @@ function talkScript() {
 }
 
 function gridLink(item) {
-  return `<a href="errors/${item.entry.id}.html"><span class="g-err">${escapeHtml(item.sample)}</span><span class="g-go">Open page →</span></a>`;
+  const concept = concepts.get(item.entry.concept);
+  return `<a href="errors/${item.entry.id}.html"><span class="g-concept">${escapeHtml(concept.title)}</span><span class="g-err">${escapeHtml(item.sample)}</span><span class="g-go">Open page →</span></a>`;
 }
 
 function demoData() {
@@ -226,6 +229,7 @@ function errorPage(item) {
   const reviewLine = reviewers
     ? `Pidgin review: <strong>${entry.reviewStatus}</strong> · ${reviewers}`
     : `Pidgin review: <strong>${entry.reviewStatus}</strong>`;
+  const concept = concepts.get(entry.concept);
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -269,6 +273,7 @@ ${svgDefs()}
       </div>
     </section>
 
+    <p class="concept-state">Concept: <strong>${escapeHtml(concept.title)}</strong></p>
     <p class="review-state">${reviewLine}</p>
 
     <p class="back-bottom"><a class="btn alt" href="../index.html">Back to all errors</a></p>

@@ -137,6 +137,9 @@ and the review is invalidated. Credits live on the site and in the repository.
 - Short `headline` for every entry and tone.
 - English line preserved in the output.
 - Schema v2: `concept`, `language`, and a `review` record.
+- Concept catalog and `sabi concepts`.
+- First concept-first expansion: 17 entries across 11 concepts, including JSON,
+  async, recursion, filesystem, and iteration errors.
 - Reviewer workflow and credits.
 - Open-source scaffolding: contributing guide, code of conduct, issue
   templates, roadmap, good first issues.
@@ -146,7 +149,6 @@ and the review is invalidated. Credits live on the site and in the repository.
 
 - `sabi map`: local concept progress.
 - `sabi report`: static class report.
-- Concept-first dictionary expansion.
 - Classroom kit: portable Node, CLI, lessons, exercises, and reports.
 
 ### v0.4 — Surfaces

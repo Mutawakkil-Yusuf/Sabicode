@@ -1,0 +1,30 @@
+{
+  "id": "await-outside-async",
+  "language": "javascript",
+  "concept": "async",
+  "match": "^SyntaxError: await is only valid in async functions and the top level bodies of modules$",
+  "samples": [
+    "SyntaxError: await is only valid in async functions and the top level bodies of modules"
+  ],
+  "fix_code": "async function main() { await work(); }",
+  "review": {
+    "status": "draft",
+    "reviewers": [],
+    "contentHash": null
+  },
+  "what": "`await` is only allowed inside an `async` function or at the top level of an ES module. Wrap the call in an async function or make the file a module.",
+  "tone": {
+    "street": {
+      "headline": "`await` no fit work for here",
+      "happen": "You use `await` for place wey no be `async` function, and this file no be module.",
+      "todo": "Put am inside `async` function, or make the file a module:",
+      "learn": "`await` need `async` function or module top level before e fit wait."
+    },
+    "normal": {
+      "headline": "`await` no fit work for here",
+      "happen": "`await` dey outside `async` function, and the file no be module.",
+      "todo": "Put am inside `async` function, or make the file a module:",
+      "learn": "`await` only work inside `async` function or module top level."
+    }
+  }
+}

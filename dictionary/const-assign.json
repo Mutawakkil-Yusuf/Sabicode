@@ -1,5 +1,7 @@
 {
   "id": "const-assign",
+  "language": "javascript",
+  "concept": "bindings",
   "match": "^TypeError: Assignment to constant variable",
   "samples": [
     "TypeError: Assignment to constant variable."

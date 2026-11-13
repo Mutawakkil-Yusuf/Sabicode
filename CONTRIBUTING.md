@@ -18,18 +18,23 @@ technical terms in English, never blame the learner.
 
 ## Add a dictionary entry
 
-1. Pick a real error from a real Node run.
-2. Create `dictionary/<id>.json` using the existing entries as the schema.
-3. Add the short `headline` and the `happen`, `todo`, and `learn` copy for both
+1. Pick the concept first. Reuse an id from `concepts/concepts.json` or add one
+   with a title and a one-sentence summary.
+2. Pick a real error from a real Node run.
+3. Create `dictionary/<id>.json` using the existing entries as the schema. Set
+   `"language": "javascript"` and the `concept` id.
+4. Add the short `headline` and the `happen`, `todo`, and `learn` copy for both
    tones.
-4. Add a `samples` string captured from Node.
-5. Add `test/fixtures/<id>.js` that triggers the error.
-6. Add the plain-English `what` paragraph.
-7. Start with `"review": { "status": "draft", "reviewers": [], "contentHash": null }`.
-8. Run `npm test`.
+5. Add a `samples` string captured from Node.
+6. Add `test/fixtures/<id>.js` that triggers the error. Use `.cjs` or `.mjs`
+   when the module mode matters.
+7. Add the plain-English `what` paragraph.
+8. Start with `"review": { "status": "draft", "reviewers": [], "contentHash": null }`.
+9. Run `npm test`.
 
-The tests check the schema, that samples match only their own entry, the Pidgin
-style rules, the renderer, the review hash, and the real CLI.
+The tests check the schema, the concept catalog, that samples match only their
+own entry, the Pidgin style rules, the renderer, the review hash, and the real
+CLI.
 
 ## Code
 
@@ -37,6 +42,7 @@ style rules, the renderer, the review hash, and the real CLI.
 npm test
 npm run build
 npm run review -- list
+node bin/sabi.js concepts
 ```
 
 - Node 18, 20, and 22 are supported.

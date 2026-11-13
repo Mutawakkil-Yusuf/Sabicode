@@ -1,5 +1,7 @@
 {
   "id": "module-not-found-package",
+  "language": "javascript",
+  "concept": "modules",
   "match": "^Error: Cannot find (?:module|package) '([^./][^']*)'",
   "samples": [
     "Error: Cannot find module 'left-pad'"

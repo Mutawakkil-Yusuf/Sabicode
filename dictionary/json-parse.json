@@ -1,0 +1,31 @@
+{
+  "id": "json-parse",
+  "language": "javascript",
+  "concept": "data-formats",
+  "match": "^SyntaxError: (?:Unexpected token .+ in JSON at position \\d+|Unexpected token .+, .+ is not valid JSON)$",
+  "samples": [
+    "SyntaxError: Unexpected token '<', \"<!DOCTYPE html>\" is not valid JSON",
+    "SyntaxError: Unexpected token < in JSON at position 0"
+  ],
+  "fix_code": "console.log(text.slice(0, 80));",
+  "review": {
+    "status": "draft",
+    "reviewers": [],
+    "contentHash": null
+  },
+  "what": "The code passed text to `JSON.parse`, but the text was not valid JSON. A common cause is a server returning an HTML error page instead of JSON.",
+  "tone": {
+    "street": {
+      "headline": "`JSON.parse` no fit read this text",
+      "happen": "You give `JSON.parse` one text wey no be JSON. Maybe na HTML page or ordinary text come back from the request.",
+      "todo": "Check wetin the server return before you parse am:",
+      "learn": "JSON na strict format. One small `<` or missing quote fit make am invalid."
+    },
+    "normal": {
+      "headline": "`JSON.parse` no fit read this text",
+      "happen": "You pass text wey no be JSON to `JSON.parse`. Maybe the response be HTML page or plain text.",
+      "todo": "Check the response before you parse am:",
+      "learn": "JSON na strict text format. One small mistake fit make am invalid."
+    }
+  }
+}

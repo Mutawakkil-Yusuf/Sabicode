@@ -5,8 +5,9 @@ room for interpretation.
 
 ## Product and packaging
 
-- Package version starts at `0.1.0`; `0.2.0` adds Pidgin-first output. The
-  package is not published during this build.
+- Package version starts at `0.1.0`; `0.2.0` adds Pidgin-first output, the
+  concept schema, the review workflow, and the first concept-first dictionary
+  expansion. The package is not published during this build.
 - The CLI is CommonJS and uses only Node built-ins. There are no runtime
   dependencies.
 - Node 18, 20, and 22 are the supported and tested versions.
@@ -60,6 +61,15 @@ room for interpretation.
 
 ## Dictionary
 
+- Schema v2 adds `language` and `concept` to every entry. `language` is
+  `javascript` for the current pack. `concept` points at an id in
+  `concepts/concepts.json`.
+- Concepts are the expansion unit. New entries are chosen to cover a concept
+  that has no entry, not to chase a raw error count. The catalog also carries a
+  human title and summary for `sabi concepts` and the site.
+- `concepts/concepts.json` is shipped with the package because `sabi concepts`
+  reads it at runtime. The schema test rejects an entry with an unknown concept
+  and a concept with no entries.
 - Extra fields beyond the required schema are allowed. Each entry has a `what`
   field with a plain-English paragraph used by the generated error pages. The
   tone copy remains the approved Pidgin.
@@ -71,15 +81,23 @@ room for interpretation.
 - `reviewed` is computed from the record and the current content hash; it is not
   stored as a boolean.
 - The hash covers the id, match, samples, `fix_code`, and both tone objects. Any
-  change to those fields invalidates the sign-off.
-- `sabi list` shows `yes`, `no`, or `stale`. `npm run review:verify` fails when a
-  reviewed entry is stale.
+  change to those fields invalidates the sign-off. `language`, `concept`, and
+  `what` are metadata and are not hashed.
+- `sabi list` shows the concept and `yes`, `no`, or `stale`. `sabi concepts`
+  shows how many entries cover each concept. `npm run review:verify` fails when
+  a reviewed entry is stale.
 - `scripts/review.js` is a maintainer tool and is not included in the npm
   package. Reviewer credits appear in the entry, in `sabi list`, and on the
   generated error pages.
 - The demo and `sabi list` use the order the entries appear in the brief, not
   alphabetical order, so the most familiar error appears first. Unknown future
   ids sort alphabetically after that list.
+- Error entries can use a `.cjs` or `.mjs` fixture when Node's module detection
+  would otherwise change the error. The integration test accepts all three
+  fixture extensions.
+- The JSON parse entry has samples for both the Node 18 message and the newer
+  Node 20/22 message. The integration test picks whichever sample the running
+  Node version actually produced.
 
 ## Site
 
@@ -106,13 +124,15 @@ room for interpretation.
 
 ## Verification
 
-- `npm test` passed on Node 18.20.8, 20.20.2, and 22.23.2 (102 tests each) at
-  v0.1.0. The v0.2.0 suite adds Pidgin-first, mode, and line-rewrite coverage.
-- All 11 fixture scripts were run manually in both tones (22 runs); each kept
-  the original English error, appended the expected Pidgin block, and returned
-  the child's exit code.
-- `npm pack --dry-run` contains 23 files, 11.3 kB packed, with only `bin/`,
-  `src/`, `dictionary/`, the licence, README, style guide, and package metadata.
+- `npm test` passed on Node 18.20.8, 20.20.2, and 22.23.5 (165 tests each) at
+  v0.2.0. The suite covers Pidgin-first, modes, line rewriting, review hashes,
+  concepts, and all 17 fixtures.
+- The integration test runs every fixture and checks that the original English
+  error is still in stderr, that the Pidgin block follows it, and that the
+  child's exit code is preserved.
+- `npm pack --dry-run` contains 32 files, 17.5 kB packed, with `bin/`, `src/`,
+  `dictionary/`, `concepts/`, the licence, README, style guide, and package
+  metadata.
 - `npm view sabicode` returned `E404` on 2026-11-08, so the public package name
   was free at that moment. Nothing was published.
 - The site was checked with static HTML parsing, link checks, inline script

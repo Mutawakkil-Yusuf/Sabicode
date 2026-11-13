@@ -1,5 +1,7 @@
 {
   "id": "tdz",
+  "language": "javascript",
+  "concept": "scope",
   "match": "^ReferenceError: Cannot access '(\\w+)' before initialization",
   "samples": [
     "ReferenceError: Cannot access 'value' before initialization"
