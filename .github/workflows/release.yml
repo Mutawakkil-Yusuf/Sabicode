@@ -25,7 +25,8 @@ jobs:
       - name: Check npm credentials
         run: |
           npm whoami
-          npm token list || true
+          npm token list --json | jq '[.[] | {id, token, readonly, automation, cidr_whitelist, created, updated}]'
+          npm profile get --json | jq '{name, tfa, email_verified}'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
