@@ -39,7 +39,14 @@ test('site: builds every page from the dictionary', (t) => {
 
   assert.ok(fs.statSync(indexPath).size < 100 * 1024, 'index should stay under 100 KB');
   assert.match(index, /<title>Sabicode — Your errors, finally in your language\.<\/title>/);
-  assert.match(index, /property="og:image" content="https:\/\/sabicode\.dev\/assets\/og\.svg"/);
+  assert.match(
+    index,
+    /property="og:image" content="https:\/\/mutawakkil-yusuf\.github\.io\/Sabicode\/assets\/og\.svg"/
+  );
+  assert.match(
+    index,
+    /<link rel="canonical" href="https:\/\/mutawakkil-yusuf\.github\.io\/Sabicode\/">/
+  );
   assert.match(index, /name="twitter:card" content="summary_large_image"/);
   assert.match(index, /var E = \[/);
   assert.match(index, /sabicode-tone/);
@@ -47,7 +54,11 @@ test('site: builds every page from the dictionary', (t) => {
   assert.match(index, /localStorage\.setItem/);
   assert.match(index, /prefers-reduced-motion: reduce/);
   assert.match(index, /function talk\(\)/);
-  assert.match(index, /action="mailto:schools@sabicode\.dev"/);
+  assert.match(
+    index,
+    /href="https:\/\/github\.com\/Mutawakkil-Yusuf\/Sabicode\/issues\/new\?labels=schools/
+  );
+  assert.doesNotMatch(index, /mailto:/);
   assert.match(index, /reviewer credits placeholder/);
   assert.doesNotMatch(index, /prototype only/i);
   assert.doesNotMatch(index, /\{\{[A-Z_]+\}\}/);
@@ -81,10 +92,16 @@ test('site: builds every page from the dictionary', (t) => {
 
   const sitemap = fs.readFileSync(path.join(out, 'sitemap.xml'), 'utf8');
   assert.equal((sitemap.match(/<url>/g) || []).length, entries.length + 1);
-  assert.match(sitemap, /https:\/\/sabicode\.dev\/errors\/ref-not-defined\.html/);
+  assert.match(
+    sitemap,
+    /https:\/\/mutawakkil-yusuf\.github\.io\/Sabicode\/errors\/ref-not-defined\.html/
+  );
 
   const robots = fs.readFileSync(path.join(out, 'robots.txt'), 'utf8');
-  assert.match(robots, /Sitemap: https:\/\/sabicode\.dev\/sitemap\.xml/);
+  assert.match(
+    robots,
+    /Sitemap: https:\/\/mutawakkil-yusuf\.github\.io\/Sabicode\/sitemap\.xml/
+  );
 
   assert.ok(fs.existsSync(path.join(out, 'assets', 'polly.svg')));
   assert.ok(fs.existsSync(path.join(out, 'assets', 'og.svg')));

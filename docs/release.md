@@ -16,9 +16,12 @@ runs `prepublishOnly` (`npm test`) before the package leaves the runner.
 
    An `E404` means the name is available. If the name is taken, change `name`
    in `package.json` before publishing.
-4. Confirm the real domain and contact addresses are in `package.json`,
-   `README.md`, and `scripts/build-site.js`. The current values use
-   `sabicode.dev` as a placeholder.
+4. Confirm `SITE_URL` and the GitHub issue links are correct in
+   `scripts/build-site.js`. The default site URL is
+   `https://mutawakkil-yusuf.github.io/Sabicode`.
+5. In the repository settings, set **Pages → Build and deployment → Source** to
+   **GitHub Actions**. The `Pages` workflow deploys `site/` on every push to
+   `main`.
 
 ## Release a version
 

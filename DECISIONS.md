@@ -106,11 +106,12 @@ room for interpretation.
   `site/errors/<id>.html`. Generated site files are committed so the static
   host can deploy the repository output directly. `SABI_SITE_OUT` can redirect
   the build to another directory for tests.
-- The canonical base URL is the placeholder `https://sabicode.dev`. Change
-  `SITE_URL` or set `SABI_SITE_URL` when the real domain is chosen.
-- The schools form uses a `mailto:` form action built from the single
-  `SCHOOLS_EMAIL` constant at the top of `scripts/build-site.js`. `PIDGIN_EMAIL`
-  handles Pidgin suggestions. There is no backend and no data is stored.
+- The canonical base URL is `https://mutawakkil-yusuf.github.io/Sabicode`.
+  `SITE_URL` can be changed in `scripts/build-site.js`, or overridden with
+  `SABI_SITE_URL` for a custom domain.
+- School pilot requests and Pidgin suggestions link to prefilled GitHub issues
+  built from `SCHOOLS_URL` and `PIDGIN_URL` at the top of
+  `scripts/build-site.js`. There is no backend, form endpoint, or stored data.
 - The mascot is an early placeholder drawing. `site/assets/polly.svg` is the
   favicon version. Final art can replace the shape without changing the
   animation hooks (`.crest`, `.beak`, `.lid`). The beak is currently one shape

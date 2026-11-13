@@ -14,6 +14,7 @@ teaches the real term along the way.
 - `street` tone (default) and `normal` tone
 - zero runtime dependencies
 - no network calls, telemetry, accounts, or AI fallback
+- site: <https://mutawakkil-yusuf.github.io/Sabicode/>
 
 ## Install and run
 

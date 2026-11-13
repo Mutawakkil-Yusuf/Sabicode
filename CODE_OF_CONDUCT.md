@@ -12,4 +12,5 @@ and volunteers. Treat them with respect.
 Maintainers may edit, remove, or reject contributions and comments that violate
 this code. Repeated or serious violations can lead to a ban from the project.
 
-Report concerns to `conduct@sabicode.dev`. Reports are handled privately.
+Report concerns privately to the maintainer on GitHub:
+<https://github.com/Mutawakkil-Yusuf>. Reports are handled privately.

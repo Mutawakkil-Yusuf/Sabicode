@@ -73,13 +73,9 @@ mean say nothing dey there.</pre></div>
         <li>Progress reports on the errors your students hit most. Coming later.</li>
       </ul>
       <div>
-        <p style="color:var(--muted)">We’re running pilots with two or three schools. Email us and we’ll be in touch.</p>
-        <form id="lead" action="{{SCHOOLS_ACTION}}" method="post" enctype="text/plain">
-          <input type="hidden" name="subject" value="Sabicode school pilot">
-          <input type="email" id="em" name="email" placeholder="school@example.com" aria-label="School email" required>
-          <button class="btn" type="submit" style="font-family:var(--sans);font-weight:600">Join pilot</button>
-        </form>
-        <p class="note">This opens your email app. Or write to <a href="mailto:{{SCHOOLS_EMAIL}}">{{SCHOOLS_EMAIL}}</a>. No data is stored on a server.</p>
+        <p style="color:var(--muted)">We’re running pilots with two or three schools. Open an issue and we’ll be in touch.</p>
+        <p><a class="btn" href="{{SCHOOLS_URL}}" style="font-family:var(--sans);font-weight:600">Join pilot</a></p>
+        <p class="note">This opens a public GitHub issue. No data is stored on a Sabicode server.</p>
       </div>
     </div>
   </div>
@@ -99,7 +95,7 @@ mean say nothing dey there.</pre></div>
 <div class="wrap">
   <footer>
     <span>Sabicode is in development. Pidgin explanations are a draft until reviewers sign off.</span>
-    <span>Pidgin reviewers: <span class="credit-placeholder">[reviewer credits placeholder]</span> · <a href="mailto:{{PIDGIN_EMAIL}}?subject=Suggest%20a%20Pidgin%20phrase">Suggest a phrase</a></span>
+    <span>Pidgin reviewers: <span class="credit-placeholder">[reviewer credits placeholder]</span> · <a href="{{PIDGIN_URL}}">Suggest a phrase</a></span>
   </footer>
 </div>
 

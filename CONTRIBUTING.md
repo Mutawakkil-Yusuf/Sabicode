@@ -65,7 +65,7 @@ node bin/sabi.js concepts
 
 Be respectful. Critique the work, not the person. Harassment, discrimination,
 and personal attacks are not welcome. Report concerns to
-`conduct@sabicode.dev`.
+the maintainer privately on GitHub at <https://github.com/Mutawakkil-Yusuf>.
 
 ## Licence
 
