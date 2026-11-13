@@ -7,6 +7,7 @@ const path = require('node:path');
 const { spawnSync } = require('node:child_process');
 const { loadDictionary } = require('../src/dictionary');
 const { matchError } = require('../src/match');
+const { findErrorLine } = require('../src/parse');
 const { renderBlock } = require('../src/render');
 
 const ROOT = path.join(__dirname, '..');
@@ -40,17 +41,20 @@ for (const entry of entries) {
     assert.ok(fixture, `fixture exists for ${entry.id}`);
 
     const result = run(['--mode=append', '--tone=street', fixture]);
-    const sample = entry.samples.find((value) => result.stderr.includes(value));
+    const found = findErrorLine(result.stderr);
 
     assert.equal(result.status, 1, 'child exit code is preserved');
-    assert.ok(sample, `stderr includes a sample for ${entry.id}`);
+    assert.ok(found, `stderr includes an error line for ${entry.id}`);
 
-    const matched = matchError(sample, entries);
+    const matched = matchError(found.normalized, entries);
+    assert.ok(matched, `the error line matches an entry for ${entry.id}`);
+    assert.equal(matched.entry.id, entry.id, `the fixture triggers ${entry.id}`);
+
     const expected = renderBlock(entry, matched.captures, { tone: 'street' });
 
     assert.ok(result.stderr.includes(expected), 'Pidgin block follows the original error');
     assert.ok(
-      result.stderr.indexOf(expected.trim()) > result.stderr.indexOf(sample),
+      result.stderr.indexOf(expected.trim()) > result.stderr.indexOf(found.line),
       'Pidgin block comes after the English error'
     );
   });
