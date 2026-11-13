@@ -15,6 +15,7 @@
     "concepts",
     "README.md",
     "STYLE.md",
+    "CHANGELOG.md",
     "LICENSE"
   ],
   "engines": {

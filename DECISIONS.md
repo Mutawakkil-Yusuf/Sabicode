@@ -130,9 +130,11 @@ room for interpretation.
 - The integration test runs every fixture and checks that the original English
   error is still in stderr, that the Pidgin block follows it, and that the
   child's exit code is preserved.
-- `npm pack --dry-run` contains 32 files, 17.5 kB packed, with `bin/`, `src/`,
-  `dictionary/`, `concepts/`, the licence, README, style guide, and package
-  metadata.
+- `npm pack --dry-run` contains 33 files, 18.4 kB packed, with `bin/`, `src/`,
+  `dictionary/`, `concepts/`, the licence, README, style guide, changelog, and
+  package metadata.
+- The release workflow publishes from a `v*` tag with npm provenance. It needs
+  the `NPM_TOKEN` repository secret and `id-token: write` permission.
 - `npm view sabicode` returned `E404` on 2026-11-08, so the public package name
   was free at that moment. Nothing was published.
 - The site was checked with static HTML parsing, link checks, inline script

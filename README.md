@@ -211,7 +211,9 @@ npm run review -- list
 
 The site is generated into `site/` from the dictionary. The build command and
 output directory are also in `site/DEPLOY.md`. Contributor guidance is in
-`CONTRIBUTING.md`.
+`CONTRIBUTING.md`. Maintainers should follow `docs/release.md` for versioning,
+tagging, and the provenance publish workflow. Release notes live in
+`CHANGELOG.md`.
 
 ## Roadmap
 
