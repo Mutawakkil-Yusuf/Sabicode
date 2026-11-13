@@ -366,6 +366,16 @@ nav a.s:hover {
   margin-top: 8px;
 }
 
+.pg .hd {
+  color: var(--green);
+  font-weight: 600;
+}
+
+.pg .en {
+  color: var(--term-dim);
+  font-size: 0.82rem;
+}
+
 section {
   padding: 56px 0;
   border-top: 1px solid var(--line);

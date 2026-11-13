@@ -14,6 +14,7 @@ const entries = loadDictionary();
 
 function run(args) {
   const env = { ...process.env };
+  delete env.SABI_MODE;
   delete env.SABI_TONE;
   delete env.NO_COLOR;
 
@@ -29,7 +30,7 @@ for (const entry of entries) {
     const fixture = path.join('test', 'fixtures', `${entry.id}.js`);
     const matched = matchError(entry.samples[0], entries);
     const expected = renderBlock(entry, matched.captures, { tone: 'street' });
-    const result = run(['--tone=street', fixture]);
+    const result = run(['--mode=append', '--tone=street', fixture]);
 
     assert.equal(result.status, 1, 'child exit code is preserved');
     assert.ok(result.stderr.includes(entry.samples[0]), 'original English error is still in stderr');
@@ -62,7 +63,11 @@ test('integration: --tone=normal uses the normal copy', () => {
   const entry = entries.find((item) => item.id === 'ref-not-defined');
   const matched = matchError(entry.samples[0], entries);
   const expected = renderBlock(entry, matched.captures, { tone: 'normal' });
-  const result = run(['--tone=normal', 'test/fixtures/ref-not-defined.js']);
+  const result = run([
+    '--mode=append',
+    '--tone=normal',
+    'test/fixtures/ref-not-defined.js'
+  ]);
 
   assert.equal(result.status, 1);
   assert.ok(result.stderr.includes(expected));
@@ -70,10 +75,54 @@ test('integration: --tone=normal uses the normal copy', () => {
 });
 
 test('integration: --no-emoji uses [Polly]', () => {
-  const result = run(['--no-emoji', '--tone=street', 'test/fixtures/ref-not-defined.js']);
+  const result = run([
+    '--mode=append',
+    '--no-emoji',
+    '--tone=street',
+    'test/fixtures/ref-not-defined.js'
+  ]);
 
   assert.equal(result.status, 1);
   assert.match(result.stderr, /\[Polly\] Wetin happen:/);
+  assert.doesNotMatch(result.stderr, /\u{1F99C}/u);
+});
+
+test('integration: pidgin-first is the default and keeps the English line', () => {
+  const result = run(['test/fixtures/ref-not-defined.js']);
+
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /🦜 ReferenceError: You call `name`, but JavaScript no sabi am/);
+  assert.match(result.stderr, /English: ReferenceError: name is not defined/);
+  assert.ok(
+    result.stderr.indexOf('🦜 ReferenceError:') < result.stderr.indexOf('English:'),
+    'Pidgin headline comes before the English line'
+  );
+  assert.match(result.stderr, /at Object\.<anonymous>/);
+  assert.doesNotMatch(result.stderr, /(^|\n)ReferenceError: name is not defined(\n|$)/);
+});
+
+test('integration: --mode=raw prints the child stderr untouched', () => {
+  const result = run(['--mode=raw', 'test/fixtures/ref-not-defined.js']);
+
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /ReferenceError: name is not defined/);
+  assert.doesNotMatch(result.stderr, /Wetin happen/);
+  assert.doesNotMatch(result.stderr, /English:/);
+});
+
+test('integration: --raw is a shortcut for --mode=raw', () => {
+  const result = run(['--raw', 'test/fixtures/ref-not-defined.js']);
+
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /ReferenceError: name is not defined/);
+  assert.doesNotMatch(result.stderr, /Wetin happen/);
+});
+
+test('integration: pidgin-first uses [Polly] without the emoji', () => {
+  const result = run(['--no-emoji', 'test/fixtures/ref-not-defined.js']);
+
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /\[Polly\] ReferenceError:/);
   assert.doesNotMatch(result.stderr, /\u{1F99C}/u);
 });
 
@@ -93,7 +142,12 @@ test('integration: arguments after the script are untouched', () => {
 });
 
 test('integration: run subcommand accepts flags before the script', () => {
-  const result = run(['run', '--tone=normal', 'test/fixtures/ref-not-defined.js']);
+  const result = run([
+    'run',
+    '--mode=append',
+    '--tone=normal',
+    'test/fixtures/ref-not-defined.js'
+  ]);
 
   assert.equal(result.status, 1);
   assert.match(result.stderr, /You dey use `name`, but JavaScript no sabi am\./);

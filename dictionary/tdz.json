@@ -8,11 +8,13 @@
   "what": "The code used `{1}` before the line that initializes it. Variables declared with `let` and `const` exist but cannot be read until their declaration runs.",
   "tone": {
     "street": {
+      "headline": "You use `{1}` before you create am",
       "happen": "You dey use `{1}` before the line wey create am. Na like to enter room before dem open door.",
       "todo": "Move the `let` or `const` line for `{1}` go up, before the place wey you dey use am.",
       "learn": "\"initialization\" mean the moment value first enter the variable."
     },
     "normal": {
+      "headline": "You use `{1}` before you create am",
       "happen": "You use `{1}` before you create am. The line wey create am dey below.",
       "todo": "Move the `let` or `const` line for `{1}` go up, before the place wey you dey use am.",
       "learn": "\"initialization\" mean the moment value first enter the variable."

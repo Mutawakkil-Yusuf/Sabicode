@@ -12,6 +12,7 @@ const BIN = path.join(ROOT, 'bin', 'sabi.js');
 
 function run(args, options = {}) {
   const env = { ...process.env };
+  delete env.SABI_MODE;
   delete env.SABI_TONE;
   delete env.NO_COLOR;
   Object.assign(env, options.env || {});
@@ -27,6 +28,7 @@ test('CLI: --help', () => {
   const result = run(['--help']);
   assert.equal(result.status, 0);
   assert.match(result.stdout, /Usage:/);
+  assert.match(result.stdout, /--mode=pidgin-first\|append\|raw/);
   assert.match(result.stdout, /--tone=street\|normal/);
 });
 
@@ -75,6 +77,22 @@ test('CLI: SABI_TONE is used when no flag is given', () => {
   const result = run(['test/fixtures/ref-not-defined.js'], { env: { SABI_TONE: 'normal' } });
   assert.equal(result.status, 1);
   assert.match(result.stderr, /You dey use `name`/);
+});
+
+test('CLI: invalid mode warns and falls back to pidgin-first', () => {
+  const result = run(['--mode=loud', 'test/fixtures/ref-not-defined.js']);
+
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /invalid mode "loud"/);
+  assert.match(result.stderr, /🦜 ReferenceError:/);
+});
+
+test('CLI: SABI_MODE is used when no flag is given', () => {
+  const result = run(['test/fixtures/ref-not-defined.js'], { env: { SABI_MODE: 'raw' } });
+
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /ReferenceError: name is not defined/);
+  assert.doesNotMatch(result.stderr, /Wetin happen/);
 });
 
 test('CLI: .sabirc in a parent directory sets the tone', (t) => {

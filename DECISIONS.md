@@ -5,17 +5,18 @@ room for interpretation.
 
 ## Product and packaging
 
-- Package version starts at `0.1.0`. The package is not published during this
-  build.
+- Package version starts at `0.1.0`; `0.2.0` adds Pidgin-first output. The
+  package is not published during this build.
 - The CLI is CommonJS and uses only Node built-ins. There are no runtime
   dependencies.
 - Node 18, 20, and 22 are the supported and tested versions.
 
 ## CLI
 
-- The Pidgin block from `sabi run` is written to stderr, directly after the
-  child's untouched stderr. This keeps the explanation attached to the original
-  error and lets stdout stay clean for the program's own output.
+- In `append` mode, the Pidgin block from `sabi run` is written to stderr,
+  directly after the child's untouched stderr. In `pidgin-first` mode, the
+  error line is rewritten in place and the block follows the stack. In both
+  modes stdout stays clean for the program's own output.
 - `sabi explain` writes its explanation to stdout and exits `0` when it matches,
   `1` when it does not. This makes it usable in a pipe.
 - When an error line is found but no dictionary entry matches, the unknown line
@@ -38,6 +39,24 @@ room for interpretation.
 - `npm test` uses `scripts/test.js` to pass only `test/*.test.js` files to
   `node --test`. The fixture programs under `test/fixtures/` are data, not test
   files, so they must not be auto-discovered and executed.
+
+## Pidgin-first (v0.2)
+
+- The default mode is `pidgin-first`: the first error line is replaced by a
+  short Pidgin headline, the code frame and stack trace are kept, and the
+  original English line is printed as `English: ...` inside the block.
+- `--mode=append` preserves the v0.1 behavior. `--mode=raw` prints the child's
+  stderr untouched. `--raw` is an alias for `--mode=raw`.
+- Pidgin-first buffers stderr until the child exits so the error line can be
+  rewritten. Append and raw stream live.
+- The original English line is never lost; it is always available in the output.
+- Each dictionary entry has a `headline` for each tone. The headline is short,
+  includes the error class, and uses the same backtick convention as the rest of
+  the copy.
+- The renderer hides the block mascot when a headline already carries it, so the
+  output has one parrot, not two.
+- `SABI_MODE` and `--mode` are resolved before the script path, like tone. An
+  invalid mode warns once and falls back to `pidgin-first`.
 
 ## Dictionary
 
@@ -77,7 +96,8 @@ room for interpretation.
 
 ## Verification
 
-- `npm test` passed on Node 18.20.8, 20.20.2, and 22.23.2 (102 tests each).
+- `npm test` passed on Node 18.20.8, 20.20.2, and 22.23.2 (102 tests each) at
+  v0.1.0. The v0.2.0 suite adds Pidgin-first, mode, and line-rewrite coverage.
 - All 11 fixture scripts were run manually in both tones (22 runs); each kept
   the original English error, appended the expected Pidgin block, and returned
   the child's exit code.

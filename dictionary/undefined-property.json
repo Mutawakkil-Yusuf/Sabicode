@@ -9,11 +9,13 @@
   "what": "The code tried to read `{2}` from a value that is `{1}`. `undefined` and `null` have no properties, so JavaScript stops before it can read anything.",
   "tone": {
     "street": {
+      "headline": "You try collect `{2}` from `{1}`",
       "happen": "You wan pick `{2}` from inside empty hand. The thing na `{1}`, e get nothing to give you.",
       "todo": "Check am first before you collect:",
       "learn": "`{1}` mean say nothing dey there."
     },
     "normal": {
+      "headline": "You try read `{2}` from `{1}`",
       "happen": "You wan collect `{2}` from something wey no get value. That thing na `{1}`.",
       "todo": "Check say the thing dey before you use am:",
       "learn": "`{1}` mean say nothing dey there."

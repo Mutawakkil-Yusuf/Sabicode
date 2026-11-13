@@ -5,7 +5,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
-const { resolveTone } = require('../src/config');
+const { DEFAULT_MODE, resolveMode, resolveTone } = require('../src/config');
 
 function tempProject(t) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'sabi-config-'));
@@ -72,6 +72,33 @@ test('config: invalid env falls back to street without checking .sabirc', (t) =>
 test('config: missing config defaults to street', (t) => {
   const dir = tempProject(t);
   assert.equal(resolveTone({ env: {}, cwd: dir }), 'street');
+});
+
+test('config: mode defaults to pidgin-first', () => {
+  assert.equal(DEFAULT_MODE, 'pidgin-first');
+  assert.equal(resolveMode({ env: {} }), 'pidgin-first');
+});
+
+test('config: mode flag beats env', () => {
+  assert.equal(resolveMode({ flag: 'raw', env: { SABI_MODE: 'append' } }), 'raw');
+});
+
+test('config: SABI_MODE is used when no flag is given', () => {
+  assert.equal(resolveMode({ env: { SABI_MODE: 'append' } }), 'append');
+});
+
+test('config: invalid mode warns and falls back to pidgin-first', () => {
+  const warnings = [];
+  const mode = resolveMode({
+    flag: 'loud',
+    env: { SABI_MODE: 'raw' },
+    warn: (message) => warnings.push(message)
+  });
+
+  assert.equal(mode, 'pidgin-first');
+  assert.equal(warnings.length, 1);
+  assert.match(warnings[0], /invalid mode "loud"/);
+  assert.match(warnings[0], /pidgin-first/);
 });
 
 test('config: malformed .sabirc warns and defaults to street', (t) => {

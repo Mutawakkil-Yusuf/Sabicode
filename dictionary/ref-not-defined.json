@@ -9,11 +9,13 @@
   "what": "JavaScript looked for `{1}` in the current scope and did not find it. It was never created, or it was created in a different scope.",
   "tone": {
     "street": {
+      "headline": "You call `{1}`, but JavaScript no sabi am",
       "happen": "You dey call `{1}` like say JavaScript know am, but e no sabi who be that. You never introduce am o.",
       "todo": "Create am first:",
       "learn": "\"not defined\" mean say the variable no dey anywhere JavaScript fit see."
     },
     "normal": {
+      "headline": "JavaScript no sabi `{1}`",
       "happen": "You dey use `{1}`, but JavaScript no sabi am. You never create am.",
       "todo": "Create am first:",
       "learn": "\"not defined\" mean say the variable no dey anywhere JavaScript fit see."

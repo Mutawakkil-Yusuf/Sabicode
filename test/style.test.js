@@ -19,7 +19,7 @@ const banned = [
 for (const entry of entries) {
   test(`style: ${entry.id}`, () => {
     for (const tone of TONES) {
-      for (const key of ['happen', 'todo', 'learn']) {
+      for (const key of ['headline', 'happen', 'todo', 'learn']) {
         const text = entry.tone[tone][key];
         for (const rule of banned) {
           assert.doesNotMatch(text, rule.pattern, `${tone}.${key} uses banned ${rule.label}`);

@@ -398,6 +398,16 @@ nav a.s:hover {
   margin-top: 8px;
 }
 
+.pg .hd {
+  color: var(--green);
+  font-weight: 600;
+}
+
+.pg .en {
+  color: var(--term-dim);
+  font-size: 0.82rem;
+}
+
 section {
   padding: 56px 0;
   border-top: 1px solid var(--line);
@@ -868,6 +878,7 @@ footer a {
         <article class="tone-card">
   <h3>street</h3>
   <div class="pg">
+    <div class="hd">🦜 TypeError: You try collect <code>name</code> from <code>undefined</code></div>
     <div><b>Wetin happen:</b> You wan pick <code>name</code> from inside empty hand. The thing na <code>undefined</code>, e get nothing to give you.</div>
     <div><b>Wetin to do:</b> Check am first before you collect: <code>thing?.name</code></div>
     <div><b>Learn am:</b> <code>undefined</code> mean say nothing dey there.</div>
@@ -876,6 +887,7 @@ footer a {
         <article class="tone-card">
   <h3>normal</h3>
   <div class="pg">
+    <div class="hd">🦜 TypeError: You try read <code>name</code> from <code>undefined</code></div>
     <div><b>Wetin happen:</b> You wan collect <code>name</code> from something wey no get value. That thing na <code>undefined</code>.</div>
     <div><b>Wetin to do:</b> Check say the thing dey before you use am: <code>thing?.name</code></div>
     <div><b>Learn am:</b> <code>undefined</code> mean say nothing dey there.</div>

@@ -9,11 +9,13 @@
   "what": "Node could not resolve the package `{1}` from this project. It may not be installed, or the package name may be misspelled.",
   "tone": {
     "street": {
+      "headline": "Node no find package `{1}`",
       "happen": "You ask Node to bring `{1}`, but e no see am anywhere. Node don search well-well.",
       "todo": "Check the spelling. If na package, install am first:",
       "learn": "A \"module\" na a file or package wey you dey bring come your code."
     },
     "normal": {
+      "headline": "Node no find package `{1}`",
       "happen": "Node no fit find `{1}`. Maybe you never install am, or the name no correct.",
       "todo": "Check the spelling. If na package, install am first:",
       "learn": "A \"module\" na a file or package wey you dey bring come your code."

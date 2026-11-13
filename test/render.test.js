@@ -8,7 +8,11 @@ const { loadDictionary } = require('../src/dictionary');
 const { matchError } = require('../src/match');
 const {
   renderBlock,
+  renderHeadline,
+  renderPidginFirst,
   renderUnknown,
+  renderUnknownHeadline,
+  renderUnknownPidginFirst,
   resolveColor,
   wrapText
 } = require('../src/render');
@@ -52,6 +56,61 @@ test('renderer: no emoji (golden)', () => {
 test('renderer: unknown error line uses the selected tone', () => {
   assert.equal(renderUnknown('street'), golden('unknown-street-nocolor.txt'));
   assert.equal(renderUnknown('normal'), golden('unknown-normal-nocolor.txt'));
+});
+
+test('renderer: pidgin-first headline includes the error name', () => {
+  assert.equal(
+    renderHeadline(entry, result.captures, {
+      tone: 'street',
+      errorLabel: 'ReferenceError'
+    }),
+    '🦜 ReferenceError: You call `name`, but JavaScript no sabi am'
+  );
+});
+
+test('renderer: headline uses [Polly] without emoji', () => {
+  assert.match(
+    renderHeadline(entry, result.captures, {
+      tone: 'street',
+      emoji: false,
+      errorLabel: 'ReferenceError'
+    }),
+    /^\[Polly\] ReferenceError: /
+  );
+});
+
+test('renderer: block keeps the English line before the closer', () => {
+  const output = renderBlock(entry, result.captures, {
+    tone: 'street',
+    english: 'ReferenceError: name is not defined'
+  });
+
+  assert.match(output, /English: ReferenceError: name is not defined/);
+  assert.ok(output.indexOf('English:') < output.indexOf('Polly:'));
+});
+
+test('renderer: pidgin-first composes headline and block without a second mascot', () => {
+  const output = renderPidginFirst(entry, result.captures, {
+    tone: 'street',
+    errorLabel: 'ReferenceError',
+    english: 'ReferenceError: name is not defined'
+  });
+
+  assert.match(output, /^🦜 ReferenceError: You call `name`/);
+  assert.match(output, /   Wetin happen:/);
+  assert.doesNotMatch(output, /🦜 Wetin happen:/);
+  assert.match(output, /English: ReferenceError: name is not defined/);
+});
+
+test('renderer: unknown pidgin-first uses a generic headline', () => {
+  const output = renderUnknownPidginFirst('street', {
+    errorLabel: 'RangeError',
+    english: 'RangeError: boom'
+  });
+
+  assert.match(output, /^🦜 RangeError: This one na new to me/);
+  assert.match(output, /English: RangeError: boom/);
+  assert.match(renderUnknownHeadline('normal', { errorLabel: 'RangeError' }), /^🦜 RangeError: /);
 });
 
 test('renderer: NO_COLOR and --no-color disable color on a TTY', () => {

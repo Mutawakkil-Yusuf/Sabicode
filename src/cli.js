@@ -3,11 +3,17 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const packageJson = require('../package.json');
-const { resolveTone } = require('./config');
+const { resolveMode, resolveTone } = require('./config');
 const { loadDictionary } = require('./dictionary');
 const { matchError } = require('./match');
 const { findErrorLine } = require('./parse');
-const { renderBlock, renderUnknown, resolveColor } = require('./render');
+const {
+  renderBlock,
+  renderPidginFirst,
+  renderUnknown,
+  renderUnknownPidginFirst,
+  resolveColor
+} = require('./render');
 const { runScript } = require('./run');
 
 const COMMANDS = new Set(['run', 'explain', 'list']);
@@ -23,11 +29,20 @@ Usage:
   sabi --version
 
 Options (place them before the script path):
+  --mode=pidgin-first|append|raw
+                        How errors are shown. Default: pidgin-first
+  --raw                 Shortcut for --mode=raw
   --tone=street|normal  Explanation tone. Default: street
   --no-color            Do not use ANSI colors
   --no-emoji            Print [Polly] instead of the parrot
 
-Tone can also come from SABI_TONE or the nearest .sabirc file:
+Modes:
+  pidgin-first  Put Pidgin where the error line was, keep the English below
+  append        Keep the English error and add the Pidgin block under it
+  raw           Print the original stderr untouched
+
+Mode can also come from SABI_MODE. Tone can also come from SABI_TONE or the
+nearest .sabirc file:
   { "tone": "normal" }
 
 Everything after the script path is passed to your script untouched.
@@ -36,6 +51,7 @@ Everything after the script path is passed to your script untouched.
 function parseInvocation(argv) {
   const options = {
     tone: undefined,
+    mode: undefined,
     color: true,
     emoji: true,
     help: false,
@@ -60,6 +76,27 @@ function parseInvocation(argv) {
 
       if (arg === '--no-emoji') {
         options.emoji = false;
+        index += 1;
+        continue;
+      }
+
+      if (arg === '--raw') {
+        options.mode = 'raw';
+        index += 1;
+        continue;
+      }
+
+      if (arg === '--mode') {
+        if (index + 1 >= argv.length || argv[index + 1].startsWith('-')) {
+          return { error: 'option "--mode" needs "pidgin-first", "append", or "raw"' };
+        }
+        options.mode = argv[index + 1];
+        index += 2;
+        continue;
+      }
+
+      if (arg.startsWith('--mode=')) {
+        options.mode = arg.slice('--mode='.length);
         index += 1;
         continue;
       }
@@ -141,7 +178,7 @@ function listErrors(entries) {
   return 0;
 }
 
-function explain(message, entries, options, tone) {
+function explain(message, entries, options, tone, mode) {
   const found = findErrorLine(message);
 
   if (!found) {
@@ -155,21 +192,44 @@ function explain(message, entries, options, tone) {
     env: process.env,
     isTTY: process.stdout.isTTY
   });
+  const errorLabel = found.code ? `${found.name} [${found.code}]` : found.name;
+
+  if (mode === 'raw') {
+    process.stdout.write(`${message}\n`);
+    return result ? 0 : 1;
+  }
 
   if (!result) {
-    process.stdout.write(
-      renderUnknown(tone, { color, emoji: options.emoji }).replace(/^\n/, '')
-    );
+    const output =
+      mode === 'pidgin-first'
+        ? renderUnknownPidginFirst(tone, {
+            color,
+            emoji: options.emoji,
+            errorLabel,
+            english: found.line
+          })
+        : renderUnknown(tone, { color, emoji: options.emoji });
+
+    process.stdout.write(output.replace(/^\n/, ''));
     return 1;
   }
 
-  process.stdout.write(
-    renderBlock(result.entry, result.captures, {
-      tone,
-      color,
-      emoji: options.emoji
-    }).replace(/^\n/, '')
-  );
+  const output =
+    mode === 'pidgin-first'
+      ? renderPidginFirst(result.entry, result.captures, {
+          tone,
+          color,
+          emoji: options.emoji,
+          errorLabel,
+          english: found.line
+        })
+      : renderBlock(result.entry, result.captures, {
+          tone,
+          color,
+          emoji: options.emoji
+        });
+
+  process.stdout.write(output.replace(/^\n/, ''));
   return 0;
 }
 
@@ -199,6 +259,11 @@ async function main(argv = []) {
     cwd: process.cwd(),
     warn
   });
+  const mode = resolveMode({
+    flag: options.mode,
+    env: process.env,
+    warn
+  });
   const entries = loadDictionary();
 
   if (command === 'list') {
@@ -213,7 +278,7 @@ async function main(argv = []) {
     if (!message) {
       return usageError('explain needs an error message');
     }
-    return explain(message, entries, options, tone);
+    return explain(message, entries, options, tone, mode);
   }
 
   const script = positionals[0];
@@ -250,6 +315,7 @@ async function main(argv = []) {
     args: positionals.slice(1),
     entries,
     tone,
+    mode,
     color,
     emoji: options.emoji
   });

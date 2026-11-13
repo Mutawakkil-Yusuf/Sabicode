@@ -22,7 +22,7 @@ for (const entry of entries) {
 
     for (const tone of TONES) {
       assert.ok(entry.tone && entry.tone[tone], `missing ${tone} tone`);
-      for (const key of ['happen', 'todo', 'learn']) {
+      for (const key of ['headline', 'happen', 'todo', 'learn']) {
         assert.equal(typeof entry.tone[tone][key], 'string', `${tone}.${key} must be a string`);
         assert.ok(entry.tone[tone][key].trim().length > 0, `${tone}.${key} must not be empty`);
       }

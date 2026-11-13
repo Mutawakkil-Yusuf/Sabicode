@@ -1,7 +1,7 @@
 {
   "name": "sabicode",
-  "version": "0.1.0",
-  "description": "Run JavaScript with Node and get errors explained in Nigerian Pidgin, right under the original message.",
+  "version": "0.2.0",
+  "description": "Run JavaScript with Node and read errors in Nigerian Pidgin, with the original English kept close.",
   "license": "MIT",
   "author": "Sabicode contributors",
   "bin": {
@@ -21,7 +21,8 @@
   },
   "scripts": {
     "test": "node scripts/test.js",
-    "build": "node scripts/build-site.js"
+    "build": "node scripts/build-site.js",
+    "prepublishOnly": "npm test"
   },
   "keywords": [
     "javascript",
@@ -33,10 +34,13 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/sabicode/sabicode.git"
+    "url": "https://github.com/Mutawakkil-Yusuf/Sabicode.git"
   },
   "bugs": {
-    "url": "https://github.com/sabicode/sabicode/issues"
+    "url": "https://github.com/Mutawakkil-Yusuf/Sabicode/issues"
   },
-  "homepage": "https://sabicode.dev"
+  "homepage": "https://sabicode.dev",
+  "publishConfig": {
+    "access": "public"
+  }
 }

@@ -13,7 +13,7 @@ const PIDGIN_EMAIL = process.env.SABI_PIDGIN_EMAIL || 'pidgin@sabicode.dev';
 
 const SITE_TITLE = 'Sabicode — Your errors, finally in your language.';
 const SITE_DESCRIPTION =
-  'Sabicode runs your JavaScript and explains errors in Nigerian Pidgin, right under the original message. Zero dependencies, Node 18+, street and normal tones.';
+  'Sabicode runs your JavaScript and puts errors in Nigerian Pidgin, with the original English kept close. Zero dependencies, Node 18+, street and normal tones.';
 const OG_IMAGE = `${SITE_URL}/assets/og.svg`;
 const OG_IMAGE_ALT = 'Sabicode, with Polly Glot the parrot and the command npx sabicode app.js';
 
@@ -80,14 +80,21 @@ function labelFor(id) {
   return words.charAt(0).toUpperCase() + words.slice(1);
 }
 
+function errorNameFor(entry) {
+  const match = entry.samples[0].match(/^(\w*Error)/);
+  return match ? match[1] : 'Error';
+}
+
 function toneData(entry, captures) {
   const data = {};
+  const errorName = errorNameFor(entry);
 
   for (const tone of ['street', 'normal']) {
     const copy = entry.tone[tone];
     const todo = fill(copy.todo, captures);
     const fix = entry.fix_code ? ` \`${fill(entry.fix_code, captures)}\`` : '';
     data[tone] = {
+      hd: inline(`${errorName}: ${copy.headline}`, captures),
       h: inline(copy.happen, captures),
       t: inline(todo + fix, captures),
       l: inline(copy.learn, captures)
@@ -201,6 +208,7 @@ function toneCard(tone, copy) {
   return `<article class="tone-card">
   <h3>${tone}</h3>
   <div class="pg">
+    <div class="hd">🦜 ${copy.hd}</div>
     <div><b>Wetin happen:</b> ${copy.h}</div>
     <div><b>Wetin to do:</b> ${copy.t}</div>
     <div><b>Learn am:</b> ${copy.l}</div>

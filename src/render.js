@@ -16,12 +16,22 @@ const UNKNOWN = {
   normal: 'This error no dey my list yet. Check the English message above.'
 };
 
+const UNKNOWN_HEADLINE = {
+  street: 'This one na new to me',
+  normal: 'This one no dey my list yet'
+};
+
 const WIDTH = 80;
 
-function makeLayout(withEmoji) {
-  const mascot = withEmoji ? '\u{1F99C}' : '[Polly]';
-  const firstLabel = `${mascot} ${LABELS.happen}`;
-  const width = firstLabel.length + 1;
+function mascotFor(withEmoji) {
+  return withEmoji ? '\u{1F99C}' : '[Polly]';
+}
+
+function makeLayout(withEmoji, showMascot = true) {
+  const mascot = mascotFor(withEmoji);
+  const mascotLabel = `${mascot} ${LABELS.happen}`;
+  const width = mascotLabel.length + 1;
+  const firstLabel = showMascot ? mascotLabel : `   ${LABELS.happen}`;
   const padLabel = (label) => label + ' '.repeat(Math.max(1, width - label.length));
 
   return {
@@ -39,6 +49,27 @@ function fill(template, captures) {
     const value = captures[Number(index) - 1];
     return value === undefined ? placeholder : value;
   });
+}
+
+function headlineFor(entry, captures, tone) {
+  const copy = entry.tone[tone];
+  return fill(copy.headline || copy.happen, captures);
+}
+
+function headlineText(text, options) {
+  const label = options.errorLabel ? `${options.errorLabel}: ` : '';
+  const mascot = mascotFor(options.emoji !== false);
+  return applyInline(`${mascot} ${label}${text}`, Boolean(options.color));
+}
+
+function renderHeadline(entry, captures, options = {}) {
+  const tone = options.tone === 'normal' ? 'normal' : 'street';
+  return headlineText(headlineFor(entry, captures, tone), options);
+}
+
+function renderUnknownHeadline(tone, options = {}) {
+  const safeTone = tone === 'normal' ? 'normal' : 'street';
+  return headlineText(UNKNOWN_HEADLINE[safeTone], options);
 }
 
 function tokenize(text) {
@@ -135,10 +166,21 @@ function renderSegment(prefix, text, layout, color, lines) {
   });
 }
 
+function renderEnglish(english, color, lines) {
+  const prefix = '   English: ';
+  const indent = ' '.repeat(prefix.length);
+  const wrapped = wrapText(english, WIDTH - prefix.length, WIDTH - prefix.length);
+
+  wrapped.forEach((line, index) => {
+    const styled = color ? `\u001b[2m${line}\u001b[22m` : line;
+    lines.push((index === 0 ? prefix : indent) + styled);
+  });
+}
+
 function renderBlock(entry, captures, options = {}) {
   const tone = options.tone === 'normal' ? 'normal' : 'street';
   const copy = entry.tone[tone];
-  const layout = makeLayout(options.emoji !== false);
+  const layout = makeLayout(options.emoji !== false, options.showMascot !== false);
   const color = Boolean(options.color);
   const lines = [''];
 
@@ -148,6 +190,9 @@ function renderBlock(entry, captures, options = {}) {
     renderSegment(layout.indent, `\`${fill(entry.fix_code, captures)}\``, layout, color, lines);
   }
   renderSegment(layout.learn, fill(copy.learn, captures), layout, color, lines);
+  if (options.english) {
+    renderEnglish(options.english, color, lines);
+  }
 
   lines.push('');
   lines.push(layout.closer + CLOSERS[tone]);
@@ -157,12 +202,28 @@ function renderBlock(entry, captures, options = {}) {
 
 function renderUnknown(tone, options = {}) {
   const safeTone = tone === 'normal' ? 'normal' : 'street';
-  const layout = makeLayout(options.emoji !== false);
+  const layout = makeLayout(options.emoji !== false, options.showMascot !== false);
+  const color = Boolean(options.color);
   const lines = [''];
 
-  renderSegment(layout.first, UNKNOWN[safeTone], layout, Boolean(options.color), lines);
+  renderSegment(layout.first, UNKNOWN[safeTone], layout, color, lines);
+  if (options.english) {
+    renderEnglish(options.english, color, lines);
+  }
 
   return `${lines.join('\n')}\n`;
+}
+
+function renderPidginFirst(entry, captures, options = {}) {
+  const headline = renderHeadline(entry, captures, options);
+  const block = renderBlock(entry, captures, { ...options, showMascot: false });
+  return `${headline}\n${block.replace(/^\n/, '')}`;
+}
+
+function renderUnknownPidginFirst(tone, options = {}) {
+  const headline = renderUnknownHeadline(tone, options);
+  const block = renderUnknown(tone, { ...options, showMascot: false });
+  return `${headline}\n${block.replace(/^\n/, '')}`;
 }
 
 function resolveColor({ noColor = false, env = {}, isTTY = false } = {}) {
@@ -174,9 +235,14 @@ function resolveColor({ noColor = false, env = {}, isTTY = false } = {}) {
 module.exports = {
   CLOSERS,
   UNKNOWN,
+  UNKNOWN_HEADLINE,
   applyInline,
   renderBlock,
+  renderHeadline,
+  renderPidginFirst,
   renderUnknown,
+  renderUnknownHeadline,
+  renderUnknownPidginFirst,
   resolveColor,
   wrapText
 };

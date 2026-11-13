@@ -8,11 +8,13 @@
   "what": "The parser reached the end of the file while it was still inside a block. An opening `{`, `(`, or `[` is missing its closing partner.",
   "tone": {
     "street": {
+      "headline": "Your code end before e complete",
       "happen": "JavaScript reach the end of your file and e still dey wait. You leave one `}` or `)` open.",
       "todo": "Count your brackets. Every `{` must get im own `}`.",
       "learn": "\"syntax\" na the correct way to arrange code."
     },
     "normal": {
+      "headline": "Your code end before e complete",
       "happen": "JavaScript don reach the end of your file, but e still dey wait for something. Most times, one `}` or `)` no close.",
       "todo": "Count your brackets. Every `{` must get one `}`.",
       "learn": "\"syntax\" na the correct way to write code."
