@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://sabicode.dev/sitemap.xml
+Sitemap: https://mutawakkil-yusuf.github.io/Sabicode/sitemap.xml

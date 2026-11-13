@@ -1,19 +1,27 @@
 {
   "id": "not-a-function",
+  "language": "javascript",
+  "concept": "functions",
   "match": "^TypeError: (.+) is not a function",
   "samples": [
     "TypeError: greet is not a function"
   ],
   "fix_code": "console.log(typeof {1});",
-  "reviewed": false,
+  "review": {
+    "status": "draft",
+    "reviewers": [],
+    "contentHash": null
+  },
   "what": "The name `{1}` exists, but its value is not a function. JavaScript can only call values that are functions, so it throws a TypeError.",
   "tone": {
     "street": {
+      "headline": "`{1}` no be function",
       "happen": "You shout `{1}()`, but `{1}` no be function o. Na another thing dey there.",
       "todo": "Check your spelling. Then ask am wetin e be:",
       "learn": "To \"call\" a function na to run am with `()`."
     },
     "normal": {
+      "headline": "`{1}` no be function",
       "happen": "You try run `{1}()`, but `{1}` no be function.",
       "todo": "Check your spelling. Then check wetin `{1}` be:",
       "learn": "To \"call\" a function na to run am with `()`."

@@ -366,6 +366,27 @@ nav a.s:hover {
   margin-top: 8px;
 }
 
+.pg .hd {
+  color: var(--green);
+  font-weight: 600;
+}
+
+.pg .en {
+  color: var(--term-dim);
+  font-size: 0.82rem;
+}
+
+.concept-state,
+.review-state {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-top: 18px;
+}
+
+.concept-state {
+  margin-bottom: -10px;
+}
+
 section {
   padding: 56px 0;
   border-top: 1px solid var(--line);
@@ -433,6 +454,13 @@ section > .wrap > p.sub {
 
 .grid a:hover {
   box-shadow: 0 0 0 2px var(--green);
+}
+
+.grid .g-concept {
+  color: var(--green-d);
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .grid .g-err {

@@ -1,0 +1,30 @@
+{
+  "id": "enoent",
+  "language": "javascript",
+  "concept": "filesystem",
+  "match": "^Error: ENOENT: no such file or directory, open '(.+)'$",
+  "samples": [
+    "Error: ENOENT: no such file or directory, open 'does-not-exist.txt'"
+  ],
+  "fix_code": "path.join(__dirname, \"{1}\")",
+  "review": {
+    "status": "draft",
+    "reviewers": [],
+    "contentHash": null
+  },
+  "what": "Node tried to open `{1}`, but no file exists at that path. Check the path, the working directory, and whether the file was created.",
+  "tone": {
+    "street": {
+      "headline": "Node no find `{1}`",
+      "happen": "You ask Node to open `{1}`, but that file no dey for that path.",
+      "todo": "Check the path and the folder wey you dey run from:",
+      "learn": "`ENOENT` mean \"Error NO ENTry\". The file or folder no exist for the path."
+    },
+    "normal": {
+      "headline": "Node no find `{1}`",
+      "happen": "Node try to open `{1}`, but no file dey that path.",
+      "todo": "Check the path and the working directory:",
+      "learn": "`ENOENT` mean the file or folder no exist for the path you give."
+    }
+  }
+}

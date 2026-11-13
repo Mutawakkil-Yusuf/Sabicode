@@ -1,0 +1,57 @@
+[
+  {
+    "id": "scope",
+    "title": "Scope and references",
+    "summary": "Where a name is visible, and what happens when JavaScript cannot find it."
+  },
+  {
+    "id": "bindings",
+    "title": "Variables and bindings",
+    "summary": "Creating a name, and what you are allowed to do with it afterwards."
+  },
+  {
+    "id": "undefined-and-null",
+    "title": "undefined and null",
+    "summary": "Reading from a value that holds nothing."
+  },
+  {
+    "id": "functions",
+    "title": "Functions and calls",
+    "summary": "Calling a value that is not a function."
+  },
+  {
+    "id": "syntax",
+    "title": "Syntax and parsing",
+    "summary": "Code the parser cannot read, usually because a piece is missing or extra."
+  },
+  {
+    "id": "modules",
+    "title": "Modules and files",
+    "summary": "How Node finds the files and packages you import."
+  },
+  {
+    "id": "async",
+    "title": "Async and promises",
+    "summary": "Code that waits, and what happens when the wait is in the wrong place."
+  },
+  {
+    "id": "recursion",
+    "title": "Recursion and the call stack",
+    "summary": "A function that keeps calling itself until the stack runs out."
+  },
+  {
+    "id": "iteration",
+    "title": "Iteration",
+    "summary": "Looping over values that JavaScript cannot walk through."
+  },
+  {
+    "id": "data-formats",
+    "title": "Data formats",
+    "summary": "Turning text into data, and what happens when the text is not the format you expected."
+  },
+  {
+    "id": "filesystem",
+    "title": "Files and paths",
+    "summary": "Reading or writing a file that is missing or not reachable."
+  }
+]

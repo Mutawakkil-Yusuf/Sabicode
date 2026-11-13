@@ -1,18 +1,26 @@
 {
   "id": "unexpected-token",
-  "match": "^SyntaxError: Unexpected token '(.+?)'",
+  "language": "javascript",
+  "concept": "syntax",
+  "match": "^SyntaxError: Unexpected token '(.+?)'$",
   "samples": [
     "SyntaxError: Unexpected token ';'"
   ],
-  "reviewed": false,
+  "review": {
+    "status": "draft",
+    "reviewers": [],
+    "contentHash": null
+  },
   "what": "The parser found `{1}` where it expected something else. A missing comma, bracket, or quote earlier in the line usually causes this.",
   "tone": {
     "street": {
+      "headline": "JavaScript no expect `{1}`",
       "happen": "JavaScript see `{1}` for place wey e no expect am. Something before am dey miss or dey extra.",
       "todo": "Look the line wey the error point to, and the one before am. Check for missing comma, bracket or quote.",
       "learn": "A \"token\" na one small piece of code, like a word, bracket or symbol."
     },
     "normal": {
+      "headline": "JavaScript no expect `{1}`",
       "happen": "JavaScript meet `{1}` where e no expect am. Maybe something before am dey miss.",
       "todo": "Look the line wey the error point to, and the one before am. Check for missing comma, bracket or quote.",
       "learn": "A \"token\" na one small piece of code, like a word, bracket or symbol."

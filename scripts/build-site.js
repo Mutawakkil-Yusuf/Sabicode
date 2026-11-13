@@ -3,17 +3,24 @@
 
 const fs = require('node:fs');
 const path = require('node:path');
+const { conceptMap, loadConcepts } = require('../src/concepts');
 const { loadDictionary } = require('../src/dictionary');
 
-// Single place to change the public domain and the pilot inbox.
-const SITE_URL = (process.env.SABI_SITE_URL || 'https://sabicode.dev').replace(/\/+$/, '');
-const SCHOOLS_EMAIL = process.env.SABI_SCHOOLS_EMAIL || 'schools@sabicode.dev';
-const SCHOOLS_FORM_ACTION = `mailto:${SCHOOLS_EMAIL}`;
-const PIDGIN_EMAIL = process.env.SABI_PIDGIN_EMAIL || 'pidgin@sabicode.dev';
+// Single place to change the public site and the contact links.
+const SITE_URL = (
+  process.env.SABI_SITE_URL || 'https://mutawakkil-yusuf.github.io/Sabicode'
+).replace(/\/+$/, '');
+const REPO_URL = 'https://github.com/Mutawakkil-Yusuf/Sabicode';
+const SCHOOLS_URL =
+  process.env.SABI_SCHOOLS_URL ||
+  `${REPO_URL}/issues/new?labels=schools&title=%5BSchool%20pilot%5D%20`;
+const PIDGIN_URL =
+  process.env.SABI_PIDGIN_URL ||
+  `${REPO_URL}/issues/new?labels=pidgin&title=%5BPidgin%5D%20`;
 
 const SITE_TITLE = 'Sabicode — Your errors, finally in your language.';
 const SITE_DESCRIPTION =
-  'Sabicode runs your JavaScript and explains errors in Nigerian Pidgin, right under the original message. Zero dependencies, Node 18+, street and normal tones.';
+  'Sabicode runs your JavaScript and puts errors in Nigerian Pidgin, with the original English kept close. Zero dependencies, Node 18+, street and normal tones.';
 const OG_IMAGE = `${SITE_URL}/assets/og.svg`;
 const OG_IMAGE_ALT = 'Sabicode, with Polly Glot the parrot and the command npx sabicode app.js';
 
@@ -27,6 +34,7 @@ if (SITE_DIR === ROOT || SITE_DIR === path.parse(SITE_DIR).root) {
 }
 
 const entries = loadDictionary();
+const concepts = conceptMap(loadConcepts());
 const template = fs.readFileSync(TEMPLATE_PATH, 'utf8');
 const css = fs.readFileSync(CSS_PATH, 'utf8');
 
@@ -80,14 +88,21 @@ function labelFor(id) {
   return words.charAt(0).toUpperCase() + words.slice(1);
 }
 
+function errorNameFor(entry) {
+  const match = entry.samples[0].match(/^(\w*Error)/);
+  return match ? match[1] : 'Error';
+}
+
 function toneData(entry, captures) {
   const data = {};
+  const errorName = errorNameFor(entry);
 
   for (const tone of ['street', 'normal']) {
     const copy = entry.tone[tone];
     const todo = fill(copy.todo, captures);
     const fix = entry.fix_code ? ` \`${fill(entry.fix_code, captures)}\`` : '';
     data[tone] = {
+      hd: inline(`${errorName}: ${copy.headline}`, captures),
       h: inline(copy.happen, captures),
       t: inline(todo + fix, captures),
       l: inline(copy.learn, captures)
@@ -163,7 +178,7 @@ function footer() {
   return `<div class="wrap">
   <footer>
     <span>Sabicode is in development. Pidgin explanations are a draft until reviewers sign off.</span>
-    <span>Pidgin reviewers: <span class="credit-placeholder">[reviewer credits placeholder]</span> · <a href="mailto:${PIDGIN_EMAIL}?subject=Suggest%20a%20Pidgin%20phrase">Suggest a phrase</a></span>
+    <span>Pidgin reviewers: <span class="credit-placeholder">[reviewer credits placeholder]</span> · <a href="${PIDGIN_URL}">Suggest a phrase</a></span>
   </footer>
 </div>`;
 }
@@ -184,7 +199,8 @@ function talkScript() {
 }
 
 function gridLink(item) {
-  return `<a href="errors/${item.entry.id}.html"><span class="g-err">${escapeHtml(item.sample)}</span><span class="g-go">Open page →</span></a>`;
+  const concept = concepts.get(item.entry.concept);
+  return `<a href="errors/${item.entry.id}.html"><span class="g-concept">${escapeHtml(concept.title)}</span><span class="g-err">${escapeHtml(item.sample)}</span><span class="g-go">Open page →</span></a>`;
 }
 
 function demoData() {
@@ -201,6 +217,7 @@ function toneCard(tone, copy) {
   return `<article class="tone-card">
   <h3>${tone}</h3>
   <div class="pg">
+    <div class="hd">🦜 ${copy.hd}</div>
     <div><b>Wetin happen:</b> ${copy.h}</div>
     <div><b>Wetin to do:</b> ${copy.t}</div>
     <div><b>Learn am:</b> ${copy.l}</div>
@@ -212,6 +229,13 @@ function errorPage(item) {
   const { entry, captures, sample, tones, what, description } = item;
   const title = `${sample} — Sabicode`;
   const canonical = `${SITE_URL}/errors/${entry.id}.html`;
+  const reviewers = entry.review.reviewers
+    .map((reviewer) => escapeHtml(reviewer.name))
+    .join(', ');
+  const reviewLine = reviewers
+    ? `Pidgin review: <strong>${entry.reviewStatus}</strong> · ${reviewers}`
+    : `Pidgin review: <strong>${entry.reviewStatus}</strong>`;
+  const concept = concepts.get(entry.concept);
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -255,6 +279,9 @@ ${svgDefs()}
       </div>
     </section>
 
+    <p class="concept-state">Concept: <strong>${escapeHtml(concept.title)}</strong></p>
+    <p class="review-state">${reviewLine}</p>
+
     <p class="back-bottom"><a class="btn alt" href="../index.html">Back to all errors</a></p>
   </main>
 </div>
@@ -287,9 +314,8 @@ function renderIndex() {
     ERROR_COUNT: String(entries.length),
     ERRORS_GRID: data.map(gridLink).join('\n      '),
     DEMO_DATA: demo,
-    SCHOOLS_ACTION: escapeHtml(SCHOOLS_FORM_ACTION),
-    SCHOOLS_EMAIL: escapeHtml(SCHOOLS_EMAIL),
-    PIDGIN_EMAIL: escapeHtml(PIDGIN_EMAIL)
+    SCHOOLS_URL: escapeHtml(SCHOOLS_URL),
+    PIDGIN_URL: escapeHtml(PIDGIN_URL)
   };
 
   let html = template;
@@ -368,6 +394,15 @@ function deployNotes() {
 The site is static. Every page is generated by \`node scripts/build-site.js\` into
 \`site/\`. No server, database, or environment variables are required.
 
+## GitHub Pages
+
+The \`Pages\` workflow builds \`site/\` and deploys it on every push to \`main\`.
+In the repository settings, set **Pages → Build and deployment → Source** to
+**GitHub Actions**.
+
+The default canonical URL is \`${SITE_URL}\`. Set \`SABI_SITE_URL\` when building
+for a custom domain.
+
 ## Cloudflare Pages
 
 - Build command: \`node scripts/build-site.js\`
@@ -381,13 +416,12 @@ The site is static. Every page is generated by \`node scripts/build-site.js\` in
 
 ## After the first deploy
 
-1. Change \`SITE_URL\` at the top of \`scripts/build-site.js\` to the real domain.
+1. Set \`SITE_URL\` (or \`SABI_SITE_URL\`) to the final URL.
 2. Rebuild and redeploy so canonical URLs, Open Graph tags, and the sitemap use
-   the new domain.
-3. Change \`SCHOOLS_EMAIL\` and \`PIDGIN_EMAIL\` in the same place if the pilot and
-   Pidgin-review inboxes are different.
-4. Point the domain at the host and confirm \`/sitemap.xml\` and \`/robots.txt\`
-   load.
+   the new URL.
+3. Change \`SCHOOLS_URL\` and \`PIDGIN_URL\` in the same place if the pilot and
+   Pidgin-review issue links are different.
+4. Confirm \`/sitemap.xml\` and \`/robots.txt\` load.
 `;
 }
 

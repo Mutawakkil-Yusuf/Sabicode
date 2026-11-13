@@ -1,18 +1,26 @@
 {
   "id": "already-declared",
+  "language": "javascript",
+  "concept": "bindings",
   "match": "^SyntaxError: Identifier '(\\w+)' has already been declared",
   "samples": [
     "SyntaxError: Identifier 'value' has already been declared"
   ],
-  "reviewed": false,
+  "review": {
+    "status": "draft",
+    "reviewers": [],
+    "contentHash": null
+  },
   "what": "The same scope already has a declaration named `{1}`. JavaScript does not allow two `let`, `const`, or `var` declarations with the same name in one scope.",
   "tone": {
     "street": {
+      "headline": "You declare `{1}` two times",
       "happen": "You don already use the name `{1}` for another thing. Two things no fit carry the same name for the same place.",
       "todo": "Rename one of them, or delete the extra line.",
       "learn": "To \"declare\" na to create a variable with `let`, `const` or `var`."
     },
     "normal": {
+      "headline": "You declare `{1}` two times",
       "happen": "You declare `{1}` two times for the same place. JavaScript no dey allow that.",
       "todo": "Rename one of them, or delete the extra line.",
       "learn": "To \"declare\" na to create a variable with `let`, `const` or `var`."

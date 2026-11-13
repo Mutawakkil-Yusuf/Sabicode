@@ -1,51 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://sabicode.dev/</loc>
+    <loc>https://mutawakkil-yusuf.github.io/Sabicode/</loc>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://sabicode.dev/errors/ref-not-defined.html</loc>
+    <loc>https://mutawakkil-yusuf.github.io/Sabicode/errors/ref-not-defined.html</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sabicode.dev/errors/undefined-property.html</loc>
+    <loc>https://mutawakkil-yusuf.github.io/Sabicode/errors/undefined-property.html</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sabicode.dev/errors/not-a-function.html</loc>
+    <loc>https://mutawakkil-yusuf.github.io/Sabicode/errors/not-a-function.html</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sabicode.dev/errors/unexpected-end.html</loc>
+    <loc>https://mutawakkil-yusuf.github.io/Sabicode/errors/unexpected-end.html</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sabicode.dev/errors/const-assign.html</loc>
+    <loc>https://mutawakkil-yusuf.github.io/Sabicode/errors/const-assign.html</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sabicode.dev/errors/module-not-found-package.html</loc>
+    <loc>https://mutawakkil-yusuf.github.io/Sabicode/errors/module-not-found-package.html</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sabicode.dev/errors/module-not-found-path.html</loc>
+    <loc>https://mutawakkil-yusuf.github.io/Sabicode/errors/module-not-found-path.html</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sabicode.dev/errors/already-declared.html</loc>
+    <loc>https://mutawakkil-yusuf.github.io/Sabicode/errors/import-outside-module.html</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sabicode.dev/errors/unexpected-token.html</loc>
+    <loc>https://mutawakkil-yusuf.github.io/Sabicode/errors/already-declared.html</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sabicode.dev/errors/invalid-token.html</loc>
+    <loc>https://mutawakkil-yusuf.github.io/Sabicode/errors/unexpected-token.html</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sabicode.dev/errors/tdz.html</loc>
+    <loc>https://mutawakkil-yusuf.github.io/Sabicode/errors/invalid-token.html</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mutawakkil-yusuf.github.io/Sabicode/errors/tdz.html</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mutawakkil-yusuf.github.io/Sabicode/errors/await-outside-async.html</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mutawakkil-yusuf.github.io/Sabicode/errors/max-call-stack.html</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mutawakkil-yusuf.github.io/Sabicode/errors/not-iterable.html</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mutawakkil-yusuf.github.io/Sabicode/errors/json-parse.html</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mutawakkil-yusuf.github.io/Sabicode/errors/enoent.html</loc>
     <priority>0.7</priority>
   </url>
 </urlset>

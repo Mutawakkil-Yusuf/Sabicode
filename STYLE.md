@@ -8,5 +8,7 @@ These rules apply to every Pidgin string in `dictionary/`.
 4. Playful, but the joke is never on the user. Never write anything that says or implies the user is dull, lazy, or careless.
 5. Fixed layout: Wetin happen, Wetin to do, Learn am.
 6. Banned: text-speak (`u`, `ur`, `pls`), and any blame phrasing such as "you forgot" or "your fault".
+7. A `headline` is one short line. It names the action or the thing that broke; the renderer adds the English error class.
+8. An entry teaches one concept. Tag it with an id from `concepts/concepts.json`; if the concept does not exist, add it with a title and a one-sentence summary first.
 
 The Pidgin in this repository is a draft until a Pidgin speaker reviews it.

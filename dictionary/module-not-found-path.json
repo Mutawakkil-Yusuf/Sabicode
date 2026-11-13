@@ -1,18 +1,26 @@
 {
   "id": "module-not-found-path",
+  "language": "javascript",
+  "concept": "modules",
   "match": "^Error: Cannot find module '([./][^']*)'",
   "samples": [
     "Error: Cannot find module './missing-config'"
   ],
-  "reviewed": false,
+  "review": {
+    "status": "draft",
+    "reviewers": [],
+    "contentHash": null
+  },
   "what": "Node could not resolve the file path `{1}`. The file may not exist, or the relative path may point to the wrong folder.",
   "tone": {
     "street": {
+      "headline": "Node no find file `{1}`",
       "happen": "You ask Node to bring `{1}`, but the file no dey that place.",
       "todo": "Check the file name and the folder. `./` mean \"this same folder\".",
       "learn": "A \"path\" na the address of a file for your computer."
     },
     "normal": {
+      "headline": "Node no find file `{1}`",
       "happen": "Node no fit find the file `{1}`.",
       "todo": "Check the file name and the folder. `./` mean \"this same folder\".",
       "learn": "A \"path\" na the address of a file for your computer."

@@ -1,0 +1,30 @@
+{
+  "id": "import-outside-module",
+  "language": "javascript",
+  "concept": "modules",
+  "match": "^SyntaxError: Cannot use import statement outside a module$",
+  "samples": [
+    "SyntaxError: Cannot use import statement outside a module"
+  ],
+  "fix_code": "{ \"type\": \"module\" }",
+  "review": {
+    "status": "draft",
+    "reviewers": [],
+    "contentHash": null
+  },
+  "what": "Node treated the file as CommonJS, but `import` is ES module syntax. Rename the file to `.mjs`, set `\"type\": \"module\"` in `package.json`, or use `require` instead.",
+  "tone": {
+    "street": {
+      "headline": "You use `import` for CommonJS file",
+      "happen": "You use `import`, but Node run this file as CommonJS. `import` only work inside a module.",
+      "todo": "Use `require`, or tell Node say the file na module:",
+      "learn": "CommonJS use `require`. ES modules use `import`."
+    },
+    "normal": {
+      "headline": "`import` no work for CommonJS file",
+      "happen": "You use `import` for one file wey Node dey run as CommonJS. `import` need a module.",
+      "todo": "Use `require`, or make the file a module:",
+      "learn": "CommonJS and ES modules get different import syntax."
+    }
+  }
+}

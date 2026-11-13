@@ -2,6 +2,7 @@
 
 const fs = require('node:fs');
 const path = require('node:path');
+const { reviewState } = require('./review');
 
 const DICTIONARY_DIR = path.join(__dirname, '..', 'dictionary');
 
@@ -14,10 +15,16 @@ const ENTRY_ORDER = [
   'const-assign',
   'module-not-found-package',
   'module-not-found-path',
+  'import-outside-module',
   'already-declared',
   'unexpected-token',
   'invalid-token',
-  'tdz'
+  'tdz',
+  'await-outside-async',
+  'max-call-stack',
+  'not-iterable',
+  'json-parse',
+  'enoent'
 ];
 
 function loadDictionary(dir = DICTIONARY_DIR) {
@@ -30,11 +37,15 @@ function loadDictionary(dir = DICTIONARY_DIR) {
     .map((file) => {
       const fullPath = path.join(dir, file);
       const data = JSON.parse(fs.readFileSync(fullPath, 'utf8'));
+      const state = reviewState(data);
       return {
         ...data,
         file,
         fullPath,
-        regex: new RegExp(data.match)
+        regex: new RegExp(data.match),
+        currentHash: state.currentHash,
+        reviewed: state.reviewed,
+        reviewStatus: state.status
       };
     })
     .sort((a, b) => {
