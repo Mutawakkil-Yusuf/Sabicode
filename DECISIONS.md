@@ -9,7 +9,7 @@ room for interpretation.
   concept schema, the review workflow, and the first concept-first dictionary
   expansion. `0.2.1` refreshes the packaged README. `0.3.0` adds the optional
   ESLint scan adapter, the ESLint rule catalog, and the live browser demo.
-  Versions through `0.2.1` are published on npm as `sabicode`.
+  Versions through `0.3.0` are published on npm as `sabicode`.
 - The CLI is CommonJS and uses only Node built-ins. There are no runtime
   dependencies.
 - Node 18, 20, and 22 are the supported and tested versions.

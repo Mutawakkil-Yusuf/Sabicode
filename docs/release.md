@@ -16,7 +16,7 @@ uses GitHub's OIDC identity instead of a long-lived token.
 
 ## Repository setup
 
-This was completed for `0.2.0` and `0.2.1`; keep it for reference.
+This was completed for `0.2.0`, `0.2.1`, and `0.3.0`; keep it for reference.
 
 1. Create a granular access token with **All packages: Read and write**.
    Staged publishing does not require the 2FA-bypass option.
@@ -46,10 +46,11 @@ This was completed for `0.2.0` and `0.2.1`; keep it for reference.
    npm run review:verify
    ```
 
-3. Commit the release, then tag it:
+3. Commit the release, then tag it. Replace `<version>` with the version in
+   `package.json`:
 
    ```sh
-   git tag v0.3.0
+   git tag v<version>
    git push origin main --tags
    ```
 
@@ -63,7 +64,7 @@ This was completed for `0.2.0` and `0.2.1`; keep it for reference.
 
    ```sh
    npm view sabicode version
-   npx sabicode@0.3.0 --version
+   npx sabicode@<version> --version
    ```
 
 7. Create a GitHub release from the tag and paste the matching changelog
