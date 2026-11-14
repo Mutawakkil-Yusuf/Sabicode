@@ -35,9 +35,8 @@ Everything after the script path goes to your script untouched:
 sabi app.js --port 3000
 ```
 
-> Sabicode is not published to npm yet. `npx sabicode app.js` is the command it
-> will use once it is. Until then, clone this repository and run
-> `node bin/sabi.js app.js`.
+> Sabicode is published on npm as [`sabicode`](https://www.npmjs.com/package/sabicode).
+> You can also clone this repository and run `node bin/sabi.js app.js`.
 
 ## What it looks like
 
@@ -213,8 +212,8 @@ npm run review -- list
 The site is generated into `site/` from the dictionary. The build command and
 output directory are also in `site/DEPLOY.md`. Contributor guidance is in
 `CONTRIBUTING.md`. Maintainers should follow `docs/release.md` for versioning,
-tagging, and the provenance publish workflow. Release notes live in
-`CHANGELOG.md`.
+tagging, staged npm approval, and the provenance publish workflow. Release notes
+live in `CHANGELOG.md`.
 
 ## Roadmap
 
