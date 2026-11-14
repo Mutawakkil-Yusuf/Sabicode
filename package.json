@@ -1,6 +1,6 @@
 {
   "name": "sabicode",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Run JavaScript with Node and read errors in Nigerian Pidgin, with the original English kept close.",
   "license": "MIT",
   "author": "Sabicode contributors",
