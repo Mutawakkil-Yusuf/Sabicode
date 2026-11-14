@@ -7,9 +7,15 @@
     "'value' is already defined."
   ],
   "review": {
-    "status": "draft",
-    "reviewers": [],
-    "contentHash": null
+    "status": "reviewed",
+    "reviewers": [
+      {
+        "name": "Mutawakkil Yusuf",
+        "github": "Mutawakkil-Yusuf",
+        "date": "2026-11-14"
+      }
+    ],
+    "contentHash": "sha256:2b259914ca11b51689378cdc9d4840fb528e7373e5ab102df82f49c40542509d"
   },
   "what": "ESLint found the same variable declared more than once in one scope.",
   "tone": {

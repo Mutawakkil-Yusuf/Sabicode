@@ -7,9 +7,15 @@
     "ReferenceError: Cannot access 'value' before initialization"
   ],
   "review": {
-    "status": "draft",
-    "reviewers": [],
-    "contentHash": null
+    "status": "reviewed",
+    "reviewers": [
+      {
+        "name": "Mutawakkil Yusuf",
+        "github": "Mutawakkil-Yusuf",
+        "date": "2026-11-14"
+      }
+    ],
+    "contentHash": "sha256:ed656b789408449b05a0aefb42ea3ba570b83dde1b852e59dce01dcbe3b3300f"
   },
   "what": "The code used `{1}` before the line that initializes it. Variables declared with `let` and `const` exist but cannot be read until their declaration runs.",
   "tone": {

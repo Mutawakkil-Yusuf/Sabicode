@@ -7,9 +7,15 @@
     "'imported' is read-only."
   ],
   "review": {
-    "status": "draft",
-    "reviewers": [],
-    "contentHash": null
+    "status": "reviewed",
+    "reviewers": [
+      {
+        "name": "Mutawakkil Yusuf",
+        "github": "Mutawakkil-Yusuf",
+        "date": "2026-11-14"
+      }
+    ],
+    "contentHash": "sha256:7d8fec49d15f0ca3986a22e71c2f248c92b7baa745eb5cfbe52accc3099fb5e5"
   },
   "what": "An assignment targets an imported binding or an imported namespace. Imports are read-only.",
   "tone": {

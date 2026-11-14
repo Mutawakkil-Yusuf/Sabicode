@@ -7,9 +7,15 @@
     "'count' is assigned a value but never used."
   ],
   "review": {
-    "status": "draft",
-    "reviewers": [],
-    "contentHash": null
+    "status": "reviewed",
+    "reviewers": [
+      {
+        "name": "Mutawakkil Yusuf",
+        "github": "Mutawakkil-Yusuf",
+        "date": "2026-11-14"
+      }
+    ],
+    "contentHash": "sha256:0950c5635fd8b5bf52764ec42926ba62ac93e925a84298b9374e302450b42128"
   },
   "what": "ESLint found a variable that is declared but never used.",
   "tone": {

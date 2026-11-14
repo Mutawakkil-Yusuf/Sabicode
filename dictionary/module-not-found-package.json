@@ -8,9 +8,15 @@
   ],
   "fix_code": "npm install {1}",
   "review": {
-    "status": "draft",
-    "reviewers": [],
-    "contentHash": null
+    "status": "reviewed",
+    "reviewers": [
+      {
+        "name": "Mutawakkil Yusuf",
+        "github": "Mutawakkil-Yusuf",
+        "date": "2026-11-14"
+      }
+    ],
+    "contentHash": "sha256:e7d5ceb6ff888c4c1565b5a567bec828434aba493f99d674f175da86cb0e7ddb"
   },
   "what": "Node could not resolve the package `{1}` from this project. It may not be installed, or the package name may be misspelled.",
   "tone": {

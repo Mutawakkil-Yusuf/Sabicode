@@ -7,9 +7,15 @@
     "SyntaxError: Invalid or unexpected token"
   ],
   "review": {
-    "status": "draft",
-    "reviewers": [],
-    "contentHash": null
+    "status": "reviewed",
+    "reviewers": [
+      {
+        "name": "Mutawakkil Yusuf",
+        "github": "Mutawakkil-Yusuf",
+        "date": "2026-11-14"
+      }
+    ],
+    "contentHash": "sha256:5fdf97ebe3e4cd98084df8c81ef0d9710e71c769ce2377b98518852eaf09fdc3"
   },
   "what": "The parser found a character it cannot read as JavaScript. An unclosed quote or a character pasted from another program is a common cause.",
   "tone": {

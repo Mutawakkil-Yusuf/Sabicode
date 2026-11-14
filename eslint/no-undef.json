@@ -8,9 +8,15 @@
   ],
   "fix_code": "const {1} = value;",
   "review": {
-    "status": "draft",
-    "reviewers": [],
-    "contentHash": null
+    "status": "reviewed",
+    "reviewers": [
+      {
+        "name": "Mutawakkil Yusuf",
+        "github": "Mutawakkil-Yusuf",
+        "date": "2026-11-14"
+      }
+    ],
+    "contentHash": "sha256:f82e44a4b4ec896b1b5a67d4f2b95fc070ff0506b095631e73b9350b9c81a3d7"
   },
   "what": "ESLint found a name that is used but never declared or imported.",
   "tone": {

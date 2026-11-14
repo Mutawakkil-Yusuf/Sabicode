@@ -8,9 +8,15 @@
   ],
   "fix_code": "a {1} b",
   "review": {
-    "status": "draft",
-    "reviewers": [],
-    "contentHash": null
+    "status": "reviewed",
+    "reviewers": [
+      {
+        "name": "Mutawakkil Yusuf",
+        "github": "Mutawakkil-Yusuf",
+        "date": "2026-11-14"
+      }
+    ],
+    "contentHash": "sha256:87ecee61d337188b27cab8910aad1d03a68bde37d8d83aa6d2b925f54cce7586"
   },
   "what": "The code uses loose equality. JavaScript converts the values before comparing them, which can produce surprising results.",
   "tone": {

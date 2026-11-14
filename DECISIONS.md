@@ -109,6 +109,9 @@ room for interpretation.
   installed copy of that package.
 - Each entry has a `review` record: `status`, `reviewers`, `contentHash`, and an
   optional `notes` string.
+- The initial 30-entry catalog was signed off on 2026-11-14 by Mutawakkil Yusuf.
+  New or edited entries start as drafts, and any later edit to a signed entry
+  marks it stale automatically.
 - `reviewed` is computed from the record and the current content hash; it is not
   stored as a boolean.
 - The hash covers the id, match, samples, `fix_code`, and both tone objects. Any

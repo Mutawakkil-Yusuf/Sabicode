@@ -8,9 +8,15 @@
   ],
   "fix_code": "console.log(typeof {1});",
   "review": {
-    "status": "draft",
-    "reviewers": [],
-    "contentHash": null
+    "status": "reviewed",
+    "reviewers": [
+      {
+        "name": "Mutawakkil Yusuf",
+        "github": "Mutawakkil-Yusuf",
+        "date": "2026-11-14"
+      }
+    ],
+    "contentHash": "sha256:ba34c796830f4bfd532f5a9871394caa0fbe162cd9b1177c664f24e151f71cd1"
   },
   "what": "The name `{1}` exists, but its value is not a function. JavaScript can only call values that are functions, so it throws a TypeError.",
   "tone": {

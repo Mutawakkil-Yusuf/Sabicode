@@ -7,9 +7,15 @@
     "SyntaxError: Identifier 'value' has already been declared"
   ],
   "review": {
-    "status": "draft",
-    "reviewers": [],
-    "contentHash": null
+    "status": "reviewed",
+    "reviewers": [
+      {
+        "name": "Mutawakkil Yusuf",
+        "github": "Mutawakkil-Yusuf",
+        "date": "2026-11-14"
+      }
+    ],
+    "contentHash": "sha256:2ea0f7534441c3de20040e2b754f7ae426750602f8373a7ccea42888dd0aa77d"
   },
   "what": "The same scope already has a declaration named `{1}`. JavaScript does not allow two `let`, `const`, or `var` declarations with the same name in one scope.",
   "tone": {

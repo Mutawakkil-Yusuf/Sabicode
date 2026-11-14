@@ -7,9 +7,15 @@
     "SyntaxError: Unexpected token ';'"
   ],
   "review": {
-    "status": "draft",
-    "reviewers": [],
-    "contentHash": null
+    "status": "reviewed",
+    "reviewers": [
+      {
+        "name": "Mutawakkil Yusuf",
+        "github": "Mutawakkil-Yusuf",
+        "date": "2026-11-14"
+      }
+    ],
+    "contentHash": "sha256:2a2a9720ba62b6b74a745e11f322b0fec45abfb1ef268b131faea2b7cff6338b"
   },
   "what": "The parser found `{1}` where it expected something else. A missing comma, bracket, or quote earlier in the line usually causes this.",
   "tone": {

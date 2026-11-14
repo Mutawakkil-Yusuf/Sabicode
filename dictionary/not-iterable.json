@@ -8,9 +8,15 @@
   ],
   "fix_code": "for (const item of [1, 2, 3])",
   "review": {
-    "status": "draft",
-    "reviewers": [],
-    "contentHash": null
+    "status": "reviewed",
+    "reviewers": [
+      {
+        "name": "Mutawakkil Yusuf",
+        "github": "Mutawakkil-Yusuf",
+        "date": "2026-11-14"
+      }
+    ],
+    "contentHash": "sha256:7d391fc8acc1f40ab576f82de6d4f29aad4f178d162a120c9030ae6df07baed2"
   },
   "what": "The code used `for...of` on `{1}`, but that value is not iterable. Use an array, string, Map, Set, or another iterable.",
   "tone": {

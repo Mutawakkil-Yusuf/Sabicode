@@ -50,6 +50,30 @@ function escapeHtml(value) {
     .replace(/"/g, '&quot;');
 }
 
+function reviewerCredits() {
+  const seen = new Map();
+
+  for (const entry of [...entries, ...eslintEntries]) {
+    for (const reviewer of entry.review.reviewers || []) {
+      const key = reviewer.github
+        ? `github:${reviewer.github.toLowerCase()}`
+        : `name:${reviewer.name}`;
+      if (!seen.has(key)) seen.set(key, reviewer);
+    }
+  }
+
+  if (seen.size === 0) return 'No reviewer yet';
+
+  return [...seen.values()]
+    .map((reviewer) => {
+      const name = escapeHtml(reviewer.name);
+      return reviewer.github
+        ? `<a href="https://github.com/${encodeURIComponent(reviewer.github)}">${name}</a>`
+        : name;
+    })
+    .join(', ');
+}
+
 function escapeXml(value) {
   return String(value)
     .replace(/&/g, '&amp;')
@@ -181,8 +205,8 @@ function pollySvg() {
 function footer() {
   return `<div class="wrap">
   <footer>
-    <span>Sabicode is in development. Pidgin explanations are a draft until reviewers sign off.</span>
-    <span>Pidgin reviewers: <span class="credit-placeholder">[reviewer credits placeholder]</span> · <a href="${PIDGIN_URL}">Suggest a phrase</a></span>
+    <span>Sabicode is in development. Pidgin explanations are reviewed by native speakers.</span>
+    <span>Pidgin reviewers: ${reviewerCredits()} · <a href="${PIDGIN_URL}">Suggest a phrase</a></span>
   </footer>
 </div>`;
 }
@@ -426,7 +450,8 @@ function renderIndex() {
     REPO_URL: escapeHtml(REPO_URL),
     NPM_URL: escapeHtml(NPM_URL),
     SCHOOLS_URL: escapeHtml(SCHOOLS_URL),
-    PIDGIN_URL: escapeHtml(PIDGIN_URL)
+    PIDGIN_URL: escapeHtml(PIDGIN_URL),
+    REVIEWER_CREDITS: reviewerCredits()
   };
 
   let html = template;
@@ -456,7 +481,8 @@ function renderDemo() {
     SCAN_DEMO: jsonForScript(scanDemoData()),
     REPO_URL: escapeHtml(REPO_URL),
     NPM_URL: escapeHtml(NPM_URL),
-    PIDGIN_URL: escapeHtml(PIDGIN_URL)
+    PIDGIN_URL: escapeHtml(PIDGIN_URL),
+    REVIEWER_CREDITS: reviewerCredits()
   };
 
   let html = demoTemplate;

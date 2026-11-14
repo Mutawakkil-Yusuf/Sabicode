@@ -7,9 +7,15 @@
     "Unreachable code."
   ],
   "review": {
-    "status": "draft",
-    "reviewers": [],
-    "contentHash": null
+    "status": "reviewed",
+    "reviewers": [
+      {
+        "name": "Mutawakkil Yusuf",
+        "github": "Mutawakkil-Yusuf",
+        "date": "2026-11-14"
+      }
+    ],
+    "contentHash": "sha256:3c44ef0af83422e3c5ae6b77c2bab7ef078251b07de31b813b9a22af741aae97"
   },
   "what": "This line can never run because an earlier statement always exits, returns, or throws.",
   "tone": {

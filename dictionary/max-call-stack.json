@@ -8,9 +8,15 @@
   ],
   "fix_code": "if (n <= 0) return;",
   "review": {
-    "status": "draft",
-    "reviewers": [],
-    "contentHash": null
+    "status": "reviewed",
+    "reviewers": [
+      {
+        "name": "Mutawakkil Yusuf",
+        "github": "Mutawakkil-Yusuf",
+        "date": "2026-11-14"
+      }
+    ],
+    "contentHash": "sha256:bf660d930c8f63ee8e1cdc2aca80048c46af3736c08c535273e110290d359b17"
   },
   "what": "A recursive function kept calling itself without reaching a base case, so the call stack filled up. Add a condition that stops the recursion.",
   "tone": {

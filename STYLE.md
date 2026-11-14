@@ -12,4 +12,5 @@ These rules apply to every Pidgin string in `dictionary/` and `eslint/`.
 8. An entry teaches one concept. Tag it with an id from `concepts/concepts.json`; if the concept does not exist, add it with a title and a one-sentence summary first.
 9. ESLint entries use the same layout and tone rules. The headline names the mistake, not the rule id; the rule id stays in the location line and the English message stays in `English:`.
 
-The Pidgin in this repository is a draft until a Pidgin speaker reviews it.
+New or edited Pidgin is a draft until a Pidgin speaker reviews it. The current
+catalog is signed off.

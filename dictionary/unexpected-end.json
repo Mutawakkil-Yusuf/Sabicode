@@ -7,9 +7,15 @@
     "SyntaxError: Unexpected end of input"
   ],
   "review": {
-    "status": "draft",
-    "reviewers": [],
-    "contentHash": null
+    "status": "reviewed",
+    "reviewers": [
+      {
+        "name": "Mutawakkil Yusuf",
+        "github": "Mutawakkil-Yusuf",
+        "date": "2026-11-14"
+      }
+    ],
+    "contentHash": "sha256:d21788b7d1f07cac3ab3d966c252b2ab14808054764ffdc9191b9a5432e7545c"
   },
   "what": "The parser reached the end of the file while it was still inside a block. An opening `{`, `(`, or `[` is missing its closing partner.",
   "tone": {

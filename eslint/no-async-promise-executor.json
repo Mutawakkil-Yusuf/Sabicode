@@ -8,9 +8,15 @@
   ],
   "fix_code": "new Promise((resolve) => { ... })",
   "review": {
-    "status": "draft",
-    "reviewers": [],
-    "contentHash": null
+    "status": "reviewed",
+    "reviewers": [
+      {
+        "name": "Mutawakkil Yusuf",
+        "github": "Mutawakkil-Yusuf",
+        "date": "2026-11-14"
+      }
+    ],
+    "contentHash": "sha256:4545830600b69465e95e4457e67bcfdea9d938ac6a72fe070cfde2ce8d9bbc55"
   },
   "what": "A Promise executor is marked async. Errors inside it become a rejected promise that the outer Promise never sees.",
   "tone": {

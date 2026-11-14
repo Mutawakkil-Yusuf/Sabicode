@@ -6,7 +6,8 @@ adapters.
 
 ## Pidgin speakers
 
-You do not need to write code. Read `docs/review.md`, then:
+You do not need to write code. The current catalog is signed off; new or edited
+entries start as drafts until a reviewer signs them. Read `docs/review.md`, then:
 
 - Open an issue with a better phrase.
 - Open a pull request that changes only the `tone` strings in one

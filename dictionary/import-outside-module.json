@@ -8,9 +8,15 @@
   ],
   "fix_code": "{ \"type\": \"module\" }",
   "review": {
-    "status": "draft",
-    "reviewers": [],
-    "contentHash": null
+    "status": "reviewed",
+    "reviewers": [
+      {
+        "name": "Mutawakkil Yusuf",
+        "github": "Mutawakkil-Yusuf",
+        "date": "2026-11-14"
+      }
+    ],
+    "contentHash": "sha256:394e4268b96ba973f3a60a841eaa840cb0fb0578b31013fc5a2713cda3874071"
   },
   "what": "Node treated the file as CommonJS, but `import` is ES module syntax. Rename the file to `.mjs`, set `\"type\": \"module\"` in `package.json`, or use `require` instead.",
   "tone": {

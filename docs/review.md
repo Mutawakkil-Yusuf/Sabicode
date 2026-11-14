@@ -1,9 +1,13 @@
 # Pidgin review guide
 
-Sabicode ships Pidgin copy, not generated text. Every runtime entry and every
-ESLint rule entry stays a draft until a Pidgin speaker signs it off. The sign-off
-is tied to the exact content that was reviewed, so a later edit cannot silently
-inherit an old approval.
+Sabicode ships Pidgin copy, not generated text. New or edited runtime entries and
+ESLint rule entries stay drafts until a Pidgin speaker signs them off. The
+sign-off is tied to the exact content that was reviewed, so a later edit cannot
+silently inherit an old approval.
+
+The current catalog is fully reviewed: 17 runtime entries and 13 ESLint entries,
+signed off on 2026-11-14 by Mutawakkil Yusuf
+([@Mutawakkil-Yusuf](https://github.com/Mutawakkil-Yusuf)).
 
 ## Runtime and ESLint catalogs
 

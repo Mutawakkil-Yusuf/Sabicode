@@ -8,9 +8,15 @@
   ],
   "fix_code": "thing?.a?.b",
   "review": {
-    "status": "draft",
-    "reviewers": [],
-    "contentHash": null
+    "status": "reviewed",
+    "reviewers": [
+      {
+        "name": "Mutawakkil Yusuf",
+        "github": "Mutawakkil-Yusuf",
+        "date": "2026-11-14"
+      }
+    ],
+    "contentHash": "sha256:f733645f518b1dcf64ddd92d1604d9cb4393806f09530b344fc93115ef0f4a01"
   },
   "what": "An optional chain is used in a place that still throws when the chain short-circuits to undefined.",
   "tone": {

@@ -7,9 +7,15 @@
     "Error: Cannot find module './missing-config'"
   ],
   "review": {
-    "status": "draft",
-    "reviewers": [],
-    "contentHash": null
+    "status": "reviewed",
+    "reviewers": [
+      {
+        "name": "Mutawakkil Yusuf",
+        "github": "Mutawakkil-Yusuf",
+        "date": "2026-11-14"
+      }
+    ],
+    "contentHash": "sha256:bf78eb0bbeaf4980d26a12665c8f90dc0324abcfce6cf76940402085ee0ea7e8"
   },
   "what": "Node could not resolve the file path `{1}`. The file may not exist, or the relative path may point to the wrong folder.",
   "tone": {

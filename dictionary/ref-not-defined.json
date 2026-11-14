@@ -8,9 +8,15 @@
   ],
   "fix_code": "let {1} = \"Ada\";",
   "review": {
-    "status": "draft",
-    "reviewers": [],
-    "contentHash": null
+    "status": "reviewed",
+    "reviewers": [
+      {
+        "name": "Mutawakkil Yusuf",
+        "github": "Mutawakkil-Yusuf",
+        "date": "2026-11-14"
+      }
+    ],
+    "contentHash": "sha256:84334b6176f33411f648f2a219f1d52b28d0d9f051456098bf52f9fe7be678d3"
   },
   "what": "JavaScript looked for `{1}` in the current scope and did not find it. It was never created, or it was created in a different scope.",
   "tone": {

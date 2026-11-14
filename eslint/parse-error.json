@@ -7,9 +7,15 @@
     "Parsing error: Unexpected token ;"
   ],
   "review": {
-    "status": "draft",
-    "reviewers": [],
-    "contentHash": null
+    "status": "reviewed",
+    "reviewers": [
+      {
+        "name": "Mutawakkil Yusuf",
+        "github": "Mutawakkil-Yusuf",
+        "date": "2026-11-14"
+      }
+    ],
+    "contentHash": "sha256:1d045cd2539d2ebcfe3c2ed91a659a1a6cb2a536d76034a71a9e3e36ecc1ab0f"
   },
   "what": "ESLint could not parse the file. The code has a syntax problem before any rule can run.",
   "tone": {

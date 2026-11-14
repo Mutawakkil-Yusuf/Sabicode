@@ -8,9 +8,15 @@
   ],
   "fix_code": "path.join(__dirname, \"{1}\")",
   "review": {
-    "status": "draft",
-    "reviewers": [],
-    "contentHash": null
+    "status": "reviewed",
+    "reviewers": [
+      {
+        "name": "Mutawakkil Yusuf",
+        "github": "Mutawakkil-Yusuf",
+        "date": "2026-11-14"
+      }
+    ],
+    "contentHash": "sha256:3a6c82d3102346baa9191044894b62ea1604ad345aaa2047d1b61efdb052be80"
   },
   "what": "Node tried to open `{1}`, but no file exists at that path. Check the path, the working directory, and whether the file was created.",
   "tone": {

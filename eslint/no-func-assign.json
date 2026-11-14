@@ -7,9 +7,15 @@
     "'fn' is a function."
   ],
   "review": {
-    "status": "draft",
-    "reviewers": [],
-    "contentHash": null
+    "status": "reviewed",
+    "reviewers": [
+      {
+        "name": "Mutawakkil Yusuf",
+        "github": "Mutawakkil-Yusuf",
+        "date": "2026-11-14"
+      }
+    ],
+    "contentHash": "sha256:8a963d2f7ae3903ef90bc919c516968230b984653fa863bb5004012e0fd9edf4"
   },
   "what": "An assignment targets a name that was declared as a function.",
   "tone": {

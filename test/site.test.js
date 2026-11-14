@@ -62,7 +62,8 @@ test('site: builds every page from the dictionary', (t) => {
     /href="https:\/\/github\.com\/Mutawakkil-Yusuf\/Sabicode\/issues\/new\?labels=schools/
   );
   assert.doesNotMatch(index, /mailto:/);
-  assert.match(index, /reviewer credits placeholder/);
+  assert.match(index, /Pidgin reviewers: <a href="https:\/\/github\.com\/Mutawakkil-Yusuf">Mutawakkil Yusuf<\/a>/);
+  assert.doesNotMatch(index, /reviewer credits placeholder/);
   assert.doesNotMatch(index, /prototype only/i);
   assert.doesNotMatch(index, /\{\{[A-Z_]+\}\}/);
   assert.doesNotMatch(index, /<script\s+src=/i);

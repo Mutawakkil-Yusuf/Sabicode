@@ -621,10 +621,6 @@ footer a {
   color: var(--green-d);
 }
 
-.credit-placeholder {
-  border-bottom: 1px dashed var(--muted);
-}
-
 /* Error pages */
 .error-page {
   padding: 22px 0 28px;
@@ -1698,7 +1694,7 @@ footer a {
       <article class="feature reveal">
         <span class="feature-k">04</span>
         <h3>Pidgin first, not Pidgin last.</h3>
-        <p>Nigerian Pidgin is the default, not a setting buried in a menu. Street and normal tones. Native speakers review the copy; until then, every entry is marked draft.</p>
+        <p>Nigerian Pidgin is the default, not a setting buried in a menu. Street and normal tones. Native speakers review the copy, and every sign-off records who reviewed it and the exact content.</p>
       </article>
       <article class="feature reveal">
         <span class="feature-k">05</span>
@@ -1834,9 +1830,15 @@ TypeError: Cannot read properties of undefined (reading 'name')
     }
   },
   "review": {
-    "status": "draft",
-    "reviewers": [],
-    "contentHash": null
+    "status": "reviewed",
+    "reviewers": [
+      {
+        "name": "Mutawakkil Yusuf",
+        "github": "Mutawakkil-Yusuf",
+        "date": "2026-11-14"
+      }
+    ],
+    "contentHash": "sha256:02288efa35cf10dcf5bb4769e4f78c819c5fafbae8f94a24e7c60f57b1038e5f"
   }
 }</pre>
       <p class="note">Change the Pidgin, and the review goes stale. That is how the dictionary stays honest.</p>
@@ -1909,8 +1911,8 @@ TypeError: Cannot read properties of undefined (reading 'name')
 
 <div class="wrap">
   <footer>
-    <span>Sabicode is open source. Pidgin explanations are a draft until reviewers sign off.</span>
-    <span>Pidgin reviewers: <span class="credit-placeholder">[reviewer credits placeholder]</span> · <a href="https://github.com/Mutawakkil-Yusuf/Sabicode/issues/new?labels=pidgin&amp;title=%5BPidgin%5D%20">Suggest a phrase</a> · <a href="https://github.com/Mutawakkil-Yusuf/Sabicode">GitHub</a></span>
+    <span>Sabicode is open source. Pidgin explanations are reviewed by native speakers.</span>
+    <span>Pidgin reviewers: <a href="https://github.com/Mutawakkil-Yusuf">Mutawakkil Yusuf</a> · <a href="https://github.com/Mutawakkil-Yusuf/Sabicode/issues/new?labels=pidgin&amp;title=%5BPidgin%5D%20">Suggest a phrase</a> · <a href="https://github.com/Mutawakkil-Yusuf/Sabicode">GitHub</a></span>
   </footer>
 </div>
 

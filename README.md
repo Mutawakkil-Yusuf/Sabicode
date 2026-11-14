@@ -258,11 +258,15 @@ rendering as the runtime dictionary, so an entry looks and reviews the same way.
 
 ## Help with the Pidgin
 
-The Pidgin here is a draft until a Pidgin speaker signs it off. If a phrase
-sounds wrong, too formal, or not like how people actually talk, open an issue or
-a pull request that changes only the `tone` strings (including `headline`) in
-the relevant `dictionary/` or `eslint/` file. Keep the layout and the English
-technical terms intact, then run `npm test`.
+The current catalog is signed off by a Pidgin speaker: 17 runtime entries and
+13 ESLint entries, reviewed on 2026-11-14 by Mutawakkil Yusuf
+([@Mutawakkil-Yusuf](https://github.com/Mutawakkil-Yusuf)). New or edited copy
+starts as a draft until a reviewer signs it off.
+
+If a phrase sounds wrong, too formal, or not like how people actually talk, open
+an issue or a pull request that changes only the `tone` strings (including
+`headline`) in the relevant `dictionary/` or `eslint/` file. Keep the layout and
+the English technical terms intact, then run `npm test`.
 
 A sign-off is recorded against a hash of the reviewed content. If the copy
 changes, the review becomes stale automatically:

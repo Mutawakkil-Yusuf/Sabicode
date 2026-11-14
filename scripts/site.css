@@ -589,10 +589,6 @@ footer a {
   color: var(--green-d);
 }
 
-.credit-placeholder {
-  border-bottom: 1px dashed var(--muted);
-}
-
 /* Error pages */
 .error-page {
   padding: 22px 0 28px;

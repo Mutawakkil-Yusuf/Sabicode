@@ -8,9 +8,15 @@
   ],
   "fix_code": "let {1} = ...;",
   "review": {
-    "status": "draft",
-    "reviewers": [],
-    "contentHash": null
+    "status": "reviewed",
+    "reviewers": [
+      {
+        "name": "Mutawakkil Yusuf",
+        "github": "Mutawakkil-Yusuf",
+        "date": "2026-11-14"
+      }
+    ],
+    "contentHash": "sha256:63eb405f93264337105b098ea037d3a848306c76956799babcda5a382cc34c6d"
   },
   "what": "ESLint found an assignment to a variable declared with const.",
   "tone": {

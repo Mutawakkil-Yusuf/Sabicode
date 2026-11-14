@@ -9,9 +9,15 @@
   ],
   "fix_code": "console.log(text.slice(0, 80));",
   "review": {
-    "status": "draft",
-    "reviewers": [],
-    "contentHash": null
+    "status": "reviewed",
+    "reviewers": [
+      {
+        "name": "Mutawakkil Yusuf",
+        "github": "Mutawakkil-Yusuf",
+        "date": "2026-11-14"
+      }
+    ],
+    "contentHash": "sha256:0737b40636c58affc41c0f1812b6734f2d5e687a899ab20b6a4116d1ca449584"
   },
   "what": "The code passed text to `JSON.parse`, but the text was not valid JSON. A common cause is a server returning an HTML error page instead of JSON.",
   "tone": {

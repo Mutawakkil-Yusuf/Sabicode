@@ -62,8 +62,8 @@ test('CLI: list shows every entry, its concept, and review state', () => {
   const result = run(['list']);
   assert.equal(result.status, 0);
   assert.match(result.stdout, /Covered errors: 17/);
-  assert.match(result.stdout, /ref-not-defined\s+scope\s+no/);
-  assert.match(result.stdout, /tdz\s+scope\s+no/);
+  assert.match(result.stdout, /ref-not-defined\s+scope\s+yes/);
+  assert.match(result.stdout, /tdz\s+scope\s+yes/);
   assert.equal(result.stderr, '');
 });
 
@@ -80,8 +80,8 @@ test('CLI: rules lists the ESLint catalog', () => {
   const result = run(['rules']);
   assert.equal(result.status, 0);
   assert.match(result.stdout, /ESLint rules: 13/);
-  assert.match(result.stdout, /no-undef\s+scope\s+no/);
-  assert.match(result.stdout, /eqeqeq\s+operators\s+no/);
+  assert.match(result.stdout, /no-undef\s+scope\s+yes/);
+  assert.match(result.stdout, /eqeqeq\s+operators\s+yes/);
   assert.equal(result.stderr, '');
 });
 

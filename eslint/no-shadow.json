@@ -7,9 +7,15 @@
     "'inner' is already declared in the upper scope on line 7 column 26."
   ],
   "review": {
-    "status": "draft",
-    "reviewers": [],
-    "contentHash": null
+    "status": "reviewed",
+    "reviewers": [
+      {
+        "name": "Mutawakkil Yusuf",
+        "github": "Mutawakkil-Yusuf",
+        "date": "2026-11-14"
+      }
+    ],
+    "contentHash": "sha256:c1439d167e072aa0d59ec893f08e57c0b36218faed8a0e7148dbbceee4653193"
   },
   "what": "A new variable uses a name that already exists in an outer scope. The inner variable hides the outer one.",
   "tone": {

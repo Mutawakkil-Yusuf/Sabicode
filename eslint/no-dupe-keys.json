@@ -7,9 +7,15 @@
     "Duplicate key 'a'."
   ],
   "review": {
-    "status": "draft",
-    "reviewers": [],
-    "contentHash": null
+    "status": "reviewed",
+    "reviewers": [
+      {
+        "name": "Mutawakkil Yusuf",
+        "github": "Mutawakkil-Yusuf",
+        "date": "2026-11-14"
+      }
+    ],
+    "contentHash": "sha256:b99b0f7816163ad8a337c74321adbfac07867f89cfba22916a31007fa4d5ab12"
   },
   "what": "An object literal declares the same key more than once. The last value wins.",
   "tone": {
