@@ -1,0 +1,30 @@
+{
+  "id": "no-undef",
+  "language": "javascript",
+  "concept": "scope",
+  "match": "^'([^']+)' is not defined\\.?$",
+  "samples": [
+    "'name' is not defined."
+  ],
+  "fix_code": "const {1} = value;",
+  "review": {
+    "status": "draft",
+    "reviewers": [],
+    "contentHash": null
+  },
+  "what": "ESLint found a name that is used but never declared or imported.",
+  "tone": {
+    "street": {
+      "headline": "You use `{1}`, but e no dey defined",
+      "happen": "ESLint see say you use `{1}`, but e never see where you define am. E fit be typo, or you forget to import am.",
+      "todo": "Check the spelling, or define/import am first:",
+      "learn": "\"not defined\" mean say the name no dey anywhere ESLint fit see."
+    },
+    "normal": {
+      "headline": "ESLint no see where `{1}` dey defined",
+      "happen": "You use `{1}`, but ESLint no see where you define am. Check the spelling, or import am.",
+      "todo": "Check the spelling, or define/import am first:",
+      "learn": "\"not defined\" mean say the name no dey anywhere ESLint fit see."
+    }
+  }
+}

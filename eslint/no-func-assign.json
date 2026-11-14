@@ -1,0 +1,29 @@
+{
+  "id": "no-func-assign",
+  "language": "javascript",
+  "concept": "bindings",
+  "match": "^'([^']+)' is a function\\.?$",
+  "samples": [
+    "'fn' is a function."
+  ],
+  "review": {
+    "status": "draft",
+    "reviewers": [],
+    "contentHash": null
+  },
+  "what": "An assignment targets a name that was declared as a function.",
+  "tone": {
+    "street": {
+      "headline": "You try change `{1}`, but `{1}` na function",
+      "happen": "You declare `{1}` as a function, then you assign another value to am. That replace the function, so later calls go fail.",
+      "todo": "Use a different name for the new value, or change the function declaration first.",
+      "learn": "\"function\" here mean say the name already hold a function, not a normal variable."
+    },
+    "normal": {
+      "headline": "`{1}` na function, so you no fit reassign am",
+      "happen": "`{1}` was declared as a function and then assigned another value. The function is replaced, so later calls will fail.",
+      "todo": "Use a different name for the new value, or change the function declaration first.",
+      "learn": "\"function\" here mean say the name already hold a function, not a normal variable."
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "id": "no-shadow",
+  "language": "javascript",
+  "concept": "scope",
+  "match": "^'([^']+)' is already declared in the upper scope",
+  "samples": [
+    "'inner' is already declared in the upper scope on line 7 column 26."
+  ],
+  "review": {
+    "status": "draft",
+    "reviewers": [],
+    "contentHash": null
+  },
+  "what": "A new variable uses a name that already exists in an outer scope. The inner variable hides the outer one.",
+  "tone": {
+    "street": {
+      "headline": "`{1}` don already dey for outside scope",
+      "happen": "You create `{1}` inside, but `{1}` already dey for the outer scope. The new one hide the old one, so e easy to read the wrong value.",
+      "todo": "Rename the inner one, or reuse the outer one if that na wetin you want.",
+      "learn": "\"shadow\" mean say one name hide another name wey get the same name."
+    },
+    "normal": {
+      "headline": "`{1}` don already dey for the outer scope",
+      "happen": "You declared `{1}` again inside a nested scope. It hides the outer `{1}`, which can make the code read the wrong value.",
+      "todo": "Rename the inner one, or reuse the outer one if that na wetin you want.",
+      "learn": "\"shadow\" mean say one name hide another name wey get the same name."
+    }
+  }
+}

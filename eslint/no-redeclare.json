@@ -1,0 +1,29 @@
+{
+  "id": "no-redeclare",
+  "language": "javascript",
+  "concept": "bindings",
+  "match": "^'([^']+)' is already defined\\.?$",
+  "samples": [
+    "'value' is already defined."
+  ],
+  "review": {
+    "status": "draft",
+    "reviewers": [],
+    "contentHash": null
+  },
+  "what": "ESLint found the same variable declared more than once in one scope.",
+  "tone": {
+    "street": {
+      "headline": "You define `{1}` two times",
+      "happen": "ESLint see another declaration for `{1}` in the same scope. The second one fit override the first, or cause confusion.",
+      "todo": "Remove the second declaration or rename am.",
+      "learn": "\"redeclare\" mean say you declare the same name again."
+    },
+    "normal": {
+      "headline": "`{1}` dey declared more than once",
+      "happen": "ESLint found more than one declaration for `{1}` in the same scope. The later one can override the earlier one.",
+      "todo": "Remove the second declaration or rename am.",
+      "learn": "\"redeclare\" mean say you declare the same name again."
+    }
+  }
+}

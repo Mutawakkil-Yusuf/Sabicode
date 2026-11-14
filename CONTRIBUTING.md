@@ -10,7 +10,7 @@ You do not need to write code. Read `docs/review.md`, then:
 
 - Open an issue with a better phrase.
 - Open a pull request that changes only the `tone` strings in one
-  `dictionary/<id>.json`.
+  `dictionary/<id>.json` or `eslint/<rule-id>.json`.
 - Ask a maintainer to record your sign-off with `npm run review -- sign ...`.
 
 The style rules are in `STYLE.md`. The short version: sound like a person, keep
@@ -36,26 +36,42 @@ The tests check the schema, the concept catalog, that samples match only their
 own entry, the Pidgin style rules, the renderer, the review hash, and the real
 CLI.
 
+## Add an ESLint rule entry
+
+1. Pick a real rule from a project that already uses ESLint.
+2. Create `eslint/<rule-id>.json` using the existing entries as the schema.
+3. Match the rule's English message with `match`, and add a real `samples`
+   string, both tones, the plain-English `what`, and a safe `fix_code` if there
+   is one.
+4. Run `npm run review -- list --eslint`.
+5. Run `npm test`.
+
+Uncovered rules already work through the generic fallback, so an entry can land
+without blocking the scan.
+
 ## Code
 
 ```sh
 npm test
 npm run build
-npm run review -- list
+npm run review -- verify
 node bin/sabi.js concepts
+node bin/sabi.js rules
+node bin/sabi.js scan
 ```
 
 - Node 18, 20, and 22 are supported.
-- There are no runtime dependencies. Use Node built-ins.
+- There are no runtime dependencies. Use Node built-ins. ESLint is optional and
+  is never bundled.
 - Keep the English error recoverable. Never translate stack traces, paths, or
   identifiers.
 - Add tests for new behavior. The suite is the specification.
-- Keep the site generated from the dictionary; do not hand-edit `site/`.
+- Keep the site generated from both catalogs; do not hand-edit `site/`.
 
 ## Pull requests
 
 - Keep one change per pull request.
-- For Pidgin-only changes, touch only the relevant dictionary strings.
+- For Pidgin-only changes, touch only the relevant dictionary or ESLint strings.
 - For a reviewed entry, record the review or reset it. A stale review fails the
   schema test.
 - Run `npm test` before opening the pull request.

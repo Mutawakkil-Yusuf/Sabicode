@@ -1,0 +1,30 @@
+{
+  "id": "no-async-promise-executor",
+  "language": "javascript",
+  "concept": "async",
+  "match": "^Promise executor functions should not be async\\.?$",
+  "samples": [
+    "Promise executor functions should not be async."
+  ],
+  "fix_code": "new Promise((resolve) => { ... })",
+  "review": {
+    "status": "draft",
+    "reviewers": [],
+    "contentHash": null
+  },
+  "what": "A Promise executor is marked async. Errors inside it become a rejected promise that the outer Promise never sees.",
+  "tone": {
+    "street": {
+      "headline": "You mark Promise executor as `async`",
+      "happen": "The function inside `new Promise(...)` no suppose be `async`. If e throw, the error go turn to one promise wey nobody catch, so the outer `Promise` no go know.",
+      "todo": "Remove `async` from the executor, or move the async work outside:",
+      "learn": "\"executor\" na the function wey you give `new Promise`."
+    },
+    "normal": {
+      "headline": "The Promise executor should not be `async`",
+      "happen": "The function inside `new Promise(...)` is `async`. If it throws, the error becomes a rejected promise that the outer `Promise` never sees.",
+      "todo": "Remove `async` from the executor, or move the async work outside:",
+      "learn": "\"executor\" na the function wey you give `new Promise`."
+    }
+  }
+}

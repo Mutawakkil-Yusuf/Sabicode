@@ -1,0 +1,2232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Try Sabicode — run JavaScript errors in Pidgin, live</title>
+<meta name="description" content="A live, offline demo of Sabicode. Run JavaScript in your browser, paste an error, or replay an ESLint scan and read the Nigerian Pidgin explanation.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://mutawakkil-yusuf.github.io/Sabicode/demo.html">
+<meta name="theme-color" content="#faf7ef" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#101712" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="assets/polly.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Sabicode">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Try Sabicode — run JavaScript errors in Pidgin, live">
+<meta property="og:description" content="A live, offline demo of Sabicode. Run JavaScript in your browser, paste an error, or replay an ESLint scan and read the Nigerian Pidgin explanation.">
+<meta property="og:url" content="https://mutawakkil-yusuf.github.io/Sabicode/demo.html">
+<meta property="og:image" content="https://mutawakkil-yusuf.github.io/Sabicode/assets/og.svg">
+<meta property="og:image:type" content="image/svg+xml">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Sabicode, with Polly Glot the parrot and the command npx sabicode app.js">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Try Sabicode — run JavaScript errors in Pidgin, live">
+<meta name="twitter:description" content="A live, offline demo of Sabicode. Run JavaScript in your browser, paste an error, or replay an ESLint scan and read the Nigerian Pidgin explanation.">
+<meta name="twitter:image" content="https://mutawakkil-yusuf.github.io/Sabicode/assets/og.svg">
+<meta name="twitter:image:alt" content="Sabicode, with Polly Glot the parrot and the command npx sabicode app.js">
+<style>
+:root {
+  box-sizing: border-box;
+  --bg: #faf7ef;
+  --surface: #ffffff;
+  --ink: #16241c;
+  --muted: #5a6a60;
+  --green: #0c6b3f;
+  --green-d: #084d2d;
+  --yellow: #f5c518;
+  --line: #e2dccb;
+  --term: #0e1a14;
+  --term-ink: #d8e6dc;
+  --term-err: #ff8a7a;
+  --term-dim: #7d9486;
+  --btn-ink: #ffffff;
+  --focus: #084d2d;
+  --sans: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --bg: #101712;
+    --surface: #18221b;
+    --ink: #eef3ec;
+    --muted: #9db0a3;
+    --green: #3fc17a;
+    --green-d: #2fa463;
+    --line: #2a382e;
+    --term: #0a110d;
+    --btn-ink: #08130d;
+    --focus: #f5c518;
+  }
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #101712;
+  --surface: #18221b;
+  --ink: #eef3ec;
+  --muted: #9db0a3;
+  --green: #3fc17a;
+  --green-d: #2fa463;
+  --line: #2a382e;
+  --term: #0a110d;
+  --btn-ink: #08130d;
+  --focus: #f5c518;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+html {
+  scroll-padding-top: 20px;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  line-height: 1.6;
+  font-size: 16px;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.wrap {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.15;
+  margin: 0;
+}
+
+h1 {
+  font-size: clamp(2.1rem, 6vw, 3.6rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  font-size: clamp(1.5rem, 3.5vw, 2.1rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+
+.term :focus-visible {
+  outline-color: var(--yellow);
+}
+
+.skip {
+  position: absolute;
+  left: -999px;
+  top: 0;
+  z-index: 20;
+  background: var(--yellow);
+  color: #16241c;
+  padding: 10px 16px;
+  border-radius: 0 0 10px 0;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.skip:focus {
+  left: 0;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 0;
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 1.35rem;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo svg {
+  width: 34px;
+  height: 34px;
+  flex: none;
+}
+
+nav a.s {
+  font-size: 0.9rem;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+nav a.s:hover {
+  color: var(--green-d);
+}
+
+.hero {
+  padding: 28px 0 64px;
+}
+
+.hero-grid {
+  display: grid;
+  gap: 36px;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+}
+
+.hero p.lead {
+  font-size: 1.1rem;
+  color: var(--muted);
+  max-width: 46ch;
+  margin-top: 16px;
+}
+
+.cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 26px;
+}
+
+.btn {
+  font: 500 0.95rem var(--mono);
+  border: 0;
+  border-radius: 10px;
+  padding: 13px 18px;
+  cursor: pointer;
+  background: var(--green);
+  color: var(--btn-ink);
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn:hover {
+  background: var(--green-d);
+}
+
+.btn.alt {
+  background: transparent;
+  color: var(--ink);
+  box-shadow: inset 0 0 0 2px var(--ink);
+  font-family: var(--sans);
+  font-weight: 600;
+}
+
+.btn.alt:hover {
+  background: var(--yellow);
+  color: #16241c;
+  box-shadow: inset 0 0 0 2px var(--yellow);
+}
+
+.note {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-top: 10px;
+  min-height: 1.3em;
+}
+
+.note a {
+  color: var(--green-d);
+  font-weight: 500;
+}
+
+#copied {
+  color: var(--green-d);
+  min-height: 1.3em;
+}
+
+.term {
+  background: var(--term);
+  color: var(--term-ink);
+  border-radius: 14px;
+  overflow: hidden;
+  font-family: var(--mono);
+  font-size: 0.86rem;
+  box-shadow: 0 0 0 1px var(--line);
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.05);
+  flex-wrap: wrap;
+}
+
+.bar .dots {
+  display: flex;
+  gap: 6px;
+  margin-right: 4px;
+}
+
+.bar .dots b {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #3a4a40;
+}
+
+.bar .p {
+  width: 36px;
+  height: 36px;
+  flex: none;
+  transform-origin: 50% 90%;
+}
+
+.bar .nm {
+  font: 500 0.8rem var(--sans);
+  color: var(--term-dim);
+}
+
+.seg {
+  display: inline-flex;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px #3a4a40;
+  margin-left: auto;
+}
+
+.seg button {
+  font: 500 0.78rem var(--mono);
+  background: transparent;
+  color: var(--term-dim);
+  border: 0;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.seg button[aria-pressed='true'] {
+  background: var(--yellow);
+  color: #16241c;
+}
+
+.pick {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding: 12px 14px 0;
+}
+
+.pick button {
+  font: 400 0.72rem var(--mono);
+  background: transparent;
+  color: var(--term-dim);
+  border: 1px solid #2e3d34;
+  border-radius: 999px;
+  padding: 4px 10px;
+  cursor: pointer;
+}
+
+.pick button[aria-pressed='true'] {
+  color: var(--term-ink);
+  border-color: var(--yellow);
+}
+
+.pick button:hover {
+  color: var(--term-ink);
+}
+
+.out {
+  padding: 14px;
+  min-height: 300px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.cmd {
+  color: var(--term-dim);
+}
+
+.err {
+  color: var(--term-err);
+}
+
+.pg {
+  margin-top: 14px;
+  padding: 12px;
+  border-left: 3px solid var(--yellow);
+  background: rgba(245, 197, 24, 0.07);
+  border-radius: 0 8px 8px 0;
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.pg b {
+  color: var(--yellow);
+  font-weight: 600;
+}
+
+.pg code {
+  font-family: var(--mono);
+  background: rgba(255, 255, 255, 0.1);
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-size: 0.82rem;
+}
+
+.pg div + div {
+  margin-top: 8px;
+}
+
+.pg .hd {
+  color: var(--green);
+  font-weight: 600;
+}
+
+.pg .en {
+  color: var(--term-dim);
+  font-size: 0.82rem;
+}
+
+.concept-state,
+.review-state {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-top: 18px;
+}
+
+.concept-state {
+  margin-bottom: -10px;
+}
+
+section {
+  padding: 56px 0;
+  border-top: 1px solid var(--line);
+}
+
+section > .wrap > p.sub {
+  color: var(--muted);
+  margin-top: 10px;
+  max-width: 52ch;
+}
+
+.steps {
+  display: grid;
+  gap: 18px;
+  margin-top: 28px;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.step {
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 0 0 1px var(--line);
+}
+
+.step h3 {
+  font-size: 1.05rem;
+  margin-bottom: 6px;
+}
+
+.step p {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.step pre {
+  margin: 12px 0 0;
+  font: 400 0.8rem var(--mono);
+  background: var(--term);
+  color: var(--term-ink);
+  padding: 10px 12px;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+
+.grid {
+  display: grid;
+  gap: 10px;
+  margin-top: 26px;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.grid a {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: var(--surface);
+  border-radius: 10px;
+  padding: 14px;
+  font: 400 0.82rem var(--mono);
+  text-decoration: none;
+  box-shadow: 0 0 0 1px var(--line);
+  overflow-wrap: anywhere;
+}
+
+.grid a:hover {
+  box-shadow: 0 0 0 2px var(--green);
+}
+
+.grid .g-concept {
+  color: var(--green-d);
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.grid .g-err {
+  color: var(--ink);
+}
+
+.grid .g-go {
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+.grid a:hover .g-go {
+  color: var(--green-d);
+}
+
+.two {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: minmax(0, 1fr);
+  margin-top: 26px;
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+
+.list li {
+  padding-left: 22px;
+  position: relative;
+  color: var(--muted);
+}
+
+.list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--yellow);
+}
+
+.list code {
+  font-family: var(--mono);
+  font-size: 0.88em;
+}
+
+.plans {
+  display: grid;
+  gap: 16px;
+  margin-top: 26px;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.plan {
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 22px;
+  box-shadow: 0 0 0 1px var(--line);
+}
+
+.plan.hl {
+  box-shadow: 0 0 0 2px var(--green);
+}
+
+.plan h3 {
+  font-size: 1.1rem;
+}
+
+.plan .pr {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 6px 0 10px;
+}
+
+.plan p {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.plan .btn {
+  margin-top: 16px;
+  font-family: var(--sans);
+  font-weight: 600;
+}
+
+form {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+input {
+  flex: 1 1 180px;
+  min-width: 0;
+  font: 400 0.95rem var(--sans);
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--ink);
+}
+
+footer {
+  padding: 36px 0 48px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.9rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 28px;
+  justify-content: space-between;
+}
+
+footer a {
+  color: var(--green-d);
+}
+
+.credit-placeholder {
+  border-bottom: 1px dashed var(--muted);
+}
+
+/* Error pages */
+.error-page {
+  padding: 22px 0 28px;
+}
+
+.back-link {
+  display: inline-block;
+  margin-top: 14px;
+  font: 500 0.85rem var(--mono);
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.back-link:hover {
+  color: var(--green-d);
+}
+
+.error-hero {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: minmax(0, 1fr);
+  margin-top: 16px;
+}
+
+.error-title {
+  font-family: var(--mono);
+  font-size: clamp(1.3rem, 4vw, 2rem);
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  overflow-wrap: anywhere;
+}
+
+.error-term {
+  margin-top: 18px;
+}
+
+.error-term .out {
+  min-height: 0;
+  padding: 16px;
+}
+
+.polly-bubble {
+  background: var(--surface);
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 0 0 1px var(--line);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.polly-bubble .p {
+  width: 76px;
+  height: 76px;
+  flex: none;
+}
+
+.polly-bubble p {
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+.polly-bubble strong {
+  color: var(--ink);
+}
+
+.prose {
+  max-width: 68ch;
+  margin-top: 34px;
+}
+
+.prose h2,
+.error-page section h2 {
+  font-size: 1.35rem;
+}
+
+.prose p {
+  color: var(--muted);
+  margin-top: 10px;
+}
+
+.prose code {
+  font-family: var(--mono);
+  font-size: 0.9em;
+  background: rgba(22, 36, 28, 0.07);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+.tone-grid {
+  display: grid;
+  gap: 16px;
+  margin-top: 20px;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.tone-card {
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 0 0 1px var(--line);
+}
+
+.tone-card h3 {
+  font: 500 0.8rem var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--green-d);
+  margin-bottom: 12px;
+}
+
+.tone-card .pg {
+  margin-top: 0;
+  padding: 0 0 0 14px;
+  border-left: 3px solid var(--yellow);
+  background: none;
+  border-radius: 0;
+  color: var(--ink);
+  font-size: 0.92rem;
+}
+
+.tone-card .pg b {
+  color: var(--green-d);
+}
+
+.tone-card .pg code {
+  background: rgba(22, 36, 28, 0.07);
+}
+
+.error-page .back-bottom {
+  margin-top: 34px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .prose code,
+  :root:not([data-theme='light']) .tone-card .pg code {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  :root:not([data-theme='light']) .tone-card .pg b {
+    color: var(--yellow);
+  }
+}
+
+:root[data-theme='dark'] .prose code,
+:root[data-theme='dark'] .tone-card .pg code {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+:root[data-theme='dark'] .tone-card .pg b {
+  color: var(--yellow);
+}
+
+@media (min-width: 560px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 760px) {
+  .hero-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+    gap: 44px;
+  }
+  .steps,
+  .plans {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .plans {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: 720px;
+  }
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .two {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+  .error-hero {
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.6fr);
+    align-items: start;
+  }
+  .tone-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .p {
+    animation: bob 3.2s ease-in-out infinite;
+  }
+  .p .lid {
+    transform-box: fill-box;
+    transform-origin: center;
+    transform: scaleY(0);
+    animation: blink 4.6s infinite;
+  }
+  .p .crest {
+    transform-origin: 20px 15px;
+    animation: crest 7s ease-in-out infinite;
+  }
+  .p.talk .beak {
+    transform-origin: 34px 26px;
+    animation: flap 0.24s ease-in-out 6;
+  }
+  .logo:hover .logo-parrot {
+    animation: wig 0.6s ease-in-out;
+  }
+
+  @keyframes blink {
+    0%, 93%, 100% { transform: scaleY(0); }
+    96% { transform: scaleY(1); }
+  }
+  @keyframes crest {
+    0%, 86%, 100% { transform: rotate(0); }
+    90% { transform: rotate(-10deg); }
+    94% { transform: rotate(6deg); }
+  }
+  @keyframes bob {
+    0%, 100% { transform: rotate(-2deg); }
+    50% { transform: rotate(3deg); }
+  }
+  @keyframes flap {
+    0%, 100% { transform: rotate(0); }
+    50% { transform: rotate(10deg); }
+  }
+  @keyframes wig {
+    0%, 100% { transform: rotate(0); }
+    25% { transform: rotate(-12deg); }
+    60% { transform: rotate(10deg); }
+  }
+}
+
+/* Landing page */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.nav-github {
+  font-weight: 600;
+  color: var(--green-d);
+}
+
+.eyebrow {
+  font: 600 0.72rem var(--mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--green-d);
+  margin-bottom: 10px;
+}
+
+.sub {
+  color: var(--muted);
+  margin-top: 10px;
+  max-width: 62ch;
+}
+
+.hero-copy h1 {
+  max-width: 15ch;
+}
+
+.hero-facts {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+  margin: 24px 0 0;
+  padding: 0;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.hero-facts strong {
+  color: var(--ink);
+  font-size: 1rem;
+}
+
+.hero-term {
+  min-width: 0;
+}
+
+.hero-code {
+  padding: 12px 14px 10px;
+  color: var(--term-dim);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font: 400 0.78rem/1.5 var(--mono);
+  border-bottom: 1px solid #223028;
+}
+
+.hero-code::before {
+  content: 'app.js';
+  display: block;
+  color: #5f7467;
+  margin-bottom: 6px;
+}
+
+.hero-out {
+  min-height: 260px;
+}
+
+.hero-foot {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 14px 14px;
+  flex-wrap: wrap;
+}
+
+.linkbtn {
+  background: none;
+  border: 0;
+  color: var(--yellow);
+  font: 500 0.78rem var(--mono);
+  cursor: pointer;
+  padding: 6px 0;
+  text-decoration: none;
+}
+
+.linkbtn:hover {
+  text-decoration: underline;
+}
+
+.dim {
+  color: var(--term-dim);
+}
+
+.caret::after {
+  content: '▋';
+  color: var(--yellow);
+}
+
+.section-problem {
+  border-top: 0;
+}
+
+.problem-grid,
+.feature-grid,
+.who-grid {
+  display: grid;
+  gap: 16px;
+  margin-top: 28px;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.problem,
+.feature,
+.who {
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 0 0 1px var(--line);
+}
+
+.problem-k,
+.feature-k {
+  display: block;
+  font: 600 0.7rem var(--mono);
+  color: var(--green-d);
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+}
+
+.problem h3,
+.feature h3,
+.who h3 {
+  font-size: 1.02rem;
+  margin-bottom: 6px;
+}
+
+.problem p,
+.feature p,
+.who p {
+  color: var(--muted);
+  font-size: 0.93rem;
+}
+
+.pull {
+  margin: 34px 0 0;
+  padding: 22px 24px;
+  border-left: 4px solid var(--yellow);
+  background: var(--surface);
+  border-radius: 0 12px 12px 0;
+  font-size: clamp(1.1rem, 2.5vw, 1.45rem);
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.compare {
+  display: grid;
+  gap: 16px;
+  margin-top: 26px;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.compare-card {
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 0 0 1px var(--line);
+  min-width: 0;
+}
+
+.compare-card.highlight {
+  box-shadow: 0 0 0 2px var(--green);
+}
+
+.compare-card h3 {
+  font: 600 0.78rem var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.compare-card pre {
+  margin: 0;
+  padding: 14px;
+  border-radius: 8px;
+  background: var(--term);
+  color: var(--term-ink);
+  font: 400 0.76rem/1.55 var(--mono);
+  overflow-x: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.compare-card pre.english {
+  color: var(--term-err);
+}
+
+.compare-card p {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-top: 12px;
+}
+
+.command-grid {
+  margin-top: 26px;
+}
+
+.command-card {
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 0 0 1px var(--line);
+  min-width: 0;
+}
+
+.command-card h3 {
+  font-size: 1rem;
+  margin-bottom: 8px;
+}
+
+.command-card h3 code {
+  font-family: var(--mono);
+  color: var(--green-d);
+}
+
+.command-card p {
+  color: var(--muted);
+  font-size: 0.93rem;
+}
+
+.command-card pre {
+  margin: 14px 0 0;
+  padding: 14px;
+  border-radius: 8px;
+  background: var(--term);
+  color: var(--term-ink);
+  font: 400 0.76rem/1.55 var(--mono);
+  overflow-x: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.json-card {
+  background: var(--term);
+  color: var(--term-ink);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px var(--line);
+}
+
+.json-bar {
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--term-dim);
+  font: 500 0.75rem var(--mono);
+}
+
+.json-card pre {
+  margin: 0;
+  padding: 16px;
+  font: 400 0.74rem/1.55 var(--mono);
+  overflow-x: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.json-card .note {
+  padding: 0 16px 16px;
+  color: var(--term-dim);
+}
+
+.free-card {
+  display: grid;
+  gap: 24px;
+  background: var(--surface);
+  border-radius: 14px;
+  padding: 26px;
+  box-shadow: 0 0 0 1px var(--line);
+}
+
+.free-card h2 {
+  font-size: clamp(1.4rem, 3vw, 1.9rem);
+}
+
+.install pre {
+  margin: 0 0 12px;
+  padding: 14px;
+  background: var(--term);
+  color: var(--term-ink);
+  border-radius: 8px;
+  font: 400 0.85rem var(--mono);
+  overflow-x: auto;
+}
+
+/* Demo page */
+.demo-page {
+  padding: 10px 0 30px;
+}
+
+.demo-hero {
+  max-width: 760px;
+  padding: 20px 0 30px;
+}
+
+.demo-hero h1 {
+  font-size: clamp(2rem, 5vw, 3.2rem);
+}
+
+.demo-hero .lead {
+  margin-top: 14px;
+  color: var(--muted);
+  font-size: 1.05rem;
+  max-width: 60ch;
+}
+
+.playground {
+  background: var(--surface);
+  border-radius: 16px;
+  box-shadow: 0 0 0 1px var(--line);
+  overflow: hidden;
+}
+
+.tabs {
+  display: flex;
+  gap: 4px;
+  padding: 10px 10px 0;
+  border-bottom: 1px solid var(--line);
+  flex-wrap: wrap;
+}
+
+.tabs [role='tab'] {
+  font: 500 0.82rem var(--sans);
+  background: transparent;
+  border: 0;
+  border-radius: 8px 8px 0 0;
+  padding: 10px 14px;
+  cursor: pointer;
+  color: var(--muted);
+  border-bottom: 2px solid transparent;
+}
+
+.tabs [role='tab'][aria-selected='true'] {
+  color: var(--ink);
+  border-bottom-color: var(--green);
+  background: rgba(12, 107, 63, 0.06);
+}
+
+.pane {
+  padding: 18px;
+}
+
+.play-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.play-editor {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.presets button {
+  font: 400 0.72rem var(--mono);
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 4px 10px;
+  cursor: pointer;
+}
+
+.presets button[aria-pressed='true'] {
+  color: var(--ink);
+  border-color: var(--green);
+}
+
+.play-editor textarea {
+  width: 100%;
+  min-height: 300px;
+  resize: vertical;
+  background: var(--term);
+  color: var(--term-ink);
+  border: 0;
+  border-radius: 10px;
+  padding: 14px;
+  font: 400 0.82rem/1.55 var(--mono);
+  tab-size: 2;
+}
+
+.editor-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.editor-actions .note {
+  margin: 0;
+}
+
+.demo-term {
+  min-width: 0;
+}
+
+.demo-term .out {
+  min-height: 300px;
+}
+
+.logs {
+  color: var(--term-ink);
+  border-left: 2px solid #3a4a40;
+  padding-left: 10px;
+  margin: 10px 0;
+  white-space: pre-wrap;
+}
+
+.ok {
+  color: var(--green);
+  margin-top: 12px;
+}
+
+.fix {
+  margin-top: 4px;
+}
+
+.demo-note {
+  margin-top: 14px;
+}
+
+.scan-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.scan-head h2 {
+  font-size: 1.2rem;
+}
+
+.scan-head .sub {
+  margin-top: 6px;
+}
+
+.scan-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.scan-code {
+  background: var(--term);
+  border-radius: 10px;
+  padding: 10px 0;
+  overflow: auto;
+  font: 400 0.76rem/1.6 var(--mono);
+  color: var(--term-ink);
+  max-height: 520px;
+}
+
+.scan-line {
+  display: flex;
+  gap: 12px;
+  padding: 0 12px;
+  white-space: pre;
+}
+
+.scan-line .ln {
+  color: #5f7467;
+  width: 2ch;
+  text-align: right;
+  flex: none;
+  user-select: none;
+}
+
+.scan-line.has-finding {
+  background: rgba(245, 197, 24, 0.06);
+}
+
+.scan-line.selected {
+  background: rgba(245, 197, 24, 0.16);
+}
+
+.scan-side {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.scan-findings {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.finding {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2px 8px;
+  text-align: left;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 8px 10px;
+  cursor: pointer;
+  font: 400 0.75rem var(--mono);
+  color: var(--ink);
+}
+
+.finding:hover,
+.finding.active {
+  border-color: var(--green);
+}
+
+.severity {
+  font: 600 0.62rem var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 1px 6px;
+  border-radius: 999px;
+  align-self: center;
+}
+
+.severity.error {
+  background: rgba(180, 35, 24, 0.12);
+  color: #b42318;
+}
+
+.severity.warning {
+  background: rgba(181, 120, 0, 0.14);
+  color: #8a5a00;
+}
+
+.f-rule {
+  font-weight: 600;
+}
+
+.f-loc {
+  grid-column: 1 / -1;
+  color: var(--muted);
+  font-size: 0.7rem;
+  overflow-wrap: anywhere;
+}
+
+.scan-term .out {
+  min-height: 200px;
+}
+
+.finding-head {
+  color: var(--term-dim);
+  font: 400 0.75rem var(--mono);
+  margin-bottom: 8px;
+}
+
+.demo-cta {
+  margin-top: 26px;
+  padding: 26px;
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: 0 0 0 1px var(--line);
+  display: grid;
+  gap: 18px;
+}
+
+.demo-cta h2 {
+  font-size: clamp(1.3rem, 3vw, 1.8rem);
+}
+
+.demo-cta p {
+  color: var(--muted);
+  margin-top: 8px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .severity.error {
+    background: rgba(255, 138, 122, 0.14);
+    color: #ff8a7a;
+  }
+  :root:not([data-theme='light']) .severity.warning {
+    background: rgba(245, 197, 24, 0.16);
+    color: var(--yellow);
+  }
+}
+
+:root[data-theme='dark'] .severity.error {
+  background: rgba(255, 138, 122, 0.14);
+  color: #ff8a7a;
+}
+
+:root[data-theme='dark'] .severity.warning {
+  background: rgba(245, 197, 24, 0.16);
+  color: var(--yellow);
+}
+
+@media (min-width: 700px) {
+  .play-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+  .scan-grid {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  }
+  .problem-grid,
+  .feature-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .who-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .compare {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+  .free-card {
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.6fr);
+    align-items: center;
+  }
+}
+
+@media (min-width: 900px) {
+  .who-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 559px) {
+  .nav-links {
+    gap: 12px;
+    font-size: 0.82rem;
+  }
+  .hero-facts {
+    gap: 8px 16px;
+  }
+  .scan-head {
+    flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    opacity: 0;
+    transform: translateY(14px);
+    transition:
+      opacity 0.5s ease,
+      transform 0.5s ease;
+  }
+  .reveal.in {
+    opacity: 1;
+    transform: none;
+  }
+  .finding.reveal-in {
+    animation: fade-in 0.25s ease both;
+  }
+  .caret::after {
+    animation: caret 1s steps(1) infinite;
+  }
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes caret {
+    50% {
+      opacity: 0;
+    }
+  }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="parrot" viewBox="0 0 48 48"><path d="M13 14C10 7 15 3 18 9C19 3 25 3 25 11C29 7 32 11 28 16Z" fill="var(--yellow)"/><circle cx="22" cy="27" r="16" fill="var(--green)"/><path d="M34 21C46 20 48 31 40 38C39 33 36 31 33 31Z" fill="var(--yellow)"/><circle cx="26" cy="23" r="5" fill="#fff"/><circle cx="27.5" cy="23" r="2.3" fill="#16241c"/></symbol></svg>
+<div class="wrap">
+  <nav>
+    <a class="logo" href="index.html"><svg class="logo-parrot" viewBox="0 0 48 48" aria-hidden="true"><use href="#parrot"/></svg><span>sabicode</span></a>
+    <div class="nav-links">
+      <a class="s" href="index.html">Home</a>
+      <a class="s" href="demo.html" aria-current="page">Live demo</a>
+      <a class="s" href="index.html#why">Why it's different</a>
+      <a class="s nav-github" href="https://github.com/Mutawakkil-Yusuf/Sabicode">GitHub</a>
+    </div>
+  </nav>
+</div>
+
+<main id="main" class="demo-page">
+  <div class="wrap">
+    <header class="demo-hero">
+      <p class="eyebrow">Live demo · runs in your browser</p>
+      <h1>Try Sabicode without installing anything.</h1>
+      <p class="lead">Run real JavaScript, paste an error, or replay a scan. The dictionary is the same one the CLI uses. Your code never leaves this page.</p>
+    </header>
+
+    <div class="playground">
+      <div class="tabs" role="tablist" aria-label="Demo mode">
+        <button type="button" role="tab" id="tab-run" aria-controls="pane-run" aria-selected="true" data-pane="run">Run code</button>
+        <button type="button" role="tab" id="tab-explain" aria-controls="pane-explain" aria-selected="false" tabindex="-1" data-pane="explain">Paste an error</button>
+        <button type="button" role="tab" id="tab-scan" aria-controls="pane-scan" aria-selected="false" tabindex="-1" data-pane="scan">Preview a scan</button>
+      </div>
+
+      <section id="pane-run" role="tabpanel" aria-labelledby="tab-run" class="pane">
+        <div class="play-grid">
+          <div class="play-editor">
+            <div class="presets" id="presets" role="group" aria-label="Example errors"></div>
+            <label class="sr-only" for="code">JavaScript code</label>
+            <textarea id="code" spellcheck="false" autocapitalize="off" autocomplete="off" aria-describedby="run-note"></textarea>
+            <div class="editor-actions">
+              <button class="btn" id="run" type="button">Run code</button>
+              <button class="btn alt" id="reset" type="button">Reset</button>
+              <span class="note" id="run-note">Runs in a sandboxed worker. 3 second limit.</span>
+            </div>
+          </div>
+          <div class="term demo-term">
+            <div class="bar">
+              <svg class="p" id="polly" viewBox="0 0 48 48" aria-hidden="true"><path class="crest" d="M13 14C10 7 15 3 18 9C19 3 25 3 25 11C29 7 32 11 28 16Z" fill="var(--yellow)"/><circle cx="22" cy="27" r="16" fill="var(--green)"/><path class="beak" d="M34 21C46 20 48 31 40 38C39 33 36 31 33 31Z" fill="var(--yellow)"/><circle cx="26" cy="23" r="5" fill="#fff"/><circle cx="27.5" cy="23" r="2.3" fill="#16241c"/><ellipse class="lid" cx="26" cy="23" rx="5.4" ry="5.4" fill="var(--green)"/></svg><span class="nm">Polly Glot says: Wetin happen?</span>
+              <div class="seg" role="group" aria-label="Tone">
+                <button type="button" data-tone="street" aria-pressed="true">street</button>
+                <button type="button" data-tone="normal" aria-pressed="false">normal</button>
+              </div>
+            </div>
+            <div class="out" id="run-out" aria-live="polite"></div>
+          </div>
+        </div>
+        <p class="note demo-note">This browser sandbox is not Node. It supports modern JavaScript, <code>console</code>, and timers, but not <code>require</code>, <code>fs</code>, or the DOM. The real CLI runs Node and has the full dictionary.</p>
+      </section>
+
+      <section id="pane-explain" role="tabpanel" aria-labelledby="tab-explain" class="pane" hidden>
+        <div class="play-grid">
+          <div class="play-editor">
+            <div class="presets" id="error-presets" role="group" aria-label="Example error messages"></div>
+            <label class="sr-only" for="error-input">Error message</label>
+            <textarea id="error-input" spellcheck="false" autocapitalize="off" autocomplete="off">TypeError: Cannot read properties of undefined (reading 'name')</textarea>
+            <div class="editor-actions">
+              <button class="btn" id="explain" type="button">Explain am</button>
+            </div>
+          </div>
+          <div class="term demo-term">
+            <div class="bar">
+              <svg class="p" id="polly" viewBox="0 0 48 48" aria-hidden="true"><path class="crest" d="M13 14C10 7 15 3 18 9C19 3 25 3 25 11C29 7 32 11 28 16Z" fill="var(--yellow)"/><circle cx="22" cy="27" r="16" fill="var(--green)"/><path class="beak" d="M34 21C46 20 48 31 40 38C39 33 36 31 33 31Z" fill="var(--yellow)"/><circle cx="26" cy="23" r="5" fill="#fff"/><circle cx="27.5" cy="23" r="2.3" fill="#16241c"/><ellipse class="lid" cx="26" cy="23" rx="5.4" ry="5.4" fill="var(--green)"/></svg><span class="nm">Polly Glot says: Wetin happen?</span>
+              <div class="seg" role="group" aria-label="Tone">
+                <button type="button" data-tone="street" aria-pressed="true">street</button>
+                <button type="button" data-tone="normal" aria-pressed="false">normal</button>
+              </div>
+            </div>
+            <div class="out" id="explain-out" aria-live="polite"></div>
+          </div>
+        </div>
+        <p class="note demo-note">Paste a Node or browser error line. Sabicode matches the same patterns as <code>sabi explain</code>.</p>
+      </section>
+
+      <section id="pane-scan" role="tabpanel" aria-labelledby="tab-scan" class="pane" hidden>
+        <div class="scan-head">
+          <div>
+            <h2>Example scan</h2>
+            <p class="sub">A React component with five findings. This is a recorded sample; the real command runs your project's ESLint.</p>
+          </div>
+          <button class="btn" id="replay-scan" type="button">Replay scan</button>
+        </div>
+        <div class="scan-grid">
+          <div class="scan-code" id="scan-code" aria-label="Example file"></div>
+          <div class="scan-side">
+            <div class="scan-findings" id="scan-findings" aria-label="ESLint findings"></div>
+            <div class="term demo-term scan-term">
+              <div class="bar"><svg class="p" id="polly" viewBox="0 0 48 48" aria-hidden="true"><path class="crest" d="M13 14C10 7 15 3 18 9C19 3 25 3 25 11C29 7 32 11 28 16Z" fill="var(--yellow)"/><circle cx="22" cy="27" r="16" fill="var(--green)"/><path class="beak" d="M34 21C46 20 48 31 40 38C39 33 36 31 33 31Z" fill="var(--yellow)"/><circle cx="26" cy="23" r="5" fill="#fff"/><circle cx="27.5" cy="23" r="2.3" fill="#16241c"/><ellipse class="lid" cx="26" cy="23" rx="5.4" ry="5.4" fill="var(--green)"/></svg><span class="nm">Selected finding</span></div>
+              <div class="out" id="scan-out" aria-live="polite"></div>
+            </div>
+          </div>
+        </div>
+        <p class="note demo-note">Sabicode does not bundle ESLint and makes no network calls. Install ESLint in your project once, then run <code>sabi scan</code>.</p>
+      </section>
+    </div>
+
+    <section class="demo-cta">
+      <div>
+        <h2>This is the browser preview. The real thing is one command.</h2>
+        <p>Install Sabicode and run it against your own file, or scan a whole project with the ESLint you already have.</p>
+      </div>
+      <div class="cta">
+        <button class="btn" id="copy" type="button">Copy npx sabicode app.js</button>
+        <a class="btn alt" href="https://github.com/Mutawakkil-Yusuf/Sabicode">View on GitHub</a>
+      </div>
+      <p class="note" id="copied" aria-live="polite"></p>
+    </section>
+  </div>
+</main>
+
+<div class="wrap">
+  <footer>
+    <span>Sabicode is open source. Pidgin explanations are a draft until reviewers sign off.</span>
+    <span>Pidgin reviewers: <span class="credit-placeholder">[reviewer credits placeholder]</span> · <a href="https://github.com/Mutawakkil-Yusuf/Sabicode/issues/new?labels=pidgin&amp;title=%5BPidgin%5D%20">Suggest a phrase</a> · <a href="https://github.com/Mutawakkil-Yusuf/Sabicode">GitHub</a></span>
+  </footer>
+</div>
+
+<script>
+var ERRORS = [{"id":"ref-not-defined","label":"Ref not defined","match":"^ReferenceError: (\\w+) is not defined","sample":"ReferenceError: name is not defined","fix_code":"let {1} = \"Ada\";","what":"JavaScript looked for `{1}` in the current scope and did not find it. It was never created, or it was created in a different scope.","tones":{"street":{"headline":"You call `{1}`, but JavaScript no sabi am","happen":"You dey call `{1}` like say JavaScript know am, but e no sabi who be that. You never introduce am o.","todo":"Create am first:","learn":"\"not defined\" mean say the variable no dey anywhere JavaScript fit see."},"normal":{"headline":"JavaScript no sabi `{1}`","happen":"You dey use `{1}`, but JavaScript no sabi am. You never create am.","todo":"Create am first:","learn":"\"not defined\" mean say the variable no dey anywhere JavaScript fit see."}}},{"id":"undefined-property","label":"Undefined property","match":"^TypeError: Cannot read properties of (undefined|null) \\(reading '(.+)'\\)","sample":"TypeError: Cannot read properties of undefined (reading 'name')","fix_code":"thing?.{2}","what":"The code tried to read `{2}` from a value that is `{1}`. `undefined` and `null` have no properties, so JavaScript stops before it can read anything.","tones":{"street":{"headline":"You try collect `{2}` from `{1}`","happen":"You wan pick `{2}` from inside empty hand. The thing na `{1}`, e get nothing to give you.","todo":"Check am first before you collect:","learn":"`{1}` mean say nothing dey there."},"normal":{"headline":"You try read `{2}` from `{1}`","happen":"You wan collect `{2}` from something wey no get value. That thing na `{1}`.","todo":"Check say the thing dey before you use am:","learn":"`{1}` mean say nothing dey there."}}},{"id":"not-a-function","label":"Not a function","match":"^TypeError: (.+) is not a function","sample":"TypeError: greet is not a function","fix_code":"console.log(typeof {1});","what":"The name `{1}` exists, but its value is not a function. JavaScript can only call values that are functions, so it throws a TypeError.","tones":{"street":{"headline":"`{1}` no be function","happen":"You shout `{1}()`, but `{1}` no be function o. Na another thing dey there.","todo":"Check your spelling. Then ask am wetin e be:","learn":"To \"call\" a function na to run am with `()`."},"normal":{"headline":"`{1}` no be function","happen":"You try run `{1}()`, but `{1}` no be function.","todo":"Check your spelling. Then check wetin `{1}` be:","learn":"To \"call\" a function na to run am with `()`."}}},{"id":"unexpected-end","label":"Unexpected end","match":"^SyntaxError: Unexpected end of input","sample":"SyntaxError: Unexpected end of input","fix_code":null,"what":"The parser reached the end of the file while it was still inside a block. An opening `{`, `(`, or `[` is missing its closing partner.","tones":{"street":{"headline":"Your code end before e complete","happen":"JavaScript reach the end of your file and e still dey wait. You leave one `}` or `)` open.","todo":"Count your brackets. Every `{` must get im own `}`.","learn":"\"syntax\" na the correct way to arrange code."},"normal":{"headline":"Your code end before e complete","happen":"JavaScript don reach the end of your file, but e still dey wait for something. Most times, one `}` or `)` no close.","todo":"Count your brackets. Every `{` must get one `}`.","learn":"\"syntax\" na the correct way to write code."}}},{"id":"const-assign","label":"Const assign","match":"^TypeError: Assignment to constant variable","sample":"TypeError: Assignment to constant variable.","fix_code":"let age = 20;","what":"A variable created with `const` cannot be reassigned. The value was locked when it was declared, so the later assignment throws a TypeError.","tones":{"street":{"headline":"You try change `const`","happen":"You use `const` lock `age`, then you wan change am. E no go gree.","todo":"If the value go change, use `let`:","learn":"\"constant\" mean value wey no dey change."},"normal":{"headline":"You try change `const`","happen":"You use `const` create `age`, then you try change am. `const` no dey allow change.","todo":"If the value go change, use `let`:","learn":"\"constant\" mean value wey no dey change."}}},{"id":"module-not-found-package","label":"Module not found package","match":"^Error: Cannot find (?:module|package) '([^./][^']*)'","sample":"Error: Cannot find module 'left-pad'","fix_code":"npm install {1}","what":"Node could not resolve the package `{1}` from this project. It may not be installed, or the package name may be misspelled.","tones":{"street":{"headline":"Node no find package `{1}`","happen":"You ask Node to bring `{1}`, but e no see am anywhere. Node don search well-well.","todo":"Check the spelling. If na package, install am first:","learn":"A \"module\" na a file or package wey you dey bring come your code."},"normal":{"headline":"Node no find package `{1}`","happen":"Node no fit find `{1}`. Maybe you never install am, or the name no correct.","todo":"Check the spelling. If na package, install am first:","learn":"A \"module\" na a file or package wey you dey bring come your code."}}},{"id":"module-not-found-path","label":"Module not found path","match":"^Error: Cannot find module '([./][^']*)'","sample":"Error: Cannot find module './missing-config'","fix_code":null,"what":"Node could not resolve the file path `{1}`. The file may not exist, or the relative path may point to the wrong folder.","tones":{"street":{"headline":"Node no find file `{1}`","happen":"You ask Node to bring `{1}`, but the file no dey that place.","todo":"Check the file name and the folder. `./` mean \"this same folder\".","learn":"A \"path\" na the address of a file for your computer."},"normal":{"headline":"Node no find file `{1}`","happen":"Node no fit find the file `{1}`.","todo":"Check the file name and the folder. `./` mean \"this same folder\".","learn":"A \"path\" na the address of a file for your computer."}}},{"id":"import-outside-module","label":"Import outside module","match":"^SyntaxError: Cannot use import statement outside a module$","sample":"SyntaxError: Cannot use import statement outside a module","fix_code":"{ \"type\": \"module\" }","what":"Node treated the file as CommonJS, but `import` is ES module syntax. Rename the file to `.mjs`, set `\"type\": \"module\"` in `package.json`, or use `require` instead.","tones":{"street":{"headline":"You use `import` for CommonJS file","happen":"You use `import`, but Node run this file as CommonJS. `import` only work inside a module.","todo":"Use `require`, or tell Node say the file na module:","learn":"CommonJS use `require`. ES modules use `import`."},"normal":{"headline":"`import` no work for CommonJS file","happen":"You use `import` for one file wey Node dey run as CommonJS. `import` need a module.","todo":"Use `require`, or make the file a module:","learn":"CommonJS and ES modules get different import syntax."}}},{"id":"already-declared","label":"Already declared","match":"^SyntaxError: Identifier '(\\w+)' has already been declared","sample":"SyntaxError: Identifier 'value' has already been declared","fix_code":null,"what":"The same scope already has a declaration named `{1}`. JavaScript does not allow two `let`, `const`, or `var` declarations with the same name in one scope.","tones":{"street":{"headline":"You declare `{1}` two times","happen":"You don already use the name `{1}` for another thing. Two things no fit carry the same name for the same place.","todo":"Rename one of them, or delete the extra line.","learn":"To \"declare\" na to create a variable with `let`, `const` or `var`."},"normal":{"headline":"You declare `{1}` two times","happen":"You declare `{1}` two times for the same place. JavaScript no dey allow that.","todo":"Rename one of them, or delete the extra line.","learn":"To \"declare\" na to create a variable with `let`, `const` or `var`."}}},{"id":"unexpected-token","label":"Unexpected token","match":"^SyntaxError: Unexpected token '(.+?)'$","sample":"SyntaxError: Unexpected token ';'","fix_code":null,"what":"The parser found `{1}` where it expected something else. A missing comma, bracket, or quote earlier in the line usually causes this.","tones":{"street":{"headline":"JavaScript no expect `{1}`","happen":"JavaScript see `{1}` for place wey e no expect am. Something before am dey miss or dey extra.","todo":"Look the line wey the error point to, and the one before am. Check for missing comma, bracket or quote.","learn":"A \"token\" na one small piece of code, like a word, bracket or symbol."},"normal":{"headline":"JavaScript no expect `{1}`","happen":"JavaScript meet `{1}` where e no expect am. Maybe something before am dey miss.","todo":"Look the line wey the error point to, and the one before am. Check for missing comma, bracket or quote.","learn":"A \"token\" na one small piece of code, like a word, bracket or symbol."}}},{"id":"invalid-token","label":"Invalid token","match":"^SyntaxError: Invalid or unexpected token","sample":"SyntaxError: Invalid or unexpected token","fix_code":null,"what":"The parser found a character it cannot read as JavaScript. An unclosed quote or a character pasted from another program is a common cause.","tones":{"street":{"headline":"JavaScript no fit read one character","happen":"JavaScript see one character wey e no understand. Most times, na quote wey no close, or strange symbol wey you paste.","todo":"Check your quotes. Every opening quote must get a closing one. Remove strange characters wey you copy from outside.","learn":"\"invalid\" mean say JavaScript no fit read am as code."},"normal":{"headline":"JavaScript no fit read one character","happen":"JavaScript meet one character wey e no fit read. Maybe a quote no close, or you paste a strange symbol.","todo":"Check your quotes. Every opening quote must get a closing one. Remove strange characters wey you copy from outside.","learn":"\"invalid\" mean say JavaScript no fit read am as code."}}},{"id":"tdz","label":"Tdz","match":"^ReferenceError: Cannot access '(\\w+)' before initialization","sample":"ReferenceError: Cannot access 'value' before initialization","fix_code":null,"what":"The code used `{1}` before the line that initializes it. Variables declared with `let` and `const` exist but cannot be read until their declaration runs.","tones":{"street":{"headline":"You use `{1}` before you create am","happen":"You dey use `{1}` before the line wey create am. Na like to enter room before dem open door.","todo":"Move the `let` or `const` line for `{1}` go up, before the place wey you dey use am.","learn":"\"initialization\" mean the moment value first enter the variable."},"normal":{"headline":"You use `{1}` before you create am","happen":"You use `{1}` before you create am. The line wey create am dey below.","todo":"Move the `let` or `const` line for `{1}` go up, before the place wey you dey use am.","learn":"\"initialization\" mean the moment value first enter the variable."}}},{"id":"await-outside-async","label":"Await outside async","match":"^SyntaxError: await is only valid in async functions and the top level bodies of modules$","sample":"SyntaxError: await is only valid in async functions and the top level bodies of modules","fix_code":"async function main() { await work(); }","what":"`await` is only allowed inside an `async` function or at the top level of an ES module. Wrap the call in an async function or make the file a module.","tones":{"street":{"headline":"`await` no fit work for here","happen":"You use `await` for place wey no be `async` function, and this file no be module.","todo":"Put am inside `async` function, or make the file a module:","learn":"`await` need `async` function or module top level before e fit wait."},"normal":{"headline":"`await` no fit work for here","happen":"`await` dey outside `async` function, and the file no be module.","todo":"Put am inside `async` function, or make the file a module:","learn":"`await` only work inside `async` function or module top level."}}},{"id":"max-call-stack","label":"Max call stack","match":"^RangeError: Maximum call stack size exceeded$","sample":"RangeError: Maximum call stack size exceeded","fix_code":"if (n \u003c= 0) return;","what":"A recursive function kept calling itself without reaching a base case, so the call stack filled up. Add a condition that stops the recursion.","tones":{"street":{"headline":"Your function dey call itself forever","happen":"One function keep calling itself and e never reach a place to stop. The call stack don full.","todo":"Add a base case wey go stop the recursion:","learn":"Every function call take space on the call stack. Recursion need a base case."},"normal":{"headline":"Your function no get base case","happen":"A function keep calling itself without a base case, so the call stack fill up.","todo":"Add a condition wey go stop the recursion:","learn":"Recursion need a base case, or e go run until the stack full."}}},{"id":"not-iterable","label":"Not iterable","match":"^TypeError: (.+) is not iterable$","sample":"TypeError: 5 is not iterable","fix_code":"for (const item of [1, 2, 3])","what":"The code used `for...of` on `{1}`, but that value is not iterable. Use an array, string, Map, Set, or another iterable.","tones":{"street":{"headline":"You no fit loop over `{1}`","happen":"You use `for...of` on `{1}`, but that value no get iterator.","todo":"Loop over something wey be array, string, or another iterable:","learn":"`for...of` need an iterable. Arrays and strings get am; numbers no get."},"normal":{"headline":"You no fit loop over `{1}`","happen":"`for...of` need an iterable, but `{1}` no be one.","todo":"Loop over an array, string, Map, Set, or another iterable:","learn":"`for...of` dey work with iterables. Number no be iterable."}}},{"id":"json-parse","label":"Json parse","match":"^SyntaxError: (?:Unexpected token .+ in JSON at position \\d+|Unexpected token .+, .+ is not valid JSON)$","sample":"SyntaxError: Unexpected token '\u003c', \"\u003c!DOCTYPE html>\" is not valid JSON","fix_code":"console.log(text.slice(0, 80));","what":"The code passed text to `JSON.parse`, but the text was not valid JSON. A common cause is a server returning an HTML error page instead of JSON.","tones":{"street":{"headline":"`JSON.parse` no fit read this text","happen":"You give `JSON.parse` one text wey no be JSON. Maybe na HTML page or ordinary text come back from the request.","todo":"Check wetin the server return before you parse am:","learn":"JSON na strict format. One small `\u003c` or missing quote fit make am invalid."},"normal":{"headline":"`JSON.parse` no fit read this text","happen":"You pass text wey no be JSON to `JSON.parse`. Maybe the response be HTML page or plain text.","todo":"Check the response before you parse am:","learn":"JSON na strict text format. One small mistake fit make am invalid."}}},{"id":"enoent","label":"Enoent","match":"^Error: ENOENT: no such file or directory, open '(.+)'$","sample":"Error: ENOENT: no such file or directory, open 'does-not-exist.txt'","fix_code":"path.join(__dirname, \"{1}\")","what":"Node tried to open `{1}`, but no file exists at that path. Check the path, the working directory, and whether the file was created.","tones":{"street":{"headline":"Node no find `{1}`","happen":"You ask Node to open `{1}`, but that file no dey for that path.","todo":"Check the path and the folder wey you dey run from:","learn":"`ENOENT` mean \"Error NO ENTry\". The file or folder no exist for the path."},"normal":{"headline":"Node no find `{1}`","happen":"Node try to open `{1}`, but no file dey that path.","todo":"Check the path and the working directory:","learn":"`ENOENT` mean the file or folder no exist for the path you give."}}},{"id":"eqeqeq","label":"Eqeqeq","match":"^Expected '(===|!==)' and instead saw '(==|!=)'\\.?$","sample":"Expected '===' and instead saw '=='.","fix_code":"a {1} b","what":"The code uses loose equality. JavaScript converts the values before comparing them, which can produce surprising results.","tones":{"street":{"headline":"You use `{2}`, but `{1}` dey safer","happen":"`{2}` dey compare after e change the values. `{1}` compare the value and the type, so e no dey do magic conversion.","todo":"Change am to:","learn":"`==` fit say `1` and `\"1\"` equal. `===` no go gree."},"normal":{"headline":"Use `{1}` instead of `{2}`","happen":"`{2}` converts the values before comparing them. `{1}` compares both the value and the type, so the result is easier to predict.","todo":"Change am to:","learn":"`==` fit say `1` and `\"1\"` equal. `===` no go gree."}}},{"id":"no-async-promise-executor","label":"No async promise executor","match":"^Promise executor functions should not be async\\.?$","sample":"Promise executor functions should not be async.","fix_code":"new Promise((resolve) => { ... })","what":"A Promise executor is marked async. Errors inside it become a rejected promise that the outer Promise never sees.","tones":{"street":{"headline":"You mark Promise executor as `async`","happen":"The function inside `new Promise(...)` no suppose be `async`. If e throw, the error go turn to one promise wey nobody catch, so the outer `Promise` no go know.","todo":"Remove `async` from the executor, or move the async work outside:","learn":"\"executor\" na the function wey you give `new Promise`."},"normal":{"headline":"The Promise executor should not be `async`","happen":"The function inside `new Promise(...)` is `async`. If it throws, the error becomes a rejected promise that the outer `Promise` never sees.","todo":"Remove `async` from the executor, or move the async work outside:","learn":"\"executor\" na the function wey you give `new Promise`."}}},{"id":"no-const-assign","label":"No const assign","match":"^'([^']+)' is constant\\.?$","sample":"'value' is constant.","fix_code":"let {1} = ...;","what":"ESLint found an assignment to a variable declared with const.","tones":{"street":{"headline":"You try change `{1}`, but you mark am as `const`","happen":"`{1}` na `const`. Once you assign am, you no fit assign another value.","todo":"If e need to change, use `let`:","learn":"`const` mean say the binding no dey change."},"normal":{"headline":"`{1}` na `const`, so you no fit reassign am","happen":"`{1}` was declared with `const`. A `const` binding cannot be reassigned after it is created.","todo":"If e need to change, use `let`:","learn":"`const` mean say the binding no dey change."}}},{"id":"no-dupe-keys","label":"No dupe keys","match":"^Duplicate key '([^']+)'\\.?$","sample":"Duplicate key 'a'.","fix_code":null,"what":"An object literal declares the same key more than once. The last value wins.","tones":{"street":{"headline":"You put `{1}` two times inside one object","happen":"The object get `{1}` two times. JavaScript go keep the last one, so the first value disappear quietly.","todo":"Remove one of them, or rename the second key.","learn":"\"duplicate key\" mean say the same key show more than once."},"normal":{"headline":"`{1}` dey inside the object more than once","happen":"The object literal declares `{1}` twice. JavaScript keeps the last value, so the first one is silently lost.","todo":"Remove one of them, or rename the second key.","learn":"\"duplicate key\" mean say the same key show more than once."}}},{"id":"no-func-assign","label":"No func assign","match":"^'([^']+)' is a function\\.?$","sample":"'fn' is a function.","fix_code":null,"what":"An assignment targets a name that was declared as a function.","tones":{"street":{"headline":"You try change `{1}`, but `{1}` na function","happen":"You declare `{1}` as a function, then you assign another value to am. That replace the function, so later calls go fail.","todo":"Use a different name for the new value, or change the function declaration first.","learn":"\"function\" here mean say the name already hold a function, not a normal variable."},"normal":{"headline":"`{1}` na function, so you no fit reassign am","happen":"`{1}` was declared as a function and then assigned another value. The function is replaced, so later calls will fail.","todo":"Use a different name for the new value, or change the function declaration first.","learn":"\"function\" here mean say the name already hold a function, not a normal variable."}}},{"id":"no-import-assign","label":"No import assign","match":"^(?:'[^']+' is read-only|The members of '[^']+' are read-only)\\.?$","sample":"'imported' is read-only.","fix_code":null,"what":"An assignment targets an imported binding or an imported namespace. Imports are read-only.","tones":{"street":{"headline":"You try change imported value","happen":"Wetin you import na read-only. You no fit assign new value to am, and you no fit change the namespace members.","todo":"Create a local variable from the import, then change that one.","learn":"\"read-only\" mean say you fit read am, but you no fit write am."},"normal":{"headline":"Imported values are read-only","happen":"You tried to assign to an imported binding or a member of an imported namespace. Both are read-only.","todo":"Create a local variable from the import, then change that one.","learn":"\"read-only\" mean say you fit read am, but you no fit write am."}}},{"id":"no-redeclare","label":"No redeclare","match":"^'([^']+)' is already defined\\.?$","sample":"'value' is already defined.","fix_code":null,"what":"ESLint found the same variable declared more than once in one scope.","tones":{"street":{"headline":"You define `{1}` two times","happen":"ESLint see another declaration for `{1}` in the same scope. The second one fit override the first, or cause confusion.","todo":"Remove the second declaration or rename am.","learn":"\"redeclare\" mean say you declare the same name again."},"normal":{"headline":"`{1}` dey declared more than once","happen":"ESLint found more than one declaration for `{1}` in the same scope. The later one can override the earlier one.","todo":"Remove the second declaration or rename am.","learn":"\"redeclare\" mean say you declare the same name again."}}},{"id":"no-shadow","label":"No shadow","match":"^'([^']+)' is already declared in the upper scope","sample":"'inner' is already declared in the upper scope on line 7 column 26.","fix_code":null,"what":"A new variable uses a name that already exists in an outer scope. The inner variable hides the outer one.","tones":{"street":{"headline":"`{1}` don already dey for outside scope","happen":"You create `{1}` inside, but `{1}` already dey for the outer scope. The new one hide the old one, so e easy to read the wrong value.","todo":"Rename the inner one, or reuse the outer one if that na wetin you want.","learn":"\"shadow\" mean say one name hide another name wey get the same name."},"normal":{"headline":"`{1}` don already dey for the outer scope","happen":"You declared `{1}` again inside a nested scope. It hides the outer `{1}`, which can make the code read the wrong value.","todo":"Rename the inner one, or reuse the outer one if that na wetin you want.","learn":"\"shadow\" mean say one name hide another name wey get the same name."}}},{"id":"no-undef","label":"No undef","match":"^'([^']+)' is not defined\\.?$","sample":"'name' is not defined.","fix_code":"const {1} = value;","what":"ESLint found a name that is used but never declared or imported.","tones":{"street":{"headline":"You use `{1}`, but e no dey defined","happen":"ESLint see say you use `{1}`, but e never see where you define am. E fit be typo, or you forget to import am.","todo":"Check the spelling, or define/import am first:","learn":"\"not defined\" mean say the name no dey anywhere ESLint fit see."},"normal":{"headline":"ESLint no see where `{1}` dey defined","happen":"You use `{1}`, but ESLint no see where you define am. Check the spelling, or import am.","todo":"Check the spelling, or define/import am first:","learn":"\"not defined\" mean say the name no dey anywhere ESLint fit see."}}},{"id":"no-unreachable","label":"No unreachable","match":"^Unreachable code\\.?$","sample":"Unreachable code.","fix_code":null,"what":"This line can never run because an earlier statement always exits, returns, or throws.","tones":{"street":{"headline":"This line no go ever run","happen":"Something before this line already return, throw, or stop the function. So this code no fit run at all.","todo":"Remove the dead code, or move am before the statement wey stop the function.","learn":"\"unreachable\" mean say the program no fit reach that line."},"normal":{"headline":"This line can never run","happen":"An earlier statement always returns, throws, or exits. Control never reaches this line, so the code is dead.","todo":"Remove the dead code, or move am before the statement wey stop the function.","learn":"\"unreachable\" mean say the program no fit reach that line."}}},{"id":"no-unsafe-optional-chaining","label":"No unsafe optional chaining","match":"^Unsafe usage of optional chaining\\.","sample":"Unsafe usage of optional chaining. If it short-circuits with 'undefined' the evaluation will throw TypeError.","fix_code":"thing?.a?.b","what":"An optional chain is used in a place that still throws when the chain short-circuits to undefined.","tones":{"street":{"headline":"Your `?.` fit still throw `TypeError`","happen":"You use `?.` inside brackets, call, or spread. If the left side short-circuit to `undefined`, the next operation still throw.","todo":"Check the value before you use am, or add another `?.`:","learn":"`?.` only protect the step wey e dey on. E no protect the next operation."},"normal":{"headline":"This optional chain can still throw `TypeError`","happen":"The optional chain is used in a context that still throws when the chain short-circuits to `undefined`, such as a call, spread, or bracket access.","todo":"Check the value before you use am, or add another `?.`:","learn":"`?.` only protect the step wey e dey on. E no protect the next operation."}}},{"id":"no-unused-vars","label":"No unused vars","match":"^'([^']+)' is (?:assigned a value but never used|defined but never used)\\.?$","sample":"'count' is assigned a value but never used.","fix_code":null,"what":"ESLint found a variable that is declared but never used.","tones":{"street":{"headline":"You create `{1}`, but you never use am","happen":"ESLint see `{1}` declared, but nothing dey use am. E no dey break the app, but e dey confuse readers and fit hide a mistake.","todo":"Use am, or remove am if you no need am.","learn":"\"unused\" mean say you create am but you no use am."},"normal":{"headline":"`{1}` dey declared, but nothing dey use am","happen":"ESLint found `{1}` declared but never used. It will not break the app, but it makes the code harder to follow.","todo":"Use am, or remove am if you no need am.","learn":"\"unused\" mean say you create am but you no use am."}}},{"id":"parse-error","label":"Parse error","match":"^Parsing error: (.+)$","sample":"Parsing error: Unexpected token ;","fix_code":null,"what":"ESLint could not parse the file. The code has a syntax problem before any rule can run.","tones":{"street":{"headline":"ESLint no fit read this file","happen":"The parser stop before linting start. E see `{1}` for the place wey the syntax break.","todo":"Check the line for a missing bracket, quote, comma, or keyword.","learn":"\"parsing error\" mean say the code no follow JavaScript grammar."},"normal":{"headline":"ESLint cannot parse this file","happen":"Parsing stopped before linting began. The parser reported `{1}` where the syntax breaks.","todo":"Check the line for a missing bracket, quote, comma, or keyword.","learn":"\"parsing error\" mean say the code no follow JavaScript grammar."}}}];
+var SCAN = {"file":"components/UserCard.jsx","code":"import { useState } from \"react\";\n\nexport default function UserCard({ users }) {\n  const [open, setOpen] = useState(false);\n  const title = \"User card\";\n  const user = users.find((item) => item.id == 1);\n\n  function toggle() {\n    console.log(\"toggle\", user);\n    setOpen(!open);\n    return true;\n    console.log(\"done\");\n  }\n\n  return (\n    \u003carticle onClick={toggle}>\n      \u003ch2>{username}\u003c/h2>\n      {open && \u003cp>{user.bio}\u003c/p>}\n    \u003c/article>\n  );\n}","findings":[{"ruleId":"no-unused-vars","severity":"warning","line":5,"column":9,"message":"'title' is assigned a value but never used."},{"ruleId":"eqeqeq","severity":"error","line":6,"column":46,"message":"Expected '===' and instead saw '=='."},{"ruleId":"no-console","severity":"warning","line":9,"column":5,"message":"Unexpected console statement."},{"ruleId":"no-unreachable","severity":"error","line":12,"column":5,"message":"Unreachable code."},{"ruleId":"no-undef","severity":"error","line":17,"column":12,"message":"'username' is not defined."}]};
+var still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+var tone = readTone();
+var lastRun = null;
+var lastExplain = null;
+var selectedFinding = 0;
+var runWorker = null;
+var runTimer = null;
+var runUrl = null;
+
+function readTone() {
+  try {
+    var saved = localStorage.getItem("sabicode-tone");
+    return saved === "normal" || saved === "street" ? saved : "street";
+  } catch (error) {
+    return "street";
+  }
+}
+
+function saveTone(value) {
+  try {
+    localStorage.setItem("sabicode-tone", value);
+  } catch (error) {
+    // Storage can be unavailable; the page still renders with the current tone.
+  }
+}
+
+function esc(value) {
+  return String(value).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
+function fill(template, captures) {
+  return String(template).replace(/\{(\d+)\}/g, function (placeholder, index) {
+    var value = captures[Number(index) - 1];
+    return value === undefined ? placeholder : value;
+  });
+}
+
+function inline(template, captures) {
+  return esc(fill(template, captures)).replace(/`([^`]+)`/g, "<code>$1</code>");
+}
+
+function errorLine(text) {
+  var lines = String(text).split(/\r?\n/);
+  for (var i = 0; i < lines.length; i++) {
+    var match = /^(?:Uncaught )?(\w*Error)(?: \[(\w+)\])?: (.+)$/.exec(lines[i].trim());
+    if (match) {
+      return { name: match[1], code: match[2] || null, message: match[3], line: lines[i].trim() };
+    }
+  }
+  return null;
+}
+
+function matchError(normalized) {
+  for (var i = 0; i < ERRORS.length; i++) {
+    var match = new RegExp(ERRORS[i].match).exec(normalized);
+    if (match) {
+      return { entry: ERRORS[i], captures: match.slice(1).map(function (value) { return value === undefined ? "" : value; }) };
+    }
+  }
+  return null;
+}
+
+function renderExplanation(entry, captures, english, label) {
+  var copy = entry.tones[tone];
+  var head = label ? esc(label) + ": " : "";
+  var fix = entry.fix_code ? '<div class="fix"><code>' + esc(fill(entry.fix_code, captures)) + '</code></div>' : "";
+  return '<div class="pg">' +
+    '<div class="hd">🦜 ' + head + inline(copy.headline, captures) + '</div>' +
+    '<div><b>Wetin happen:</b> ' + inline(copy.happen, captures) + '</div>' +
+    '<div><b>Wetin to do:</b> ' + inline(copy.todo, captures) + fix + '</div>' +
+    '<div><b>Learn am:</b> ' + inline(copy.learn, captures) + '</div>' +
+    '<div class="en">English: ' + esc(english) + '</div>' +
+    '</div>';
+}
+
+function renderUnknown(english, label) {
+  var head = label ? esc(label) + ": " : "";
+  return '<div class="pg">' +
+    '<div class="hd">🦜 ' + head + 'This one na new to me</div>' +
+    '<div>Check the English message below. We go add am soon.</div>' +
+    '<div class="en">English: ' + esc(english) + '</div>' +
+    '</div>';
+}
+
+function renderGeneric(ruleId, english) {
+  var copy = {
+    street: {
+      headline: "ESLint catch one problem: `" + ruleId + "`",
+      happen: "ESLint rule `" + ruleId + "` flag this code. Sabicode never get a full Pidgin explanation for this rule yet, so check the English message below.",
+      todo: "Fix the code, or read the rule docs. Run `sabi rules` to see the rules wey get Pidgin.",
+      learn: "The rule id na the English name for the check wey ESLint run."
+    },
+    normal: {
+      headline: "ESLint flagged this code with `" + ruleId + "`",
+      happen: "ESLint rule `" + ruleId + "` flagged this code. Sabicode does not have a full Pidgin explanation for this rule yet, so check the English message below.",
+      todo: "Fix the code, or read the rule docs. Run `sabi rules` to see the rules wey get Pidgin.",
+      learn: "The rule id na the English name for the check wey ESLint run."
+    }
+  }[tone];
+
+  return '<div class="pg">' +
+    '<div class="hd">🦜 ' + inline(copy.headline, []) + '</div>' +
+    '<div><b>Wetin happen:</b> ' + inline(copy.happen, []) + '</div>' +
+    '<div><b>Wetin to do:</b> ' + inline(copy.todo, []) + '</div>' +
+    '<div><b>Learn am:</b> ' + inline(copy.learn, []) + '</div>' +
+    '<div class="en">English: ' + esc(english) + '</div>' +
+    '</div>';
+}
+
+function setRunOutput(html) {
+  document.getElementById("run-out").innerHTML = html;
+}
+
+function renderRun() {
+  if (!lastRun) {
+    setRunOutput('<span class="cmd">$ sabi run app.js</span>\n<span class="dim">Press "Run code" to see the Pidgin explanation.</span>');
+    return;
+  }
+
+  var html = '<span class="cmd">$ sabi run app.js</span>\n';
+
+  if (lastRun.logs && lastRun.logs.length) {
+    html += '<div class="logs">' + lastRun.logs.map(esc).join("\n") + '</div>';
+  }
+
+  if (lastRun.kind === "ok") {
+    html += '<div class="ok">No error. Sabicode only speaks when something breaks.</div>';
+  } else if (lastRun.kind === "timeout") {
+    html += '<div class="pg">' +
+      '<div class="hd">🦜 Your code no finish</div>' +
+      '<div><b>Wetin happen:</b> E run pass 3 seconds. Something dey loop forever, or e dey wait for something wey no go come.</div>' +
+      '<div><b>Wetin to do:</b> Check your <code>while</code> and <code>for</code> loops, and any <code>await</code> wey no go resolve.</div>' +
+      '<div><b>Learn am:</b> A loop needs a condition wey go eventually become false.</div>' +
+      '</div>';
+  } else {
+    var english = lastRun.name + ": " + lastRun.message;
+    var found = matchError(english);
+    html += found ? renderExplanation(found.entry, found.captures, english, lastRun.name) : renderUnknown(english, lastRun.name);
+  }
+
+  setRunOutput(html);
+}
+
+var WORKER_SOURCE = [
+  'self.onmessage = async function (event) {',
+  '  var code = event.data.code;',
+  '  var logs = [];',
+  '  function show(value) {',
+  '    if (typeof value === "string") return value;',
+  '    try { return JSON.stringify(value); } catch (error) { return String(value); }',
+  '  }',
+  '  var fakeConsole = {};',
+  '  ["log", "info", "warn", "error"].forEach(function (level) {',
+  '    fakeConsole[level] = function () {',
+  '      var parts = [];',
+  '      for (var i = 0; i < arguments.length; i++) parts.push(show(arguments[i]));',
+  '      logs.push(parts.join(" "));',
+  '    };',
+  '  });',
+  '  try {',
+  '    var AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;',
+  '    var fn = new AsyncFunction("console", code);',
+  '    await fn(fakeConsole);',
+  '    self.postMessage({ type: "done", logs: logs });',
+  '  } catch (error) {',
+  '    self.postMessage({',
+  '      type: "error",',
+  '      logs: logs,',
+  '      name: error && error.name ? error.name : "Error",',
+  '      message: error && error.message ? error.message : String(error)',
+  '    });',
+  '  }',
+  '};'
+].join("\n");
+
+function finishWorker() {
+  clearTimeout(runTimer);
+  runTimer = null;
+  if (runWorker) {
+    runWorker.terminate();
+    runWorker = null;
+  }
+  if (runUrl) {
+    URL.revokeObjectURL(runUrl);
+    runUrl = null;
+  }
+}
+
+function runCode() {
+  finishWorker();
+  lastRun = null;
+  setRunOutput('<span class="cmd">$ sabi run app.js</span>\n<span class="dim">Running in a sandbox...</span>');
+
+  var blob = new Blob([WORKER_SOURCE], { type: "text/javascript" });
+  runUrl = URL.createObjectURL(blob);
+  runWorker = new Worker(runUrl);
+
+  runWorker.onmessage = function (event) {
+    var data = event.data || {};
+    finishWorker();
+    lastRun = {
+      kind: data.type === "done" ? "ok" : "error",
+      logs: data.logs || [],
+      name: data.name || "Error",
+      message: data.message || "Unknown error"
+    };
+    renderRun();
+  };
+
+  runWorker.onerror = function (event) {
+    finishWorker();
+    lastRun = {
+      kind: "error",
+      logs: [],
+      name: "Error",
+      message: event.message || "The sandbox stopped."
+    };
+    renderRun();
+  };
+
+  runWorker.postMessage({ code: document.getElementById("code").value });
+
+  runTimer = setTimeout(function () {
+    finishWorker();
+    lastRun = { kind: "timeout", logs: [] };
+    renderRun();
+  }, 3000);
+}
+
+var PRESETS = [
+  {
+    label: "undefined property",
+    code: 'const user = { name: "Ada" };\nconsole.log(user.profile.name);'
+  },
+  {
+    label: "ReferenceError",
+    code: 'console.log(price);'
+  },
+  {
+    label: "not a function",
+    code: 'const greet = "hello";\ngreet();'
+  },
+  {
+    label: "JSON parse",
+    code: 'JSON.parse("<html>");'
+  },
+  {
+    label: "const assign",
+    code: 'const count = 1;\ncount = 2;\nconsole.log(count);'
+  },
+  {
+    label: "infinite loop",
+    code: 'while (true) {}'
+  },
+  {
+    label: "works",
+    code: 'console.log("Sabicode is ready");'
+  }
+];
+
+function setCode(code) {
+  document.getElementById("code").value = code;
+}
+
+function buildPresets() {
+  var box = document.getElementById("presets");
+  PRESETS.forEach(function (preset, index) {
+    var button = document.createElement("button");
+    button.type = "button";
+    button.textContent = preset.label;
+    button.setAttribute("aria-pressed", String(index === 0));
+    button.onclick = function () {
+      for (var i = 0; i < box.children.length; i++) {
+        box.children[i].setAttribute("aria-pressed", String(i === index));
+      }
+      setCode(preset.code);
+      runCode();
+    };
+    box.appendChild(button);
+  });
+}
+
+var ERROR_PRESETS = [
+  "TypeError: Cannot read properties of undefined (reading 'name')",
+  "ReferenceError: name is not defined",
+  "TypeError: greet is not a function",
+  "SyntaxError: Unexpected token ';'",
+  "SyntaxError: Unexpected token '<', \"<!DOCTYPE html>\" is not valid JSON"
+];
+
+function buildErrorPresets() {
+  var box = document.getElementById("error-presets");
+  ERROR_PRESETS.forEach(function (message) {
+    var button = document.createElement("button");
+    button.type = "button";
+    button.textContent = message.replace(/^(\w+): .*/, "$1");
+    button.title = message;
+    button.onclick = function () {
+      document.getElementById("error-input").value = message;
+      explainError();
+    };
+    box.appendChild(button);
+  });
+}
+
+function explainError() {
+  var input = document.getElementById("error-input").value;
+  var foundLine = errorLine(input);
+  var out = document.getElementById("explain-out");
+
+  if (!foundLine) {
+    lastExplain = null;
+    out.innerHTML = '<span class="cmd">$ sabi explain</span>\n<div class="pg"><div class="hd">🦜 No JavaScript error line</div><div>I no see line like <code>ReferenceError: ...</code> inside that message. Paste the full error line or the stack trace.</div></div>';
+    return;
+  }
+
+  var normalized = foundLine.name + ": " + foundLine.message;
+  var found = matchError(normalized);
+  lastExplain = { found: found, english: foundLine.line, label: foundLine.name };
+
+  out.innerHTML = '<span class="cmd">$ sabi explain</span>\n' +
+    (found
+      ? renderExplanation(found.entry, found.captures, foundLine.line, foundLine.name)
+      : renderUnknown(foundLine.line, foundLine.name));
+}
+
+function renderScanCode() {
+  var box = document.getElementById("scan-code");
+  var lines = SCAN.code.split("\n");
+  var findingLines = {};
+  SCAN.findings.forEach(function (finding) {
+    findingLines[finding.line] = true;
+  });
+
+  box.innerHTML = lines.map(function (line, index) {
+    var number = index + 1;
+    var cls = "scan-line" + (findingLines[number] ? " has-finding" : "");
+    return '<div class="' + cls + '" data-line="' + number + '"><span class="ln">' + number + '</span><span class="lc">' + esc(line) + '</span></div>';
+  }).join("");
+}
+
+function renderFindings() {
+  var box = document.getElementById("scan-findings");
+  box.innerHTML = "";
+
+  SCAN.findings.forEach(function (finding, index) {
+    var button = document.createElement("button");
+    button.type = "button";
+    button.className = "finding" + (index === selectedFinding ? " active" : "");
+    button.innerHTML = '<span class="severity ' + finding.severity + '">' + finding.severity + '</span>' +
+      '<span class="f-rule">' + esc(finding.ruleId) + '</span>' +
+      '<span class="f-loc">' + esc(SCAN.file) + ':' + finding.line + ':' + finding.column + '</span>';
+    button.onclick = function () {
+      selectedFinding = index;
+      renderFindings();
+      renderSelectedFinding();
+    };
+    box.appendChild(button);
+  });
+}
+
+function renderSelectedFinding() {
+  var finding = SCAN.findings[selectedFinding];
+  var out = document.getElementById("scan-out");
+  if (!finding) {
+    out.innerHTML = "";
+    return;
+  }
+
+  document.querySelectorAll(".scan-line").forEach(function (line) {
+    line.classList.toggle("selected", Number(line.dataset.line) === finding.line);
+  });
+
+  var entry = null;
+  for (var i = 0; i < ERRORS.length; i++) {
+    if (ERRORS[i].id === finding.ruleId) {
+      entry = ERRORS[i];
+      break;
+    }
+  }
+
+  var matched = null;
+  if (entry) {
+    var match = new RegExp(entry.match).exec(finding.message);
+    if (match) {
+      matched = { entry: entry, captures: match.slice(1).map(function (value) { return value === undefined ? "" : value; }) };
+    }
+  }
+
+  out.innerHTML = '<div class="finding-head"><span class="severity ' + finding.severity + '">' + finding.severity + '</span> <code>' + esc(finding.ruleId) + '</code> · ' + esc(SCAN.file) + ':' + finding.line + ':' + finding.column + '</div>' +
+    (matched
+      ? renderExplanation(matched.entry, matched.captures, finding.message, null)
+      : renderGeneric(finding.ruleId, finding.message));
+}
+
+var scanPlayed = false;
+
+function replayScan() {
+  var box = document.getElementById("scan-findings");
+  box.innerHTML = "";
+  selectedFinding = 0;
+
+  if (still) {
+    renderFindings();
+    renderSelectedFinding();
+    return;
+  }
+
+  SCAN.findings.forEach(function (finding, index) {
+    setTimeout(function () {
+      var button = document.createElement("button");
+      button.type = "button";
+      button.className = "finding reveal-in" + (index === selectedFinding ? " active" : "");
+      button.innerHTML = '<span class="severity ' + finding.severity + '">' + finding.severity + '</span>' +
+        '<span class="f-rule">' + esc(finding.ruleId) + '</span>' +
+        '<span class="f-loc">' + esc(SCAN.file) + ':' + finding.line + ':' + finding.column + '</span>';
+      button.onclick = function () {
+        selectedFinding = index;
+        renderFindings();
+        renderSelectedFinding();
+      };
+      box.appendChild(button);
+      if (index === 0) renderSelectedFinding();
+    }, index * 160);
+  });
+}
+
+function showPane(name) {
+  var tabs = document.querySelectorAll('[role="tab"]');
+  for (var i = 0; i < tabs.length; i++) {
+    var selected = tabs[i].dataset.pane === name;
+    tabs[i].setAttribute("aria-selected", String(selected));
+    tabs[i].tabIndex = selected ? 0 : -1;
+    document.getElementById("pane-" + tabs[i].dataset.pane).hidden = !selected;
+  }
+
+  if (name === "scan" && !scanPlayed) {
+    scanPlayed = true;
+    replayScan();
+  }
+}
+
+function setToneButtons() {
+  var buttons = document.querySelectorAll(".seg button[data-tone]");
+  for (var i = 0; i < buttons.length; i++) {
+    buttons[i].setAttribute("aria-pressed", String(buttons[i].dataset.tone === tone));
+  }
+}
+
+document.querySelectorAll('[role="tab"]').forEach(function (tab) {
+  tab.onclick = function () {
+    showPane(this.dataset.pane);
+  };
+  tab.onkeydown = function (event) {
+    if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
+    event.preventDefault();
+    var tabs = Array.prototype.slice.call(document.querySelectorAll('[role="tab"]'));
+    var index = tabs.indexOf(this);
+    var next = event.key === "ArrowRight" ? (index + 1) % tabs.length : (index - 1 + tabs.length) % tabs.length;
+    tabs[next].focus();
+    showPane(tabs[next].dataset.pane);
+  };
+});
+
+document.querySelectorAll(".seg button[data-tone]").forEach(function (button) {
+  button.onclick = function () {
+    tone = this.dataset.tone;
+    saveTone(tone);
+    setToneButtons();
+    renderRun();
+    if (lastExplain) {
+      document.getElementById("explain-out").innerHTML = '<span class="cmd">$ sabi explain</span>\n' +
+        (lastExplain.found
+          ? renderExplanation(lastExplain.found.entry, lastExplain.found.captures, lastExplain.english, lastExplain.label)
+          : renderUnknown(lastExplain.english, lastExplain.label));
+    }
+    if (scanPlayed) renderSelectedFinding();
+  };
+});
+
+document.getElementById("run").onclick = runCode;
+document.getElementById("explain").onclick = explainError;
+document.getElementById("replay-scan").onclick = replayScan;
+document.getElementById("reset").onclick = function () {
+  setCode(PRESETS[0].code);
+  runCode();
+};
+
+document.getElementById("copy").onclick = function () {
+  var note = document.getElementById("copied");
+  var command = "npx sabicode app.js";
+  var done = function () {
+    note.textContent = "Copied. Run it in your project.";
+  };
+  var fail = function () {
+    note.textContent = "Copy failed. Select the command and copy it by hand.";
+  };
+  var legacy = function (text) {
+    try {
+      var area = document.createElement("textarea");
+      area.value = text;
+      area.setAttribute("readonly", "");
+      area.style.position = "fixed";
+      area.style.opacity = "0";
+      document.body.appendChild(area);
+      area.select();
+      var ok = document.execCommand("copy");
+      document.body.removeChild(area);
+      return ok;
+    } catch (error) {
+      return false;
+    }
+  };
+
+  try {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(command).then(done, function () {
+        if (legacy(command)) done(); else fail();
+      });
+    } else if (legacy(command)) {
+      done();
+    } else {
+      fail();
+    }
+  } catch (error) {
+    if (legacy(command)) done(); else fail();
+  }
+};
+
+buildPresets();
+buildErrorPresets();
+renderScanCode();
+renderFindings();
+setCode(PRESETS[0].code);
+setToneButtons();
+renderRun();
+runCode();
+</script>
+</body>
+</html>

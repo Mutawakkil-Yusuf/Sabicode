@@ -1,0 +1,30 @@
+{
+  "id": "eqeqeq",
+  "language": "javascript",
+  "concept": "operators",
+  "match": "^Expected '(===|!==)' and instead saw '(==|!=)'\\.?$",
+  "samples": [
+    "Expected '===' and instead saw '=='."
+  ],
+  "fix_code": "a {1} b",
+  "review": {
+    "status": "draft",
+    "reviewers": [],
+    "contentHash": null
+  },
+  "what": "The code uses loose equality. JavaScript converts the values before comparing them, which can produce surprising results.",
+  "tone": {
+    "street": {
+      "headline": "You use `{2}`, but `{1}` dey safer",
+      "happen": "`{2}` dey compare after e change the values. `{1}` compare the value and the type, so e no dey do magic conversion.",
+      "todo": "Change am to:",
+      "learn": "`==` fit say `1` and `\"1\"` equal. `===` no go gree."
+    },
+    "normal": {
+      "headline": "Use `{1}` instead of `{2}`",
+      "happen": "`{2}` converts the values before comparing them. `{1}` compares both the value and the type, so the result is easier to predict.",
+      "todo": "Change am to:",
+      "learn": "`==` fit say `1` and `\"1\"` equal. `===` no go gree."
+    }
+  }
+}

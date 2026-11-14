@@ -70,10 +70,26 @@ test('CLI: list shows every entry, its concept, and review state', () => {
 test('CLI: concepts shows the catalog and entry counts', () => {
   const result = run(['concepts']);
   assert.equal(result.status, 0);
-  assert.match(result.stdout, /Concepts: 11/);
-  assert.match(result.stdout, /scope\s+2 entries\s+Scope and references/);
+  assert.match(result.stdout, /Concepts: 14/);
+  assert.match(result.stdout, /scope\s+4 entries\s+Scope and references/);
   assert.match(result.stdout, /data-formats\s+1 entry\s+Data formats/);
   assert.equal(result.stderr, '');
+});
+
+test('CLI: rules lists the ESLint catalog', () => {
+  const result = run(['rules']);
+  assert.equal(result.status, 0);
+  assert.match(result.stdout, /ESLint rules: 13/);
+  assert.match(result.stdout, /no-undef\s+scope\s+no/);
+  assert.match(result.stdout, /eqeqeq\s+operators\s+no/);
+  assert.equal(result.stderr, '');
+});
+
+test('CLI: scan explains how to install ESLint when it is missing', () => {
+  const result = run(['scan'], { env: { SABI_ESLINT: '' } });
+  assert.equal(result.status, 2);
+  assert.match(result.stderr, /ESLint is not installed for this project/);
+  assert.match(result.stderr, /npm install --save-dev eslint/);
 });
 
 test('CLI: invalid tone warns and falls back to street', () => {

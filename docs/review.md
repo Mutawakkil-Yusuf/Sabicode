@@ -1,8 +1,32 @@
 # Pidgin review guide
 
-Sabicode ships Pidgin copy, not generated text. Every entry stays a draft until
-a Pidgin speaker signs it off. The sign-off is tied to the exact content that was
-reviewed, so a later edit cannot silently inherit an old approval.
+Sabicode ships Pidgin copy, not generated text. Every runtime entry and every
+ESLint rule entry stays a draft until a Pidgin speaker signs it off. The sign-off
+is tied to the exact content that was reviewed, so a later edit cannot silently
+inherit an old approval.
+
+## Runtime and ESLint catalogs
+
+There are two catalogs:
+
+- `dictionary/` covers Node runtime errors.
+- `eslint/` covers ESLint rule messages.
+
+They share the same schema, renderer, layout, and review record. The review tool
+covers both by default. Use `--runtime` or `--eslint` when you want to work on one
+catalog:
+
+```sh
+npm run review -- list
+npm run review -- list --eslint
+npm run review -- show eqeqeq --eslint
+npm run review -- verify
+npm run review -- verify --eslint
+```
+
+An ESLint rule that is not in the catalog still gets a generic Pidgin
+explanation at scan time. That fallback is not a reviewed entry and is not
+counted in the catalog.
 
 ## What a review covers
 
@@ -37,8 +61,8 @@ not want a learner to read.
 ## Suggest a change
 
 Open an issue or a pull request that changes only the `tone` strings in the
-relevant `dictionary/<id>.json`. Keep the layout, the backticks, and the English
-technical terms intact. Then run:
+relevant `dictionary/<id>.json` or `eslint/<rule-id>.json`. Keep the layout, the
+backticks, and the English technical terms intact. Then run:
 
 ```sh
 npm test
@@ -56,16 +80,22 @@ npm run review -- list
 npm run review -- show ref-not-defined
 npm run review -- sign ref-not-defined --reviewer "Ada Obi" --github adaobi
 npm run review -- verify
+
+npm run review -- show eqeqeq --eslint
+npm run review -- sign eqeqeq --reviewer "Ada Obi" --github adaobi --eslint
+npm run review -- verify --eslint
 ```
 
 The `sign` command writes the reviewer, the date, and a SHA-256 hash of the
 reviewed content into the entry. Use `--notes` for anything the next reviewer
-should know.
+should know. Without `--eslint` or `--runtime`, `list` and `verify` cover both
+catalogs.
 
 To withdraw a review or start over:
 
 ```sh
 npm run review -- reset ref-not-defined
+npm run review -- reset eqeqeq --eslint
 ```
 
 ## Why the hash matters
@@ -83,11 +113,12 @@ The review record looks like this:
 ```
 
 If the headline, explanation, fix, regex, or samples change, the hash no longer
-matches. `sabi list` shows the entry as `stale`, and `npm run review:verify`
-fails. That is intentional: a sign-off is for a specific version of the words,
-not for the file name.
+matches. `sabi list` (runtime) or `sabi rules` (ESLint) shows the entry as
+`stale`, and `npm run review:verify` fails. That is intentional: a sign-off is
+for a specific version of the words, not for the file name.
 
 ## Credits
 
-Reviewers are credited in the entry, in `sabi list`, and on the generated site.
-If you review under a different name or handle, say so in the pull request.
+Reviewers are credited in the entry, in `sabi list` (runtime), in `sabi rules`
+(ESLint), and on the generated site. If you review under a different name or
+handle, say so in the pull request.

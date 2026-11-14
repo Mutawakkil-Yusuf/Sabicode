@@ -4,13 +4,14 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { conceptMap, loadConcepts } = require('../src/concepts');
-const { loadDictionary } = require('../src/dictionary');
+const { loadDictionary, loadEslintRules } = require('../src/dictionary');
 
 // Single place to change the public site and the contact links.
 const SITE_URL = (
   process.env.SABI_SITE_URL || 'https://mutawakkil-yusuf.github.io/Sabicode'
 ).replace(/\/+$/, '');
 const REPO_URL = 'https://github.com/Mutawakkil-Yusuf/Sabicode';
+const NPM_URL = 'https://www.npmjs.com/package/sabicode';
 const SCHOOLS_URL =
   process.env.SABI_SCHOOLS_URL ||
   `${REPO_URL}/issues/new?labels=schools&title=%5BSchool%20pilot%5D%20`;
@@ -27,6 +28,7 @@ const OG_IMAGE_ALT = 'Sabicode, with Polly Glot the parrot and the command npx s
 const ROOT = path.join(__dirname, '..');
 const SITE_DIR = path.resolve(process.env.SABI_SITE_OUT || path.join(ROOT, 'site'));
 const TEMPLATE_PATH = path.join(__dirname, 'landing.template.html');
+const DEMO_TEMPLATE_PATH = path.join(__dirname, 'demo.template.html');
 const CSS_PATH = path.join(__dirname, 'site.css');
 
 if (SITE_DIR === ROOT || SITE_DIR === path.parse(SITE_DIR).root) {
@@ -34,8 +36,10 @@ if (SITE_DIR === ROOT || SITE_DIR === path.parse(SITE_DIR).root) {
 }
 
 const entries = loadDictionary();
+const eslintEntries = loadEslintRules();
 const concepts = conceptMap(loadConcepts());
 const template = fs.readFileSync(TEMPLATE_PATH, 'utf8');
+const demoTemplate = fs.readFileSync(DEMO_TEMPLATE_PATH, 'utf8');
 const css = fs.readFileSync(CSS_PATH, 'utf8');
 
 function escapeHtml(value) {
@@ -203,14 +207,117 @@ function gridLink(item) {
   return `<a href="errors/${item.entry.id}.html"><span class="g-concept">${escapeHtml(concept.title)}</span><span class="g-err">${escapeHtml(item.sample)}</span><span class="g-go">Open page →</span></a>`;
 }
 
-function demoData() {
-  return data.map((item) => ({
-    id: item.entry.id,
-    label: labelFor(item.entry.id),
-    cmd: item.sample,
-    s: item.tones.street,
-    n: item.tones.normal
-  }));
+function demoEntryData(entry) {
+  return {
+    id: entry.id,
+    label: labelFor(entry.id),
+    match: entry.match,
+    sample: entry.samples[0],
+    fix_code: entry.fix_code || null,
+    what: entry.what,
+    tones: {
+      street: {
+        headline: entry.tone.street.headline,
+        happen: entry.tone.street.happen,
+        todo: entry.tone.street.todo,
+        learn: entry.tone.street.learn
+      },
+      normal: {
+        headline: entry.tone.normal.headline,
+        happen: entry.tone.normal.happen,
+        todo: entry.tone.normal.todo,
+        learn: entry.tone.normal.learn
+      }
+    }
+  };
+}
+
+const HERO_CODE = {
+  'undefined-property': {
+    code: 'const user = users.find((u) => u.id === 1);\nconsole.log(user.name);',
+    line: 2,
+    column: 18
+  },
+  'ref-not-defined': { code: 'console.log(total);', line: 1, column: 13 },
+  'not-a-function': { code: 'const greet = "hello";\ngreet();', line: 2, column: 1 },
+  'json-parse': { code: 'const data = JSON.parse("<html>");', line: 1, column: 19 }
+};
+
+function heroData() {
+  return entries
+    .filter((entry) => HERO_CODE[entry.id])
+    .map((entry) => ({ ...demoEntryData(entry), ...HERO_CODE[entry.id] }));
+}
+
+function scanDemoData() {
+  return {
+    file: 'components/UserCard.jsx',
+    code: `import { useState } from "react";
+
+export default function UserCard({ users }) {
+  const [open, setOpen] = useState(false);
+  const title = "User card";
+  const user = users.find((item) => item.id == 1);
+
+  function toggle() {
+    console.log("toggle", user);
+    setOpen(!open);
+    return true;
+    console.log("done");
+  }
+
+  return (
+    <article onClick={toggle}>
+      <h2>{username}</h2>
+      {open && <p>{user.bio}</p>}
+    </article>
+  );
+}`,
+    findings: [
+      {
+        ruleId: 'no-unused-vars',
+        severity: 'warning',
+        line: 5,
+        column: 9,
+        message: "'title' is assigned a value but never used."
+      },
+      {
+        ruleId: 'eqeqeq',
+        severity: 'error',
+        line: 6,
+        column: 46,
+        message: "Expected '===' and instead saw '=='."
+      },
+      {
+        ruleId: 'no-console',
+        severity: 'warning',
+        line: 9,
+        column: 5,
+        message: 'Unexpected console statement.'
+      },
+      {
+        ruleId: 'no-unreachable',
+        severity: 'error',
+        line: 12,
+        column: 5,
+        message: 'Unreachable code.'
+      },
+      {
+        ruleId: 'no-undef',
+        severity: 'error',
+        line: 17,
+        column: 12,
+        message: "'username' is not defined."
+      }
+    ]
+  };
+}
+
+function jsonForScript(value) {
+  return JSON.stringify(value)
+    .replace(/</g, '\\u003c')
+    .replace(/\u2028/g, '\\u2028')
+    .replace(/\u2029/g, '\\u2029');
 }
 
 function toneCard(tone, copy) {
@@ -248,7 +355,10 @@ ${svgDefs()}
 <div class="wrap">
   <nav>
     <a class="logo" href="../index.html">${logoSvg()}<span>sabicode</span></a>
-    <a class="s" href="../index.html">All errors</a>
+    <div class="nav-links">
+      <a class="s" href="../demo.html">Live demo</a>
+      <a class="s" href="../index.html">All errors</a>
+    </div>
   </nav>
 
   <main id="main" class="error-page">
@@ -296,10 +406,7 @@ ${talkScript()}
 }
 
 function renderIndex() {
-  const demo = JSON.stringify(demoData())
-    .replace(/</g, '\\u003c')
-    .replace(/\u2028/g, '\\u2028')
-    .replace(/\u2029/g, '\\u2029');
+  const runtimeConcepts = new Set(entries.map((entry) => entry.concept)).size;
 
   const replacements = {
     HEAD: head({
@@ -312,8 +419,12 @@ function renderIndex() {
     LOGO_SVG: logoSvg(),
     POLLY_TERMINAL: pollySvg(),
     ERROR_COUNT: String(entries.length),
+    RUNTIME_CONCEPT_COUNT: String(runtimeConcepts),
+    ESLINT_COUNT: String(eslintEntries.length),
     ERRORS_GRID: data.map(gridLink).join('\n      '),
-    DEMO_DATA: demo,
+    HERO_ERRORS: jsonForScript(heroData()),
+    REPO_URL: escapeHtml(REPO_URL),
+    NPM_URL: escapeHtml(NPM_URL),
     SCHOOLS_URL: escapeHtml(SCHOOLS_URL),
     PIDGIN_URL: escapeHtml(PIDGIN_URL)
   };
@@ -325,6 +436,36 @@ function renderIndex() {
 
   const left = html.match(/\{\{[A-Z_]+\}\}/);
   if (left) throw new Error(`unreplaced template placeholder: ${left[0]}`);
+
+  return html;
+}
+
+function renderDemo() {
+  const replacements = {
+    HEAD: head({
+      title: 'Try Sabicode — run JavaScript errors in Pidgin, live',
+      description:
+        'A live, offline demo of Sabicode. Run JavaScript in your browser, paste an error, or replay an ESLint scan and read the Nigerian Pidgin explanation.',
+      canonical: `${SITE_URL}/demo.html`,
+      assetPrefix: ''
+    }),
+    SVG_DEFS: svgDefs(),
+    LOGO_SVG: logoSvg(),
+    POLLY_TERMINAL: pollySvg(),
+    DEMO_ERRORS: jsonForScript([...entries, ...eslintEntries].map(demoEntryData)),
+    SCAN_DEMO: jsonForScript(scanDemoData()),
+    REPO_URL: escapeHtml(REPO_URL),
+    NPM_URL: escapeHtml(NPM_URL),
+    PIDGIN_URL: escapeHtml(PIDGIN_URL)
+  };
+
+  let html = demoTemplate;
+  for (const [key, value] of Object.entries(replacements)) {
+    html = html.replaceAll(`{{${key}}}`, value);
+  }
+
+  const left = html.match(/\{\{[A-Z_]+\}\}/);
+  if (left) throw new Error(`unreplaced demo placeholder: ${left[0]}`);
 
   return html;
 }
@@ -370,6 +511,7 @@ function ogAsset() {
 function sitemap() {
   const urls = [
     { loc: `${SITE_URL}/`, priority: '1.0' },
+    { loc: `${SITE_URL}/demo.html`, priority: '0.9' },
     ...entries.map((entry) => ({
       loc: `${SITE_URL}/errors/${entry.id}.html`,
       priority: '0.7'
@@ -435,6 +577,7 @@ fs.rmSync(SITE_DIR, { recursive: true, force: true });
 fs.mkdirSync(SITE_DIR, { recursive: true });
 
 write('index.html', renderIndex());
+write('demo.html', renderDemo());
 for (const item of data) {
   write(path.join('errors', `${item.entry.id}.html`), errorPage(item));
 }
@@ -448,5 +591,5 @@ write(
 write('DEPLOY.md', deployNotes());
 
 process.stdout.write(
-  `Built ${entries.length + 1} pages in ${path.relative(process.cwd(), SITE_DIR) || '.'}\n`
+  `Built ${entries.length + 2} pages in ${path.relative(process.cwd(), SITE_DIR) || '.'}\n`
 );

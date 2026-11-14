@@ -8,85 +8,323 @@
 {{SVG_DEFS}}
 <div class="wrap">
   <nav>
-    <a class="logo" href="#top">{{LOGO_SVG}}<span>sabicode</span></a>
-    <a class="s" href="#schools">For schools</a>
+    <a class="logo" href="index.html">{{LOGO_SVG}}<span>sabicode</span></a>
+    <div class="nav-links">
+      <a class="s" href="demo.html">Live demo</a>
+      <a class="s" href="#why">Why it's different</a>
+      <a class="s" href="#schools">For schools</a>
+      <a class="s nav-github" href="{{REPO_URL}}">GitHub</a>
+    </div>
   </nav>
-
-  <header class="hero" id="top">
-    <div>
-      <h1>Your errors, finally in your language.</h1>
-      <p class="lead">Sabicode runs your JavaScript and puts every error in Nigerian Pidgin, with the original English kept close. You fix the bug and learn the real term along the way. More languages are planned.</p>
-      <div class="cta">
-        <button class="btn" id="copy" type="button" title="Copy the install command">npx sabicode app.js</button>
-        <a class="btn alt" href="#schools">For schools</a>
-      </div>
-      <p class="note">Published on npm as <code>sabicode</code>. Run <code>npx sabicode app.js</code>.</p>
-      <p class="note" id="copied" aria-live="polite"></p>
-    </div>
-
-    <div class="term" aria-label="Live demo of Sabicode">
-      <div class="bar">
-        {{POLLY_TERMINAL}}<span class="nm">Polly Glot says: Wetin happen?</span>
-        <div class="seg" role="group" aria-label="Tone">
-          <button type="button" data-tone="street" aria-pressed="true">street</button>
-          <button type="button" data-tone="normal" aria-pressed="false">normal</button>
-        </div>
-      </div>
-      <div class="pick" id="pick" role="group" aria-label="Choose an error"></div>
-      <div class="out" id="out" aria-live="polite" aria-atomic="true"></div>
-      <noscript><p class="out">Enable JavaScript for the live demo. Every error page still works without it.</p></noscript>
-    </div>
-  </header>
 </div>
 
+<header class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow">For Nigerian developers · Pidgin first</p>
+      <h1>Your errors, finally in your language.</h1>
+      <p class="lead">Sabicode runs your JavaScript and explains the error in clear Nigerian Pidgin — while keeping the original English, the code frame, and the stack trace. You fix the bug and learn the term.</p>
+      <div class="cta">
+        <a class="btn" href="demo.html">Try the live demo</a>
+        <button class="btn alt" id="copy" type="button" title="Copy the install command">npx sabicode app.js</button>
+      </div>
+      <p class="note">Published on npm as <a href="{{NPM_URL}}"><code>sabicode</code></a>. Zero runtime dependencies. Works offline.</p>
+      <p class="note" id="copied" aria-live="polite"></p>
+      <ul class="hero-facts">
+        <li><strong>{{ERROR_COUNT}}</strong> Node errors</li>
+        <li><strong>{{ESLINT_COUNT}}</strong> ESLint rules</li>
+        <li><strong>0</strong> runtime deps</li>
+        <li><strong>Node 18+</strong></li>
+      </ul>
+    </div>
+
+    <div class="term hero-term" id="hero-demo" aria-label="Live example of Sabicode">
+      <div class="bar">
+        {{POLLY_TERMINAL}}<span class="nm">Polly Glot says: Wetin happen?</span>
+        <div class="seg" role="group" aria-label="Output language">
+          <button type="button" data-view="english" aria-pressed="false">English</button>
+          <button type="button" data-view="pidgin" aria-pressed="true">Pidgin</button>
+        </div>
+      </div>
+      <div class="hero-code" id="hero-code"></div>
+      <div class="out hero-out" id="hero-out" aria-live="polite"></div>
+      <div class="hero-foot">
+        <button class="linkbtn" id="hero-next" type="button">Try another error →</button>
+        <a class="linkbtn" href="demo.html">Open the full demo</a>
+      </div>
+    </div>
+  </div>
+</header>
+
 <main id="main">
-<section>
+<section class="section-problem">
   <div class="wrap">
-    <h2>Error messages assume you already know the jargon</h2>
-    <p class="sub">Learning to code is hard enough without decoding red text in a second language. Sabicode keeps the original error and adds a plain explanation in the language you think in.</p>
+    <p class="eyebrow reveal">The real problem</p>
+    <h2 class="reveal">You can read English. Debugging is still harder in it.</h2>
+    <p class="sub reveal">You know the logic. You know what you wanted the code to do. Then Node prints a red paragraph that assumes you already know terms like <code>undefined</code>, <code>reference</code>, <code>module resolution</code>, and <code>stack trace</code>. Now you are translating before you can even start.</p>
+    <div class="problem-grid">
+      <article class="problem reveal">
+        <span class="problem-k">01</span>
+        <h3>The message assumes you already know.</h3>
+        <p><code>Cannot read properties of undefined</code> is not a sentence about your code. It is jargon. You have to decode it before you can fix anything.</p>
+      </article>
+      <article class="problem reveal">
+        <span class="problem-k">02</span>
+        <h3>Search gives you answers, not understanding.</h3>
+        <p>You find a fix for someone else's file. It works today. The next error looks completely new, so you search again.</p>
+      </article>
+      <article class="problem reveal">
+        <span class="problem-k">03</span>
+        <h3>The gap is language, not ability.</h3>
+        <p>You already know how to think. The error is the part that has not met you where you are. That is a tooling problem, not a you problem.</p>
+      </article>
+    </div>
+    <blockquote class="pull reveal">You are not slow. The error is speaking over your head.</blockquote>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <p class="eyebrow reveal">How it works</p>
+    <h2 class="reveal">One command. Three things happen.</h2>
+    <p class="sub reveal">Sabicode sits between Node and you. It does not hide the real error. It gives you a way into it.</p>
     <div class="steps">
-      <div class="step"><h3>Run your file</h3><p>Use sabi instead of node. Nothing else changes.</p><pre>sabi run app.js</pre></div>
-      <div class="step"><h3>Read it</h3><p>The error line becomes Pidgin. The code frame and stack stay, and the original English is kept in the explanation.</p><pre>Wetin happen: ...
-Wetin to do: ...
-English: ...</pre></div>
-      <div class="step"><h3>Learn it</h3><p>Every explanation ends with the real English term, so you recognize it at work.</p><pre>Learn am: "undefined"
-mean say nothing dey there.</pre></div>
+      <div class="step reveal">
+        <h3>Run your file</h3>
+        <p>Use <code>sabi</code> instead of <code>node</code>. Everything after the script path goes to your script untouched.</p>
+        <pre>npx sabicode app.js</pre>
+      </div>
+      <div class="step reveal">
+        <h3>Read the Pidgin</h3>
+        <p>The error line becomes a short Pidgin headline. Then the same three sections every time: what happened, what to do, and what to learn.</p>
+        <pre>🦜 TypeError: You try collect `name` from `undefined`
+   Wetin happen: You wan pick `name` from ...
+   Wetin to do:  Check am first before you collect:
+   Learn am:     `undefined` mean say nothing dey there.</pre>
+      </div>
+      <div class="step reveal">
+        <h3>Keep the English</h3>
+        <p>The original error stays in an <code>English:</code> line. The code frame and stack trace stay in place, so you can still search, paste, and talk to your team.</p>
+        <pre>   English: TypeError: Cannot read properties of
+            undefined (reading 'name')
+    at Object.&lt;anonymous&gt; (/app.js:2:13)</pre>
+      </div>
     </div>
   </div>
 </section>
 
-<section>
+<section id="why">
   <div class="wrap">
-    <h2>Errors we cover</h2>
-    <p class="sub">{{ERROR_COUNT}} at launch, more on the way. Each one has its own page with both tones.</p>
+    <p class="eyebrow reveal">Why this is rare</p>
+    <h2 class="reveal">Not a translation layer. A dictionary with receipts.</h2>
+    <p class="sub reveal">Most “explain this error” tools send your code to a model and hope the answer is useful. Sabicode does the opposite: a small, reviewed, versioned dictionary that runs on your machine.</p>
+    <div class="feature-grid">
+      <article class="feature reveal">
+        <span class="feature-k">01</span>
+        <h3>A dictionary, not a chatbot.</h3>
+        <p>Every explanation is written, versioned, and reviewed. No AI, no API key, no network. The same error always gets the same answer, so you can trust it while you learn.</p>
+      </article>
+      <article class="feature reveal">
+        <span class="feature-k">02</span>
+        <h3>English stays in the room.</h3>
+        <p>The original error is kept in an <code>English:</code> line, and <code>Learn am:</code> teaches the real term. You get unstuck now and sound like the industry later.</p>
+      </article>
+      <article class="feature reveal">
+        <span class="feature-k">03</span>
+        <h3>Terminal-native.</h3>
+        <p>Exit codes are preserved. stdout stays clean. The code frame and stack trace stay where they are. Zero runtime dependencies, so it starts fast and works offline.</p>
+      </article>
+      <article class="feature reveal">
+        <span class="feature-k">04</span>
+        <h3>Pidgin first, not Pidgin last.</h3>
+        <p>Nigerian Pidgin is the default, not a setting buried in a menu. Street and normal tones. Native speakers review the copy; until then, every entry is marked draft.</p>
+      </article>
+      <article class="feature reveal">
+        <span class="feature-k">05</span>
+        <h3>Real coverage, with tests.</h3>
+        <p>{{ERROR_COUNT}} Node errors across {{RUNTIME_CONCEPT_COUNT}} concepts, plus {{ESLINT_COUNT}} ESLint rules for potential bugs. Each entry has samples, tests, and a content-hash review record.</p>
+      </article>
+      <article class="feature reveal">
+        <span class="feature-k">06</span>
+        <h3>Honest about scope.</h3>
+        <p>It runs one JavaScript file with Node today. It does not auto-fix your code or replace ESLint. <code>sabi scan</code> uses the ESLint already in your project to find potential bugs.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="compare">
+  <div class="wrap">
+    <p class="eyebrow reveal">Before / after</p>
+    <h2 class="reveal">The same bug. Two ways to meet it.</h2>
+    <div class="compare">
+      <div class="compare-card reveal">
+        <h3>Plain Node</h3>
+        <pre class="english">/app.js:2
+console.log(user.name);
+            ^
+
+TypeError: Cannot read properties of undefined (reading 'name')
+    at Object.&lt;anonymous&gt; (/app.js:2:13)
+    at Module._compile (node:internal/modules/cjs/loader:1521:14)</pre>
+        <p>Correct, but it assumes you already know what <code>undefined</code> means in this exact place.</p>
+      </div>
+      <div class="compare-card highlight reveal">
+        <h3>With Sabicode</h3>
+        <pre class="pidgin">🦜 TypeError: You try collect `name` from `undefined`
+   Wetin happen: You wan pick `name` from inside empty hand.
+                 The thing na `undefined`, e get nothing to give you.
+   Wetin to do:  Check am first before you collect:
+                 `thing?.name`
+   Learn am:     `undefined` mean say nothing dey there.
+   English: TypeError: Cannot read properties of undefined
+            (reading 'name')
+
+   Polly: Oya, run am again.</pre>
+        <p>The bug is still there. Now you know what it means, what to do next, and the English term for it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="commands">
+  <div class="wrap">
+    <p class="eyebrow reveal">Two commands</p>
+    <h2 class="reveal">When it crashes. Before it crashes.</h2>
+    <p class="sub reveal">Runtime errors and potential bugs are different jobs. Sabicode gives each one a command.</p>
+    <div class="two command-grid">
+      <article class="command-card reveal">
+        <h3><code>sabi run app.js</code></h3>
+        <p>When the program already broke. Sabicode runs the file with Node, catches the error, and explains it in Pidgin while keeping the English and the stack.</p>
+        <pre>$ sabi run app.js
+🦜 ReferenceError: You call `name`, but JavaScript no sabi am
+   Wetin happen: You dey call `name` like say JavaScript know am...
+   English: ReferenceError: name is not defined</pre>
+        <p class="note">Also works as <code>npx sabicode app.js</code> or <code>npx sabicode run app.js</code>.</p>
+      </article>
+      <article class="command-card reveal">
+        <h3><code>sabi scan</code></h3>
+        <p>Before it breaks. Sabicode runs your project's ESLint, then explains the findings in Pidgin. It finds potential bugs like unused values, loose equality, unreachable code, and undefined names.</p>
+        <pre>components/UserCard.jsx:6:46  error  eqeqeq
+🦜 You use `==`, but `===` dey safer
+   Wetin happen: `==` dey compare after e change the values...
+   English: Expected '===' and instead saw '=='.</pre>
+        <p class="note">Sabicode does not bundle ESLint or call the network. Install ESLint in your project once, and <code>sabi scan</code> uses it.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="who">
+  <div class="wrap">
+    <p class="eyebrow reveal">Who it's for</p>
+    <h2 class="reveal">Built for the people doing the learning.</h2>
+    <div class="who-grid">
+      <article class="who reveal">
+        <h3>Self-taught developers</h3>
+        <p>You learned from YouTube, docs, and trial and error. The error message should not be the hardest part of the lesson.</p>
+      </article>
+      <article class="who reveal">
+        <h3>Bootcamp students</h3>
+        <p>Use the street tone for practice at home and the normal tone in class. One <code>.sabirc</code> file sets it for the whole project.</p>
+      </article>
+      <article class="who reveal">
+        <h3>Working developers</h3>
+        <p>Keep the English term for standups, code review, and Stack Overflow. Sabicode explains in Pidgin without cutting you off from the industry.</p>
+      </article>
+      <article class="who reveal">
+        <h3>Teachers and mentors</h3>
+        <p>Meet students where they think. The fixed three-section layout makes it easy to ask “which part did you understand?”</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="open">
+  <div class="wrap two">
+    <div class="reveal">
+      <p class="eyebrow">Open source</p>
+      <h2>The dictionary is the product.</h2>
+      <p class="sub">The Pidgin is not magic and it is not generated on the fly. It is JSON entries with samples, tones, and a review hash. That means you can read it, question it, and improve it.</p>
+      <ul class="list">
+        <li><strong>Pidgin speakers</strong> review headlines, explanations, and tone. A review is tied to the exact content, so edits mark it stale.</li>
+        <li><strong>Developers</strong> add adapters, surfaces, and tests. The CLI uses only Node built-ins.</li>
+        <li><strong>Educators</strong> report what learners actually hit and help shape the concepts.</li>
+      </ul>
+      <div class="cta">
+        <a class="btn" href="{{REPO_URL}}">View on GitHub</a>
+        <a class="btn alt" href="{{PIDGIN_URL}}">Suggest a Pidgin phrase</a>
+      </div>
+    </div>
+    <div class="json-card reveal">
+      <div class="json-bar">dictionary/undefined-property.json</div>
+      <pre>{
+  "id": "undefined-property",
+  "concept": "undefined-and-null",
+  "samples": [
+    "TypeError: Cannot read properties of undefined (reading 'name')"
+  ],
+  "tone": {
+    "street": {
+      "headline": "You try collect `{2}` from `{1}`",
+      "happen": "You wan pick `{2}` from inside empty hand...",
+      "todo": "Check am first before you collect:",
+      "learn": "`{1}` mean say nothing dey there."
+    }
+  },
+  "review": {
+    "status": "draft",
+    "reviewers": [],
+    "contentHash": null
+  }
+}</pre>
+      <p class="note">Change the Pidgin, and the review goes stale. That is how the dictionary stays honest.</p>
+    </div>
+  </div>
+</section>
+
+<section id="errors">
+  <div class="wrap">
+    <p class="eyebrow reveal">Coverage</p>
+    <h2 class="reveal">Errors we cover</h2>
+    <p class="sub reveal">{{ERROR_COUNT}} runtime errors across {{RUNTIME_CONCEPT_COUNT}} concepts, plus {{ESLINT_COUNT}} ESLint rules for potential bugs. Each runtime error has its own page with both tones.</p>
     <div class="grid" id="errs">{{ERRORS_GRID}}</div>
   </div>
 </section>
 
 <section id="schools">
   <div class="wrap">
-    <h2>For schools and bootcamps</h2>
+    <p class="eyebrow reveal">For schools and bootcamps</p>
+    <h2 class="reveal">One setting for the whole class.</h2>
     <div class="two">
-      <ul class="list">
+      <ul class="list reveal">
         <li>One <code>.sabirc</code> file sets the tone for the whole class.</li>
         <li>Use the normal tone in class and the street tone for practice at home.</li>
         <li>Progress reports on the errors your students hit most. Coming later.</li>
+        <li>No student code leaves the machine. There is no Sabicode server.</li>
       </ul>
-      <div>
-        <p style="color:var(--muted)">We’re running pilots with two or three schools. Open an issue and we’ll be in touch.</p>
-        <p><a class="btn" href="{{SCHOOLS_URL}}" style="font-family:var(--sans);font-weight:600">Join pilot</a></p>
+      <div class="reveal">
+        <p class="sub">We are running pilots with two or three schools. Open an issue and we will be in touch.</p>
+        <p><a class="btn" href="{{SCHOOLS_URL}}">Join the pilot</a></p>
         <p class="note">This opens a public GitHub issue. No data is stored on a Sabicode server.</p>
       </div>
     </div>
   </div>
 </section>
 
-<section>
+<section id="free">
   <div class="wrap">
-    <h2>Pricing</h2>
-    <div class="plans">
-      <div class="plan"><h3>Individual</h3><div class="pr">Free</div><p>All errors, both tones, JavaScript. For anyone learning to code.</p><a class="btn" href="#top" style="font-family:var(--sans);font-weight:600">Try it now</a></div>
-      <div class="plan hl"><h3>School</h3><div class="pr">Let's talk</div><p>Shared class settings, progress reports, and support for your teachers.</p><a class="btn alt" href="#schools">Join pilot</a></div>
+    <div class="free-card reveal">
+      <div>
+        <p class="eyebrow">Free and open source</p>
+        <h2>No account. No server. No telemetry.</h2>
+        <p class="sub">Install it, run it, read the dictionary, change it. The CLI has zero runtime dependencies and makes no network calls.</p>
+      </div>
+      <div class="install">
+        <pre>npx sabicode app.js</pre>
+        <button class="btn alt" id="copy2" type="button">Copy command</button>
+        <p class="note" id="copied2" aria-live="polite"></p>
+      </div>
     </div>
   </div>
 </section>
@@ -94,50 +332,95 @@ mean say nothing dey there.</pre></div>
 
 <div class="wrap">
   <footer>
-    <span>Sabicode is in development. Pidgin explanations are a draft until reviewers sign off.</span>
-    <span>Pidgin reviewers: <span class="credit-placeholder">[reviewer credits placeholder]</span> · <a href="{{PIDGIN_URL}}">Suggest a phrase</a></span>
+    <span>Sabicode is open source. Pidgin explanations are a draft until reviewers sign off.</span>
+    <span>Pidgin reviewers: <span class="credit-placeholder">[reviewer credits placeholder]</span> · <a href="{{PIDGIN_URL}}">Suggest a phrase</a> · <a href="{{REPO_URL}}">GitHub</a></span>
   </footer>
 </div>
 
 <script>
-var E = {{DEMO_DATA}};
-var cur = 0;
-var timer = null;
-var out = document.getElementById("out");
-var pick = document.getElementById("pick");
+var HERO = {{HERO_ERRORS}};
+var heroIndex = 0;
+var heroView = "pidgin";
+var heroTone = "street";
+var heroTimer = null;
 var still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+var heroOut = document.getElementById("hero-out");
+var heroCode = document.getElementById("hero-code");
 
-function readTone() {
-  try {
-    var saved = localStorage.getItem("sabicode-tone");
-    return saved === "normal" || saved === "street" ? saved : "street";
-  } catch (error) {
-    return "street";
+function esc(value) {
+  return String(value).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
+function fill(template, captures) {
+  return String(template).replace(/\{(\d+)\}/g, function (placeholder, index) {
+    var value = captures[Number(index) - 1];
+    return value === undefined ? placeholder : value;
+  });
+}
+
+function inline(template, captures) {
+  return esc(fill(template, captures)).replace(/`([^`]+)`/g, "<code>$1</code>");
+}
+
+function matchHero(entry) {
+  var match = new RegExp(entry.match).exec(entry.sample);
+  return match ? match.slice(1) : [];
+}
+
+function englishOutput(entry) {
+  return '<span class="cmd">$ node app.js</span>\n<span class="err">' + esc(entry.sample) + '</span>\n<span class="dim">    at Object.&lt;anonymous&gt; (/app.js:' + entry.line + ':' + entry.column + ')</span>';
+}
+
+function pidginOutput(entry) {
+  var captures = matchHero(entry);
+  var copy = entry.tones[heroTone];
+  var errorClass = String(entry.sample).split(":")[0];
+  var fix = entry.fix_code ? '<div><b>Wetin to do:</b> ' + inline(copy.todo, captures) + ' <code>' + esc(fill(entry.fix_code, captures)) + '</code></div>' : '<div><b>Wetin to do:</b> ' + inline(copy.todo, captures) + '</div>';
+  return '<span class="cmd">$ sabi run app.js</span>\n' +
+    '<div class="pg">' +
+    '<div class="hd">🦜 ' + esc(errorClass) + ': ' + inline(copy.headline, captures) + '</div>' +
+    '<div><b>Wetin happen:</b> ' + inline(copy.happen, captures) + '</div>' +
+    fix +
+    '<div><b>Learn am:</b> ' + inline(copy.learn, captures) + '</div>' +
+    '<div class="en">English: ' + esc(entry.sample) + '</div>' +
+    '</div>';
+}
+
+function renderHero(animate) {
+  var entry = HERO[heroIndex];
+  heroCode.textContent = entry.code;
+  clearTimeout(heroTimer);
+
+  if (!animate || still) {
+    heroOut.innerHTML = heroView === "english" ? englishOutput(entry) : pidginOutput(entry);
+    return;
   }
+
+  heroOut.setAttribute("aria-live", "off");
+  heroOut.innerHTML = '<span class="cmd">$ </span><span class="caret"></span>';
+  var command = heroView === "english" ? "node app.js" : "sabi run app.js";
+  var index = 0;
+
+  (function type() {
+    index += 1;
+    heroOut.innerHTML = '<span class="cmd">$ ' + esc(command.slice(0, index)) + '</span><span class="caret"></span>';
+    if (index < command.length) {
+      heroTimer = setTimeout(type, 40);
+    } else {
+      heroTimer = setTimeout(function () {
+        heroOut.innerHTML = heroView === "english" ? englishOutput(entry) : pidginOutput(entry);
+        heroOut.setAttribute("aria-live", "polite");
+        talk();
+      }, 240);
+    }
+  })();
 }
 
-function saveTone(value) {
-  try {
-    localStorage.setItem("sabicode-tone", value);
-  } catch (error) {
-    // Storage can be unavailable; the page still renders with the current tone.
+function setViewButtons() {
+  var buttons = document.querySelectorAll(".seg button[data-view]");
+  for (var i = 0; i < buttons.length; i++) {
+    buttons[i].setAttribute("aria-pressed", String(buttons[i].dataset.view === heroView));
   }
-}
-
-var tone = readTone();
-
-function esc(s) {
-  return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-}
-
-function headline(e) {
-  var p = e[tone === "street" ? "s" : "n"];
-  return '🦜 ' + p.hd;
-}
-
-function card(e) {
-  var p = e[tone === "street" ? "s" : "n"];
-  return '<div class="pg"><div><b>Wetin happen:</b> ' + p.h + '</div><div><b>Wetin to do:</b> ' + p.t + '</div><div><b>Learn am:</b> ' + p.l + '</div><div class="en">English: ' + esc(e.cmd) + '</div></div>';
 }
 
 function talk() {
@@ -148,114 +431,85 @@ function talk() {
   parrot.classList.add("talk");
 }
 
-function render(animate) {
-  var e = E[cur];
-  var head = '<span class="cmd">$ sabi run app.js</span>\n<span class="err">' + headline(e) + '</span>';
-  clearTimeout(timer);
-  if (!animate || still) {
-    out.setAttribute("aria-live", "polite");
-    out.innerHTML = head + card(e);
-    talk();
-    return;
-  }
-  out.setAttribute("aria-live", "off");
-  out.innerHTML = '<span class="cmd">$ </span>';
-  var full = "sabi run app.js";
-  var i = 0;
-  (function type() {
-    i++;
-    out.innerHTML = '<span class="cmd">$ ' + full.slice(0, i) + '</span>';
-    if (i < full.length) {
-      timer = setTimeout(type, 45);
-    } else {
-      timer = setTimeout(function () {
-        out.innerHTML = head;
-        timer = setTimeout(function () {
-          out.innerHTML = head + card(e);
-          out.setAttribute("aria-live", "polite");
-          talk();
-        }, 450);
-      }, 300);
-    }
-  })();
-}
-
-function setToneButtons() {
-  var buttons = document.querySelectorAll(".seg button");
-  for (var i = 0; i < buttons.length; i++) {
-    buttons[i].setAttribute("aria-pressed", String(buttons[i].dataset.tone === tone));
-  }
-}
-
-E.forEach(function (e, i) {
-  var button = document.createElement("button");
-  button.type = "button";
-  button.textContent = e.label;
-  button.title = e.cmd;
-  button.setAttribute("aria-pressed", String(i === 0));
-  button.onclick = function () {
-    cur = i;
-    for (var j = 0; j < pick.children.length; j++) {
-      pick.children[j].setAttribute("aria-pressed", String(j === i));
-    }
-    render(false);
-  };
-  pick.appendChild(button);
-});
-
-var toneButtons = document.querySelectorAll(".seg button");
-for (var t = 0; t < toneButtons.length; t++) {
-  toneButtons[t].onclick = function () {
-    tone = this.dataset.tone;
-    saveTone(tone);
-    setToneButtons();
-    render(false);
+var viewButtons = document.querySelectorAll(".seg button[data-view]");
+for (var v = 0; v < viewButtons.length; v++) {
+  viewButtons[v].onclick = function () {
+    heroView = this.dataset.view;
+    setViewButtons();
+    renderHero(true);
   };
 }
 
-setToneButtons();
-render(true);
+document.getElementById("hero-next").onclick = function () {
+  heroIndex = (heroIndex + 1) % HERO.length;
+  renderHero(true);
+};
 
-document.getElementById("copy").onclick = function () {
-  var note = document.getElementById("copied");
-  var command = "npx sabicode app.js";
+setViewButtons();
+renderHero(true);
+
+function copyCommand(button, note, command) {
   var done = function () {
-    note.textContent = "Copied. Sabicode is coming to npm soon.";
+    note.textContent = "Copied. Run it in your project.";
   };
   var fail = function () {
     note.textContent = "Copy failed. Select the command and copy it by hand.";
   };
+  var legacy = function (text) {
+    try {
+      var area = document.createElement("textarea");
+      area.value = text;
+      area.setAttribute("readonly", "");
+      area.style.position = "fixed";
+      area.style.opacity = "0";
+      document.body.appendChild(area);
+      area.select();
+      var ok = document.execCommand("copy");
+      document.body.removeChild(area);
+      return ok;
+    } catch (error) {
+      return false;
+    }
+  };
+
   try {
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(command).then(done, function () {
-        if (legacyCopy(command)) done(); else fail();
+        if (legacy(command)) done(); else fail();
       });
-    } else if (legacyCopy(command)) {
+    } else if (legacy(command)) {
       done();
     } else {
       fail();
     }
   } catch (error) {
-    if (legacyCopy(command)) done(); else fail();
-  }
-};
-
-function legacyCopy(text) {
-  try {
-    var area = document.createElement("textarea");
-    area.value = text;
-    area.setAttribute("readonly", "");
-    area.style.position = "fixed";
-    area.style.opacity = "0";
-    document.body.appendChild(area);
-    area.select();
-    var ok = document.execCommand("copy");
-    document.body.removeChild(area);
-    return ok;
-  } catch (error) {
-    return false;
+    if (legacy(command)) done(); else fail();
   }
 }
+
+document.getElementById("copy").onclick = function () {
+  copyCommand(this, document.getElementById("copied"), "npx sabicode app.js");
+};
+
+document.getElementById("copy2").onclick = function () {
+  copyCommand(this, document.getElementById("copied2"), "npx sabicode app.js");
+};
+
+(function reveal() {
+  var items = document.querySelectorAll(".reveal");
+  if (still || !("IntersectionObserver" in window)) {
+    for (var i = 0; i < items.length; i++) items[i].classList.add("in");
+    return;
+  }
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add("in");
+      observer.unobserve(entry.target);
+    });
+  }, { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
+  for (var j = 0; j < items.length; j++) observer.observe(items[j]);
+})();
 </script>
 </body>
 </html>

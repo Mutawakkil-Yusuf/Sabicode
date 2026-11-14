@@ -1,0 +1,29 @@
+{
+  "id": "no-unused-vars",
+  "language": "javascript",
+  "concept": "bindings",
+  "match": "^'([^']+)' is (?:assigned a value but never used|defined but never used)\\.?$",
+  "samples": [
+    "'count' is assigned a value but never used."
+  ],
+  "review": {
+    "status": "draft",
+    "reviewers": [],
+    "contentHash": null
+  },
+  "what": "ESLint found a variable that is declared but never used.",
+  "tone": {
+    "street": {
+      "headline": "You create `{1}`, but you never use am",
+      "happen": "ESLint see `{1}` declared, but nothing dey use am. E no dey break the app, but e dey confuse readers and fit hide a mistake.",
+      "todo": "Use am, or remove am if you no need am.",
+      "learn": "\"unused\" mean say you create am but you no use am."
+    },
+    "normal": {
+      "headline": "`{1}` dey declared, but nothing dey use am",
+      "happen": "ESLint found `{1}` declared but never used. It will not break the app, but it makes the code harder to follow.",
+      "todo": "Use am, or remove am if you no need am.",
+      "learn": "\"unused\" mean say you create am but you no use am."
+    }
+  }
+}

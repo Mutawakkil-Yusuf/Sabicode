@@ -196,9 +196,13 @@ nav a.s:hover {
 
 .hero {
   padding: 28px 0 64px;
+}
+
+.hero-grid {
   display: grid;
   gap: 36px;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
 }
 
 .hero p.lead {
@@ -434,7 +438,7 @@ section > .wrap > p.sub {
   display: grid;
   gap: 18px;
   margin-top: 28px;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .step {
@@ -468,7 +472,7 @@ section > .wrap > p.sub {
   display: grid;
   gap: 10px;
   margin-top: 26px;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .grid a {
@@ -511,7 +515,7 @@ section > .wrap > p.sub {
 .two {
   display: grid;
   gap: 24px;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   margin-top: 26px;
 }
 
@@ -549,7 +553,7 @@ section > .wrap > p.sub {
   display: grid;
   gap: 16px;
   margin-top: 26px;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .plan {
@@ -641,7 +645,7 @@ footer a {
 .error-hero {
   display: grid;
   gap: 24px;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   margin-top: 16px;
 }
 
@@ -714,7 +718,7 @@ footer a {
   display: grid;
   gap: 16px;
   margin-top: 20px;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .tone-card {
@@ -775,36 +779,35 @@ footer a {
 
 @media (min-width: 560px) {
   .grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 @media (min-width: 760px) {
-  .hero {
-    grid-template-columns: 1fr 1.1fr;
-    align-items: center;
+  .hero-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
     gap: 44px;
   }
   .steps,
   .plans {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
   .plans {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     max-width: 720px;
   }
   .grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
   .two {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   }
   .error-hero {
-    grid-template-columns: 1.4fr 0.6fr;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.6fr);
     align-items: start;
   }
   .tone-grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   }
 }
 
@@ -859,6 +862,706 @@ footer a {
     60% { transform: rotate(10deg); }
   }
 }
+
+/* Landing page */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.nav-github {
+  font-weight: 600;
+  color: var(--green-d);
+}
+
+.eyebrow {
+  font: 600 0.72rem var(--mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--green-d);
+  margin-bottom: 10px;
+}
+
+.sub {
+  color: var(--muted);
+  margin-top: 10px;
+  max-width: 62ch;
+}
+
+.hero-copy h1 {
+  max-width: 15ch;
+}
+
+.hero-facts {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+  margin: 24px 0 0;
+  padding: 0;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.hero-facts strong {
+  color: var(--ink);
+  font-size: 1rem;
+}
+
+.hero-term {
+  min-width: 0;
+}
+
+.hero-code {
+  padding: 12px 14px 10px;
+  color: var(--term-dim);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font: 400 0.78rem/1.5 var(--mono);
+  border-bottom: 1px solid #223028;
+}
+
+.hero-code::before {
+  content: 'app.js';
+  display: block;
+  color: #5f7467;
+  margin-bottom: 6px;
+}
+
+.hero-out {
+  min-height: 260px;
+}
+
+.hero-foot {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 14px 14px;
+  flex-wrap: wrap;
+}
+
+.linkbtn {
+  background: none;
+  border: 0;
+  color: var(--yellow);
+  font: 500 0.78rem var(--mono);
+  cursor: pointer;
+  padding: 6px 0;
+  text-decoration: none;
+}
+
+.linkbtn:hover {
+  text-decoration: underline;
+}
+
+.dim {
+  color: var(--term-dim);
+}
+
+.caret::after {
+  content: '▋';
+  color: var(--yellow);
+}
+
+.section-problem {
+  border-top: 0;
+}
+
+.problem-grid,
+.feature-grid,
+.who-grid {
+  display: grid;
+  gap: 16px;
+  margin-top: 28px;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.problem,
+.feature,
+.who {
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 0 0 1px var(--line);
+}
+
+.problem-k,
+.feature-k {
+  display: block;
+  font: 600 0.7rem var(--mono);
+  color: var(--green-d);
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+}
+
+.problem h3,
+.feature h3,
+.who h3 {
+  font-size: 1.02rem;
+  margin-bottom: 6px;
+}
+
+.problem p,
+.feature p,
+.who p {
+  color: var(--muted);
+  font-size: 0.93rem;
+}
+
+.pull {
+  margin: 34px 0 0;
+  padding: 22px 24px;
+  border-left: 4px solid var(--yellow);
+  background: var(--surface);
+  border-radius: 0 12px 12px 0;
+  font-size: clamp(1.1rem, 2.5vw, 1.45rem);
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.compare {
+  display: grid;
+  gap: 16px;
+  margin-top: 26px;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.compare-card {
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 0 0 1px var(--line);
+  min-width: 0;
+}
+
+.compare-card.highlight {
+  box-shadow: 0 0 0 2px var(--green);
+}
+
+.compare-card h3 {
+  font: 600 0.78rem var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.compare-card pre {
+  margin: 0;
+  padding: 14px;
+  border-radius: 8px;
+  background: var(--term);
+  color: var(--term-ink);
+  font: 400 0.76rem/1.55 var(--mono);
+  overflow-x: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.compare-card pre.english {
+  color: var(--term-err);
+}
+
+.compare-card p {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-top: 12px;
+}
+
+.command-grid {
+  margin-top: 26px;
+}
+
+.command-card {
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 0 0 1px var(--line);
+  min-width: 0;
+}
+
+.command-card h3 {
+  font-size: 1rem;
+  margin-bottom: 8px;
+}
+
+.command-card h3 code {
+  font-family: var(--mono);
+  color: var(--green-d);
+}
+
+.command-card p {
+  color: var(--muted);
+  font-size: 0.93rem;
+}
+
+.command-card pre {
+  margin: 14px 0 0;
+  padding: 14px;
+  border-radius: 8px;
+  background: var(--term);
+  color: var(--term-ink);
+  font: 400 0.76rem/1.55 var(--mono);
+  overflow-x: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.json-card {
+  background: var(--term);
+  color: var(--term-ink);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px var(--line);
+}
+
+.json-bar {
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--term-dim);
+  font: 500 0.75rem var(--mono);
+}
+
+.json-card pre {
+  margin: 0;
+  padding: 16px;
+  font: 400 0.74rem/1.55 var(--mono);
+  overflow-x: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.json-card .note {
+  padding: 0 16px 16px;
+  color: var(--term-dim);
+}
+
+.free-card {
+  display: grid;
+  gap: 24px;
+  background: var(--surface);
+  border-radius: 14px;
+  padding: 26px;
+  box-shadow: 0 0 0 1px var(--line);
+}
+
+.free-card h2 {
+  font-size: clamp(1.4rem, 3vw, 1.9rem);
+}
+
+.install pre {
+  margin: 0 0 12px;
+  padding: 14px;
+  background: var(--term);
+  color: var(--term-ink);
+  border-radius: 8px;
+  font: 400 0.85rem var(--mono);
+  overflow-x: auto;
+}
+
+/* Demo page */
+.demo-page {
+  padding: 10px 0 30px;
+}
+
+.demo-hero {
+  max-width: 760px;
+  padding: 20px 0 30px;
+}
+
+.demo-hero h1 {
+  font-size: clamp(2rem, 5vw, 3.2rem);
+}
+
+.demo-hero .lead {
+  margin-top: 14px;
+  color: var(--muted);
+  font-size: 1.05rem;
+  max-width: 60ch;
+}
+
+.playground {
+  background: var(--surface);
+  border-radius: 16px;
+  box-shadow: 0 0 0 1px var(--line);
+  overflow: hidden;
+}
+
+.tabs {
+  display: flex;
+  gap: 4px;
+  padding: 10px 10px 0;
+  border-bottom: 1px solid var(--line);
+  flex-wrap: wrap;
+}
+
+.tabs [role='tab'] {
+  font: 500 0.82rem var(--sans);
+  background: transparent;
+  border: 0;
+  border-radius: 8px 8px 0 0;
+  padding: 10px 14px;
+  cursor: pointer;
+  color: var(--muted);
+  border-bottom: 2px solid transparent;
+}
+
+.tabs [role='tab'][aria-selected='true'] {
+  color: var(--ink);
+  border-bottom-color: var(--green);
+  background: rgba(12, 107, 63, 0.06);
+}
+
+.pane {
+  padding: 18px;
+}
+
+.play-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.play-editor {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.presets button {
+  font: 400 0.72rem var(--mono);
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 4px 10px;
+  cursor: pointer;
+}
+
+.presets button[aria-pressed='true'] {
+  color: var(--ink);
+  border-color: var(--green);
+}
+
+.play-editor textarea {
+  width: 100%;
+  min-height: 300px;
+  resize: vertical;
+  background: var(--term);
+  color: var(--term-ink);
+  border: 0;
+  border-radius: 10px;
+  padding: 14px;
+  font: 400 0.82rem/1.55 var(--mono);
+  tab-size: 2;
+}
+
+.editor-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.editor-actions .note {
+  margin: 0;
+}
+
+.demo-term {
+  min-width: 0;
+}
+
+.demo-term .out {
+  min-height: 300px;
+}
+
+.logs {
+  color: var(--term-ink);
+  border-left: 2px solid #3a4a40;
+  padding-left: 10px;
+  margin: 10px 0;
+  white-space: pre-wrap;
+}
+
+.ok {
+  color: var(--green);
+  margin-top: 12px;
+}
+
+.fix {
+  margin-top: 4px;
+}
+
+.demo-note {
+  margin-top: 14px;
+}
+
+.scan-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.scan-head h2 {
+  font-size: 1.2rem;
+}
+
+.scan-head .sub {
+  margin-top: 6px;
+}
+
+.scan-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.scan-code {
+  background: var(--term);
+  border-radius: 10px;
+  padding: 10px 0;
+  overflow: auto;
+  font: 400 0.76rem/1.6 var(--mono);
+  color: var(--term-ink);
+  max-height: 520px;
+}
+
+.scan-line {
+  display: flex;
+  gap: 12px;
+  padding: 0 12px;
+  white-space: pre;
+}
+
+.scan-line .ln {
+  color: #5f7467;
+  width: 2ch;
+  text-align: right;
+  flex: none;
+  user-select: none;
+}
+
+.scan-line.has-finding {
+  background: rgba(245, 197, 24, 0.06);
+}
+
+.scan-line.selected {
+  background: rgba(245, 197, 24, 0.16);
+}
+
+.scan-side {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.scan-findings {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.finding {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2px 8px;
+  text-align: left;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 8px 10px;
+  cursor: pointer;
+  font: 400 0.75rem var(--mono);
+  color: var(--ink);
+}
+
+.finding:hover,
+.finding.active {
+  border-color: var(--green);
+}
+
+.severity {
+  font: 600 0.62rem var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 1px 6px;
+  border-radius: 999px;
+  align-self: center;
+}
+
+.severity.error {
+  background: rgba(180, 35, 24, 0.12);
+  color: #b42318;
+}
+
+.severity.warning {
+  background: rgba(181, 120, 0, 0.14);
+  color: #8a5a00;
+}
+
+.f-rule {
+  font-weight: 600;
+}
+
+.f-loc {
+  grid-column: 1 / -1;
+  color: var(--muted);
+  font-size: 0.7rem;
+  overflow-wrap: anywhere;
+}
+
+.scan-term .out {
+  min-height: 200px;
+}
+
+.finding-head {
+  color: var(--term-dim);
+  font: 400 0.75rem var(--mono);
+  margin-bottom: 8px;
+}
+
+.demo-cta {
+  margin-top: 26px;
+  padding: 26px;
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: 0 0 0 1px var(--line);
+  display: grid;
+  gap: 18px;
+}
+
+.demo-cta h2 {
+  font-size: clamp(1.3rem, 3vw, 1.8rem);
+}
+
+.demo-cta p {
+  color: var(--muted);
+  margin-top: 8px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .severity.error {
+    background: rgba(255, 138, 122, 0.14);
+    color: #ff8a7a;
+  }
+  :root:not([data-theme='light']) .severity.warning {
+    background: rgba(245, 197, 24, 0.16);
+    color: var(--yellow);
+  }
+}
+
+:root[data-theme='dark'] .severity.error {
+  background: rgba(255, 138, 122, 0.14);
+  color: #ff8a7a;
+}
+
+:root[data-theme='dark'] .severity.warning {
+  background: rgba(245, 197, 24, 0.16);
+  color: var(--yellow);
+}
+
+@media (min-width: 700px) {
+  .play-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+  .scan-grid {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  }
+  .problem-grid,
+  .feature-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .who-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .compare {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+  .free-card {
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.6fr);
+    align-items: center;
+  }
+}
+
+@media (min-width: 900px) {
+  .who-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 559px) {
+  .nav-links {
+    gap: 12px;
+    font-size: 0.82rem;
+  }
+  .hero-facts {
+    gap: 8px 16px;
+  }
+  .scan-head {
+    flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    opacity: 0;
+    transform: translateY(14px);
+    transition:
+      opacity 0.5s ease,
+      transform 0.5s ease;
+  }
+  .reveal.in {
+    opacity: 1;
+    transform: none;
+  }
+  .finding.reveal-in {
+    animation: fade-in 0.25s ease both;
+  }
+  .caret::after {
+    animation: caret 1s steps(1) infinite;
+  }
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes caret {
+    50% {
+      opacity: 0;
+    }
+  }
+}
 </style>
 </head>
 <body>
@@ -866,57 +1569,286 @@ footer a {
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="parrot" viewBox="0 0 48 48"><path d="M13 14C10 7 15 3 18 9C19 3 25 3 25 11C29 7 32 11 28 16Z" fill="var(--yellow)"/><circle cx="22" cy="27" r="16" fill="var(--green)"/><path d="M34 21C46 20 48 31 40 38C39 33 36 31 33 31Z" fill="var(--yellow)"/><circle cx="26" cy="23" r="5" fill="#fff"/><circle cx="27.5" cy="23" r="2.3" fill="#16241c"/></symbol></svg>
 <div class="wrap">
   <nav>
-    <a class="logo" href="#top"><svg class="logo-parrot" viewBox="0 0 48 48" aria-hidden="true"><use href="#parrot"/></svg><span>sabicode</span></a>
-    <a class="s" href="#schools">For schools</a>
+    <a class="logo" href="index.html"><svg class="logo-parrot" viewBox="0 0 48 48" aria-hidden="true"><use href="#parrot"/></svg><span>sabicode</span></a>
+    <div class="nav-links">
+      <a class="s" href="demo.html">Live demo</a>
+      <a class="s" href="#why">Why it's different</a>
+      <a class="s" href="#schools">For schools</a>
+      <a class="s nav-github" href="https://github.com/Mutawakkil-Yusuf/Sabicode">GitHub</a>
+    </div>
   </nav>
-
-  <header class="hero" id="top">
-    <div>
-      <h1>Your errors, finally in your language.</h1>
-      <p class="lead">Sabicode runs your JavaScript and puts every error in Nigerian Pidgin, with the original English kept close. You fix the bug and learn the real term along the way. More languages are planned.</p>
-      <div class="cta">
-        <button class="btn" id="copy" type="button" title="Copy the install command">npx sabicode app.js</button>
-        <a class="btn alt" href="#schools">For schools</a>
-      </div>
-      <p class="note">Published on npm as <code>sabicode</code>. Run <code>npx sabicode app.js</code>.</p>
-      <p class="note" id="copied" aria-live="polite"></p>
-    </div>
-
-    <div class="term" aria-label="Live demo of Sabicode">
-      <div class="bar">
-        <svg class="p" id="polly" viewBox="0 0 48 48" aria-hidden="true"><path class="crest" d="M13 14C10 7 15 3 18 9C19 3 25 3 25 11C29 7 32 11 28 16Z" fill="var(--yellow)"/><circle cx="22" cy="27" r="16" fill="var(--green)"/><path class="beak" d="M34 21C46 20 48 31 40 38C39 33 36 31 33 31Z" fill="var(--yellow)"/><circle cx="26" cy="23" r="5" fill="#fff"/><circle cx="27.5" cy="23" r="2.3" fill="#16241c"/><ellipse class="lid" cx="26" cy="23" rx="5.4" ry="5.4" fill="var(--green)"/></svg><span class="nm">Polly Glot says: Wetin happen?</span>
-        <div class="seg" role="group" aria-label="Tone">
-          <button type="button" data-tone="street" aria-pressed="true">street</button>
-          <button type="button" data-tone="normal" aria-pressed="false">normal</button>
-        </div>
-      </div>
-      <div class="pick" id="pick" role="group" aria-label="Choose an error"></div>
-      <div class="out" id="out" aria-live="polite" aria-atomic="true"></div>
-      <noscript><p class="out">Enable JavaScript for the live demo. Every error page still works without it.</p></noscript>
-    </div>
-  </header>
 </div>
 
+<header class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow">For Nigerian developers · Pidgin first</p>
+      <h1>Your errors, finally in your language.</h1>
+      <p class="lead">Sabicode runs your JavaScript and explains the error in clear Nigerian Pidgin — while keeping the original English, the code frame, and the stack trace. You fix the bug and learn the term.</p>
+      <div class="cta">
+        <a class="btn" href="demo.html">Try the live demo</a>
+        <button class="btn alt" id="copy" type="button" title="Copy the install command">npx sabicode app.js</button>
+      </div>
+      <p class="note">Published on npm as <a href="https://www.npmjs.com/package/sabicode"><code>sabicode</code></a>. Zero runtime dependencies. Works offline.</p>
+      <p class="note" id="copied" aria-live="polite"></p>
+      <ul class="hero-facts">
+        <li><strong>17</strong> Node errors</li>
+        <li><strong>13</strong> ESLint rules</li>
+        <li><strong>0</strong> runtime deps</li>
+        <li><strong>Node 18+</strong></li>
+      </ul>
+    </div>
+
+    <div class="term hero-term" id="hero-demo" aria-label="Live example of Sabicode">
+      <div class="bar">
+        <svg class="p" id="polly" viewBox="0 0 48 48" aria-hidden="true"><path class="crest" d="M13 14C10 7 15 3 18 9C19 3 25 3 25 11C29 7 32 11 28 16Z" fill="var(--yellow)"/><circle cx="22" cy="27" r="16" fill="var(--green)"/><path class="beak" d="M34 21C46 20 48 31 40 38C39 33 36 31 33 31Z" fill="var(--yellow)"/><circle cx="26" cy="23" r="5" fill="#fff"/><circle cx="27.5" cy="23" r="2.3" fill="#16241c"/><ellipse class="lid" cx="26" cy="23" rx="5.4" ry="5.4" fill="var(--green)"/></svg><span class="nm">Polly Glot says: Wetin happen?</span>
+        <div class="seg" role="group" aria-label="Output language">
+          <button type="button" data-view="english" aria-pressed="false">English</button>
+          <button type="button" data-view="pidgin" aria-pressed="true">Pidgin</button>
+        </div>
+      </div>
+      <div class="hero-code" id="hero-code"></div>
+      <div class="out hero-out" id="hero-out" aria-live="polite"></div>
+      <div class="hero-foot">
+        <button class="linkbtn" id="hero-next" type="button">Try another error →</button>
+        <a class="linkbtn" href="demo.html">Open the full demo</a>
+      </div>
+    </div>
+  </div>
+</header>
+
 <main id="main">
-<section>
+<section class="section-problem">
   <div class="wrap">
-    <h2>Error messages assume you already know the jargon</h2>
-    <p class="sub">Learning to code is hard enough without decoding red text in a second language. Sabicode keeps the original error and adds a plain explanation in the language you think in.</p>
+    <p class="eyebrow reveal">The real problem</p>
+    <h2 class="reveal">You can read English. Debugging is still harder in it.</h2>
+    <p class="sub reveal">You know the logic. You know what you wanted the code to do. Then Node prints a red paragraph that assumes you already know terms like <code>undefined</code>, <code>reference</code>, <code>module resolution</code>, and <code>stack trace</code>. Now you are translating before you can even start.</p>
+    <div class="problem-grid">
+      <article class="problem reveal">
+        <span class="problem-k">01</span>
+        <h3>The message assumes you already know.</h3>
+        <p><code>Cannot read properties of undefined</code> is not a sentence about your code. It is jargon. You have to decode it before you can fix anything.</p>
+      </article>
+      <article class="problem reveal">
+        <span class="problem-k">02</span>
+        <h3>Search gives you answers, not understanding.</h3>
+        <p>You find a fix for someone else's file. It works today. The next error looks completely new, so you search again.</p>
+      </article>
+      <article class="problem reveal">
+        <span class="problem-k">03</span>
+        <h3>The gap is language, not ability.</h3>
+        <p>You already know how to think. The error is the part that has not met you where you are. That is a tooling problem, not a you problem.</p>
+      </article>
+    </div>
+    <blockquote class="pull reveal">You are not slow. The error is speaking over your head.</blockquote>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <p class="eyebrow reveal">How it works</p>
+    <h2 class="reveal">One command. Three things happen.</h2>
+    <p class="sub reveal">Sabicode sits between Node and you. It does not hide the real error. It gives you a way into it.</p>
     <div class="steps">
-      <div class="step"><h3>Run your file</h3><p>Use sabi instead of node. Nothing else changes.</p><pre>sabi run app.js</pre></div>
-      <div class="step"><h3>Read it</h3><p>The error line becomes Pidgin. The code frame and stack stay, and the original English is kept in the explanation.</p><pre>Wetin happen: ...
-Wetin to do: ...
-English: ...</pre></div>
-      <div class="step"><h3>Learn it</h3><p>Every explanation ends with the real English term, so you recognize it at work.</p><pre>Learn am: "undefined"
-mean say nothing dey there.</pre></div>
+      <div class="step reveal">
+        <h3>Run your file</h3>
+        <p>Use <code>sabi</code> instead of <code>node</code>. Everything after the script path goes to your script untouched.</p>
+        <pre>npx sabicode app.js</pre>
+      </div>
+      <div class="step reveal">
+        <h3>Read the Pidgin</h3>
+        <p>The error line becomes a short Pidgin headline. Then the same three sections every time: what happened, what to do, and what to learn.</p>
+        <pre>🦜 TypeError: You try collect `name` from `undefined`
+   Wetin happen: You wan pick `name` from ...
+   Wetin to do:  Check am first before you collect:
+   Learn am:     `undefined` mean say nothing dey there.</pre>
+      </div>
+      <div class="step reveal">
+        <h3>Keep the English</h3>
+        <p>The original error stays in an <code>English:</code> line. The code frame and stack trace stay in place, so you can still search, paste, and talk to your team.</p>
+        <pre>   English: TypeError: Cannot read properties of
+            undefined (reading 'name')
+    at Object.&lt;anonymous&gt; (/app.js:2:13)</pre>
+      </div>
     </div>
   </div>
 </section>
 
-<section>
+<section id="why">
   <div class="wrap">
-    <h2>Errors we cover</h2>
-    <p class="sub">17 at launch, more on the way. Each one has its own page with both tones.</p>
+    <p class="eyebrow reveal">Why this is rare</p>
+    <h2 class="reveal">Not a translation layer. A dictionary with receipts.</h2>
+    <p class="sub reveal">Most “explain this error” tools send your code to a model and hope the answer is useful. Sabicode does the opposite: a small, reviewed, versioned dictionary that runs on your machine.</p>
+    <div class="feature-grid">
+      <article class="feature reveal">
+        <span class="feature-k">01</span>
+        <h3>A dictionary, not a chatbot.</h3>
+        <p>Every explanation is written, versioned, and reviewed. No AI, no API key, no network. The same error always gets the same answer, so you can trust it while you learn.</p>
+      </article>
+      <article class="feature reveal">
+        <span class="feature-k">02</span>
+        <h3>English stays in the room.</h3>
+        <p>The original error is kept in an <code>English:</code> line, and <code>Learn am:</code> teaches the real term. You get unstuck now and sound like the industry later.</p>
+      </article>
+      <article class="feature reveal">
+        <span class="feature-k">03</span>
+        <h3>Terminal-native.</h3>
+        <p>Exit codes are preserved. stdout stays clean. The code frame and stack trace stay where they are. Zero runtime dependencies, so it starts fast and works offline.</p>
+      </article>
+      <article class="feature reveal">
+        <span class="feature-k">04</span>
+        <h3>Pidgin first, not Pidgin last.</h3>
+        <p>Nigerian Pidgin is the default, not a setting buried in a menu. Street and normal tones. Native speakers review the copy; until then, every entry is marked draft.</p>
+      </article>
+      <article class="feature reveal">
+        <span class="feature-k">05</span>
+        <h3>Real coverage, with tests.</h3>
+        <p>17 Node errors across 11 concepts, plus 13 ESLint rules for potential bugs. Each entry has samples, tests, and a content-hash review record.</p>
+      </article>
+      <article class="feature reveal">
+        <span class="feature-k">06</span>
+        <h3>Honest about scope.</h3>
+        <p>It runs one JavaScript file with Node today. It does not auto-fix your code or replace ESLint. <code>sabi scan</code> uses the ESLint already in your project to find potential bugs.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="compare">
+  <div class="wrap">
+    <p class="eyebrow reveal">Before / after</p>
+    <h2 class="reveal">The same bug. Two ways to meet it.</h2>
+    <div class="compare">
+      <div class="compare-card reveal">
+        <h3>Plain Node</h3>
+        <pre class="english">/app.js:2
+console.log(user.name);
+            ^
+
+TypeError: Cannot read properties of undefined (reading 'name')
+    at Object.&lt;anonymous&gt; (/app.js:2:13)
+    at Module._compile (node:internal/modules/cjs/loader:1521:14)</pre>
+        <p>Correct, but it assumes you already know what <code>undefined</code> means in this exact place.</p>
+      </div>
+      <div class="compare-card highlight reveal">
+        <h3>With Sabicode</h3>
+        <pre class="pidgin">🦜 TypeError: You try collect `name` from `undefined`
+   Wetin happen: You wan pick `name` from inside empty hand.
+                 The thing na `undefined`, e get nothing to give you.
+   Wetin to do:  Check am first before you collect:
+                 `thing?.name`
+   Learn am:     `undefined` mean say nothing dey there.
+   English: TypeError: Cannot read properties of undefined
+            (reading 'name')
+
+   Polly: Oya, run am again.</pre>
+        <p>The bug is still there. Now you know what it means, what to do next, and the English term for it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="commands">
+  <div class="wrap">
+    <p class="eyebrow reveal">Two commands</p>
+    <h2 class="reveal">When it crashes. Before it crashes.</h2>
+    <p class="sub reveal">Runtime errors and potential bugs are different jobs. Sabicode gives each one a command.</p>
+    <div class="two command-grid">
+      <article class="command-card reveal">
+        <h3><code>sabi run app.js</code></h3>
+        <p>When the program already broke. Sabicode runs the file with Node, catches the error, and explains it in Pidgin while keeping the English and the stack.</p>
+        <pre>$ sabi run app.js
+🦜 ReferenceError: You call `name`, but JavaScript no sabi am
+   Wetin happen: You dey call `name` like say JavaScript know am...
+   English: ReferenceError: name is not defined</pre>
+        <p class="note">Also works as <code>npx sabicode app.js</code> or <code>npx sabicode run app.js</code>.</p>
+      </article>
+      <article class="command-card reveal">
+        <h3><code>sabi scan</code></h3>
+        <p>Before it breaks. Sabicode runs your project's ESLint, then explains the findings in Pidgin. It finds potential bugs like unused values, loose equality, unreachable code, and undefined names.</p>
+        <pre>components/UserCard.jsx:6:46  error  eqeqeq
+🦜 You use `==`, but `===` dey safer
+   Wetin happen: `==` dey compare after e change the values...
+   English: Expected '===' and instead saw '=='.</pre>
+        <p class="note">Sabicode does not bundle ESLint or call the network. Install ESLint in your project once, and <code>sabi scan</code> uses it.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="who">
+  <div class="wrap">
+    <p class="eyebrow reveal">Who it's for</p>
+    <h2 class="reveal">Built for the people doing the learning.</h2>
+    <div class="who-grid">
+      <article class="who reveal">
+        <h3>Self-taught developers</h3>
+        <p>You learned from YouTube, docs, and trial and error. The error message should not be the hardest part of the lesson.</p>
+      </article>
+      <article class="who reveal">
+        <h3>Bootcamp students</h3>
+        <p>Use the street tone for practice at home and the normal tone in class. One <code>.sabirc</code> file sets it for the whole project.</p>
+      </article>
+      <article class="who reveal">
+        <h3>Working developers</h3>
+        <p>Keep the English term for standups, code review, and Stack Overflow. Sabicode explains in Pidgin without cutting you off from the industry.</p>
+      </article>
+      <article class="who reveal">
+        <h3>Teachers and mentors</h3>
+        <p>Meet students where they think. The fixed three-section layout makes it easy to ask “which part did you understand?”</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="open">
+  <div class="wrap two">
+    <div class="reveal">
+      <p class="eyebrow">Open source</p>
+      <h2>The dictionary is the product.</h2>
+      <p class="sub">The Pidgin is not magic and it is not generated on the fly. It is JSON entries with samples, tones, and a review hash. That means you can read it, question it, and improve it.</p>
+      <ul class="list">
+        <li><strong>Pidgin speakers</strong> review headlines, explanations, and tone. A review is tied to the exact content, so edits mark it stale.</li>
+        <li><strong>Developers</strong> add adapters, surfaces, and tests. The CLI uses only Node built-ins.</li>
+        <li><strong>Educators</strong> report what learners actually hit and help shape the concepts.</li>
+      </ul>
+      <div class="cta">
+        <a class="btn" href="https://github.com/Mutawakkil-Yusuf/Sabicode">View on GitHub</a>
+        <a class="btn alt" href="https://github.com/Mutawakkil-Yusuf/Sabicode/issues/new?labels=pidgin&amp;title=%5BPidgin%5D%20">Suggest a Pidgin phrase</a>
+      </div>
+    </div>
+    <div class="json-card reveal">
+      <div class="json-bar">dictionary/undefined-property.json</div>
+      <pre>{
+  "id": "undefined-property",
+  "concept": "undefined-and-null",
+  "samples": [
+    "TypeError: Cannot read properties of undefined (reading 'name')"
+  ],
+  "tone": {
+    "street": {
+      "headline": "You try collect `{2}` from `{1}`",
+      "happen": "You wan pick `{2}` from inside empty hand...",
+      "todo": "Check am first before you collect:",
+      "learn": "`{1}` mean say nothing dey there."
+    }
+  },
+  "review": {
+    "status": "draft",
+    "reviewers": [],
+    "contentHash": null
+  }
+}</pre>
+      <p class="note">Change the Pidgin, and the review goes stale. That is how the dictionary stays honest.</p>
+    </div>
+  </div>
+</section>
+
+<section id="errors">
+  <div class="wrap">
+    <p class="eyebrow reveal">Coverage</p>
+    <h2 class="reveal">Errors we cover</h2>
+    <p class="sub reveal">17 runtime errors across 11 concepts, plus 13 ESLint rules for potential bugs. Each runtime error has its own page with both tones.</p>
     <div class="grid" id="errs"><a href="errors/ref-not-defined.html"><span class="g-concept">Scope and references</span><span class="g-err">ReferenceError: name is not defined</span><span class="g-go">Open page →</span></a>
       <a href="errors/undefined-property.html"><span class="g-concept">undefined and null</span><span class="g-err">TypeError: Cannot read properties of undefined (reading 'name')</span><span class="g-go">Open page →</span></a>
       <a href="errors/not-a-function.html"><span class="g-concept">Functions and calls</span><span class="g-err">TypeError: greet is not a function</span><span class="g-go">Open page →</span></a>
@@ -939,28 +1871,37 @@ mean say nothing dey there.</pre></div>
 
 <section id="schools">
   <div class="wrap">
-    <h2>For schools and bootcamps</h2>
+    <p class="eyebrow reveal">For schools and bootcamps</p>
+    <h2 class="reveal">One setting for the whole class.</h2>
     <div class="two">
-      <ul class="list">
+      <ul class="list reveal">
         <li>One <code>.sabirc</code> file sets the tone for the whole class.</li>
         <li>Use the normal tone in class and the street tone for practice at home.</li>
         <li>Progress reports on the errors your students hit most. Coming later.</li>
+        <li>No student code leaves the machine. There is no Sabicode server.</li>
       </ul>
-      <div>
-        <p style="color:var(--muted)">We’re running pilots with two or three schools. Open an issue and we’ll be in touch.</p>
-        <p><a class="btn" href="https://github.com/Mutawakkil-Yusuf/Sabicode/issues/new?labels=schools&amp;title=%5BSchool%20pilot%5D%20" style="font-family:var(--sans);font-weight:600">Join pilot</a></p>
+      <div class="reveal">
+        <p class="sub">We are running pilots with two or three schools. Open an issue and we will be in touch.</p>
+        <p><a class="btn" href="https://github.com/Mutawakkil-Yusuf/Sabicode/issues/new?labels=schools&amp;title=%5BSchool%20pilot%5D%20">Join the pilot</a></p>
         <p class="note">This opens a public GitHub issue. No data is stored on a Sabicode server.</p>
       </div>
     </div>
   </div>
 </section>
 
-<section>
+<section id="free">
   <div class="wrap">
-    <h2>Pricing</h2>
-    <div class="plans">
-      <div class="plan"><h3>Individual</h3><div class="pr">Free</div><p>All errors, both tones, JavaScript. For anyone learning to code.</p><a class="btn" href="#top" style="font-family:var(--sans);font-weight:600">Try it now</a></div>
-      <div class="plan hl"><h3>School</h3><div class="pr">Let's talk</div><p>Shared class settings, progress reports, and support for your teachers.</p><a class="btn alt" href="#schools">Join pilot</a></div>
+    <div class="free-card reveal">
+      <div>
+        <p class="eyebrow">Free and open source</p>
+        <h2>No account. No server. No telemetry.</h2>
+        <p class="sub">Install it, run it, read the dictionary, change it. The CLI has zero runtime dependencies and makes no network calls.</p>
+      </div>
+      <div class="install">
+        <pre>npx sabicode app.js</pre>
+        <button class="btn alt" id="copy2" type="button">Copy command</button>
+        <p class="note" id="copied2" aria-live="polite"></p>
+      </div>
     </div>
   </div>
 </section>
@@ -968,50 +1909,95 @@ mean say nothing dey there.</pre></div>
 
 <div class="wrap">
   <footer>
-    <span>Sabicode is in development. Pidgin explanations are a draft until reviewers sign off.</span>
-    <span>Pidgin reviewers: <span class="credit-placeholder">[reviewer credits placeholder]</span> · <a href="https://github.com/Mutawakkil-Yusuf/Sabicode/issues/new?labels=pidgin&amp;title=%5BPidgin%5D%20">Suggest a phrase</a></span>
+    <span>Sabicode is open source. Pidgin explanations are a draft until reviewers sign off.</span>
+    <span>Pidgin reviewers: <span class="credit-placeholder">[reviewer credits placeholder]</span> · <a href="https://github.com/Mutawakkil-Yusuf/Sabicode/issues/new?labels=pidgin&amp;title=%5BPidgin%5D%20">Suggest a phrase</a> · <a href="https://github.com/Mutawakkil-Yusuf/Sabicode">GitHub</a></span>
   </footer>
 </div>
 
 <script>
-var E = [{"id":"ref-not-defined","label":"Ref not defined","cmd":"ReferenceError: name is not defined","s":{"hd":"ReferenceError: You call \u003ccode>name\u003c/code>, but JavaScript no sabi am","h":"You dey call \u003ccode>name\u003c/code> like say JavaScript know am, but e no sabi who be that. You never introduce am o.","t":"Create am first: \u003ccode>let name = &quot;Ada&quot;;\u003c/code>","l":"&quot;not defined&quot; mean say the variable no dey anywhere JavaScript fit see."},"n":{"hd":"ReferenceError: JavaScript no sabi \u003ccode>name\u003c/code>","h":"You dey use \u003ccode>name\u003c/code>, but JavaScript no sabi am. You never create am.","t":"Create am first: \u003ccode>let name = &quot;Ada&quot;;\u003c/code>","l":"&quot;not defined&quot; mean say the variable no dey anywhere JavaScript fit see."}},{"id":"undefined-property","label":"Undefined property","cmd":"TypeError: Cannot read properties of undefined (reading 'name')","s":{"hd":"TypeError: You try collect \u003ccode>name\u003c/code> from \u003ccode>undefined\u003c/code>","h":"You wan pick \u003ccode>name\u003c/code> from inside empty hand. The thing na \u003ccode>undefined\u003c/code>, e get nothing to give you.","t":"Check am first before you collect: \u003ccode>thing?.name\u003c/code>","l":"\u003ccode>undefined\u003c/code> mean say nothing dey there."},"n":{"hd":"TypeError: You try read \u003ccode>name\u003c/code> from \u003ccode>undefined\u003c/code>","h":"You wan collect \u003ccode>name\u003c/code> from something wey no get value. That thing na \u003ccode>undefined\u003c/code>.","t":"Check say the thing dey before you use am: \u003ccode>thing?.name\u003c/code>","l":"\u003ccode>undefined\u003c/code> mean say nothing dey there."}},{"id":"not-a-function","label":"Not a function","cmd":"TypeError: greet is not a function","s":{"hd":"TypeError: \u003ccode>greet\u003c/code> no be function","h":"You shout \u003ccode>greet()\u003c/code>, but \u003ccode>greet\u003c/code> no be function o. Na another thing dey there.","t":"Check your spelling. Then ask am wetin e be: \u003ccode>console.log(typeof greet);\u003c/code>","l":"To &quot;call&quot; a function na to run am with \u003ccode>()\u003c/code>."},"n":{"hd":"TypeError: \u003ccode>greet\u003c/code> no be function","h":"You try run \u003ccode>greet()\u003c/code>, but \u003ccode>greet\u003c/code> no be function.","t":"Check your spelling. Then check wetin \u003ccode>greet\u003c/code> be: \u003ccode>console.log(typeof greet);\u003c/code>","l":"To &quot;call&quot; a function na to run am with \u003ccode>()\u003c/code>."}},{"id":"unexpected-end","label":"Unexpected end","cmd":"SyntaxError: Unexpected end of input","s":{"hd":"SyntaxError: Your code end before e complete","h":"JavaScript reach the end of your file and e still dey wait. You leave one \u003ccode>}\u003c/code> or \u003ccode>)\u003c/code> open.","t":"Count your brackets. Every \u003ccode>{\u003c/code> must get im own \u003ccode>}\u003c/code>.","l":"&quot;syntax&quot; na the correct way to arrange code."},"n":{"hd":"SyntaxError: Your code end before e complete","h":"JavaScript don reach the end of your file, but e still dey wait for something. Most times, one \u003ccode>}\u003c/code> or \u003ccode>)\u003c/code> no close.","t":"Count your brackets. Every \u003ccode>{\u003c/code> must get one \u003ccode>}\u003c/code>.","l":"&quot;syntax&quot; na the correct way to write code."}},{"id":"const-assign","label":"Const assign","cmd":"TypeError: Assignment to constant variable.","s":{"hd":"TypeError: You try change \u003ccode>const\u003c/code>","h":"You use \u003ccode>const\u003c/code> lock \u003ccode>age\u003c/code>, then you wan change am. E no go gree.","t":"If the value go change, use \u003ccode>let\u003c/code>: \u003ccode>let age = 20;\u003c/code>","l":"&quot;constant&quot; mean value wey no dey change."},"n":{"hd":"TypeError: You try change \u003ccode>const\u003c/code>","h":"You use \u003ccode>const\u003c/code> create \u003ccode>age\u003c/code>, then you try change am. \u003ccode>const\u003c/code> no dey allow change.","t":"If the value go change, use \u003ccode>let\u003c/code>: \u003ccode>let age = 20;\u003c/code>","l":"&quot;constant&quot; mean value wey no dey change."}},{"id":"module-not-found-package","label":"Module not found package","cmd":"Error: Cannot find module 'left-pad'","s":{"hd":"Error: Node no find package \u003ccode>left-pad\u003c/code>","h":"You ask Node to bring \u003ccode>left-pad\u003c/code>, but e no see am anywhere. Node don search well-well.","t":"Check the spelling. If na package, install am first: \u003ccode>npm install left-pad\u003c/code>","l":"A &quot;module&quot; na a file or package wey you dey bring come your code."},"n":{"hd":"Error: Node no find package \u003ccode>left-pad\u003c/code>","h":"Node no fit find \u003ccode>left-pad\u003c/code>. Maybe you never install am, or the name no correct.","t":"Check the spelling. If na package, install am first: \u003ccode>npm install left-pad\u003c/code>","l":"A &quot;module&quot; na a file or package wey you dey bring come your code."}},{"id":"module-not-found-path","label":"Module not found path","cmd":"Error: Cannot find module './missing-config'","s":{"hd":"Error: Node no find file \u003ccode>./missing-config\u003c/code>","h":"You ask Node to bring \u003ccode>./missing-config\u003c/code>, but the file no dey that place.","t":"Check the file name and the folder. \u003ccode>./\u003c/code> mean &quot;this same folder&quot;.","l":"A &quot;path&quot; na the address of a file for your computer."},"n":{"hd":"Error: Node no find file \u003ccode>./missing-config\u003c/code>","h":"Node no fit find the file \u003ccode>./missing-config\u003c/code>.","t":"Check the file name and the folder. \u003ccode>./\u003c/code> mean &quot;this same folder&quot;.","l":"A &quot;path&quot; na the address of a file for your computer."}},{"id":"import-outside-module","label":"Import outside module","cmd":"SyntaxError: Cannot use import statement outside a module","s":{"hd":"SyntaxError: You use \u003ccode>import\u003c/code> for CommonJS file","h":"You use \u003ccode>import\u003c/code>, but Node run this file as CommonJS. \u003ccode>import\u003c/code> only work inside a module.","t":"Use \u003ccode>require\u003c/code>, or tell Node say the file na module: \u003ccode>{ &quot;type&quot;: &quot;module&quot; }\u003c/code>","l":"CommonJS use \u003ccode>require\u003c/code>. ES modules use \u003ccode>import\u003c/code>."},"n":{"hd":"SyntaxError: \u003ccode>import\u003c/code> no work for CommonJS file","h":"You use \u003ccode>import\u003c/code> for one file wey Node dey run as CommonJS. \u003ccode>import\u003c/code> need a module.","t":"Use \u003ccode>require\u003c/code>, or make the file a module: \u003ccode>{ &quot;type&quot;: &quot;module&quot; }\u003c/code>","l":"CommonJS and ES modules get different import syntax."}},{"id":"already-declared","label":"Already declared","cmd":"SyntaxError: Identifier 'value' has already been declared","s":{"hd":"SyntaxError: You declare \u003ccode>value\u003c/code> two times","h":"You don already use the name \u003ccode>value\u003c/code> for another thing. Two things no fit carry the same name for the same place.","t":"Rename one of them, or delete the extra line.","l":"To &quot;declare&quot; na to create a variable with \u003ccode>let\u003c/code>, \u003ccode>const\u003c/code> or \u003ccode>var\u003c/code>."},"n":{"hd":"SyntaxError: You declare \u003ccode>value\u003c/code> two times","h":"You declare \u003ccode>value\u003c/code> two times for the same place. JavaScript no dey allow that.","t":"Rename one of them, or delete the extra line.","l":"To &quot;declare&quot; na to create a variable with \u003ccode>let\u003c/code>, \u003ccode>const\u003c/code> or \u003ccode>var\u003c/code>."}},{"id":"unexpected-token","label":"Unexpected token","cmd":"SyntaxError: Unexpected token ';'","s":{"hd":"SyntaxError: JavaScript no expect \u003ccode>;\u003c/code>","h":"JavaScript see \u003ccode>;\u003c/code> for place wey e no expect am. Something before am dey miss or dey extra.","t":"Look the line wey the error point to, and the one before am. Check for missing comma, bracket or quote.","l":"A &quot;token&quot; na one small piece of code, like a word, bracket or symbol."},"n":{"hd":"SyntaxError: JavaScript no expect \u003ccode>;\u003c/code>","h":"JavaScript meet \u003ccode>;\u003c/code> where e no expect am. Maybe something before am dey miss.","t":"Look the line wey the error point to, and the one before am. Check for missing comma, bracket or quote.","l":"A &quot;token&quot; na one small piece of code, like a word, bracket or symbol."}},{"id":"invalid-token","label":"Invalid token","cmd":"SyntaxError: Invalid or unexpected token","s":{"hd":"SyntaxError: JavaScript no fit read one character","h":"JavaScript see one character wey e no understand. Most times, na quote wey no close, or strange symbol wey you paste.","t":"Check your quotes. Every opening quote must get a closing one. Remove strange characters wey you copy from outside.","l":"&quot;invalid&quot; mean say JavaScript no fit read am as code."},"n":{"hd":"SyntaxError: JavaScript no fit read one character","h":"JavaScript meet one character wey e no fit read. Maybe a quote no close, or you paste a strange symbol.","t":"Check your quotes. Every opening quote must get a closing one. Remove strange characters wey you copy from outside.","l":"&quot;invalid&quot; mean say JavaScript no fit read am as code."}},{"id":"tdz","label":"Tdz","cmd":"ReferenceError: Cannot access 'value' before initialization","s":{"hd":"ReferenceError: You use \u003ccode>value\u003c/code> before you create am","h":"You dey use \u003ccode>value\u003c/code> before the line wey create am. Na like to enter room before dem open door.","t":"Move the \u003ccode>let\u003c/code> or \u003ccode>const\u003c/code> line for \u003ccode>value\u003c/code> go up, before the place wey you dey use am.","l":"&quot;initialization&quot; mean the moment value first enter the variable."},"n":{"hd":"ReferenceError: You use \u003ccode>value\u003c/code> before you create am","h":"You use \u003ccode>value\u003c/code> before you create am. The line wey create am dey below.","t":"Move the \u003ccode>let\u003c/code> or \u003ccode>const\u003c/code> line for \u003ccode>value\u003c/code> go up, before the place wey you dey use am.","l":"&quot;initialization&quot; mean the moment value first enter the variable."}},{"id":"await-outside-async","label":"Await outside async","cmd":"SyntaxError: await is only valid in async functions and the top level bodies of modules","s":{"hd":"SyntaxError: \u003ccode>await\u003c/code> no fit work for here","h":"You use \u003ccode>await\u003c/code> for place wey no be \u003ccode>async\u003c/code> function, and this file no be module.","t":"Put am inside \u003ccode>async\u003c/code> function, or make the file a module: \u003ccode>async function main() { await work(); }\u003c/code>","l":"\u003ccode>await\u003c/code> need \u003ccode>async\u003c/code> function or module top level before e fit wait."},"n":{"hd":"SyntaxError: \u003ccode>await\u003c/code> no fit work for here","h":"\u003ccode>await\u003c/code> dey outside \u003ccode>async\u003c/code> function, and the file no be module.","t":"Put am inside \u003ccode>async\u003c/code> function, or make the file a module: \u003ccode>async function main() { await work(); }\u003c/code>","l":"\u003ccode>await\u003c/code> only work inside \u003ccode>async\u003c/code> function or module top level."}},{"id":"max-call-stack","label":"Max call stack","cmd":"RangeError: Maximum call stack size exceeded","s":{"hd":"RangeError: Your function dey call itself forever","h":"One function keep calling itself and e never reach a place to stop. The call stack don full.","t":"Add a base case wey go stop the recursion: \u003ccode>if (n &lt;= 0) return;\u003c/code>","l":"Every function call take space on the call stack. Recursion need a base case."},"n":{"hd":"RangeError: Your function no get base case","h":"A function keep calling itself without a base case, so the call stack fill up.","t":"Add a condition wey go stop the recursion: \u003ccode>if (n &lt;= 0) return;\u003c/code>","l":"Recursion need a base case, or e go run until the stack full."}},{"id":"not-iterable","label":"Not iterable","cmd":"TypeError: 5 is not iterable","s":{"hd":"TypeError: You no fit loop over \u003ccode>5\u003c/code>","h":"You use \u003ccode>for...of\u003c/code> on \u003ccode>5\u003c/code>, but that value no get iterator.","t":"Loop over something wey be array, string, or another iterable: \u003ccode>for (const item of [1, 2, 3])\u003c/code>","l":"\u003ccode>for...of\u003c/code> need an iterable. Arrays and strings get am; numbers no get."},"n":{"hd":"TypeError: You no fit loop over \u003ccode>5\u003c/code>","h":"\u003ccode>for...of\u003c/code> need an iterable, but \u003ccode>5\u003c/code> no be one.","t":"Loop over an array, string, Map, Set, or another iterable: \u003ccode>for (const item of [1, 2, 3])\u003c/code>","l":"\u003ccode>for...of\u003c/code> dey work with iterables. Number no be iterable."}},{"id":"json-parse","label":"Json parse","cmd":"SyntaxError: Unexpected token '\u003c', \"\u003c!DOCTYPE html>\" is not valid JSON","s":{"hd":"SyntaxError: \u003ccode>JSON.parse\u003c/code> no fit read this text","h":"You give \u003ccode>JSON.parse\u003c/code> one text wey no be JSON. Maybe na HTML page or ordinary text come back from the request.","t":"Check wetin the server return before you parse am: \u003ccode>console.log(text.slice(0, 80));\u003c/code>","l":"JSON na strict format. One small \u003ccode>&lt;\u003c/code> or missing quote fit make am invalid."},"n":{"hd":"SyntaxError: \u003ccode>JSON.parse\u003c/code> no fit read this text","h":"You pass text wey no be JSON to \u003ccode>JSON.parse\u003c/code>. Maybe the response be HTML page or plain text.","t":"Check the response before you parse am: \u003ccode>console.log(text.slice(0, 80));\u003c/code>","l":"JSON na strict text format. One small mistake fit make am invalid."}},{"id":"enoent","label":"Enoent","cmd":"Error: ENOENT: no such file or directory, open 'does-not-exist.txt'","s":{"hd":"Error: Node no find \u003ccode>does-not-exist.txt\u003c/code>","h":"You ask Node to open \u003ccode>does-not-exist.txt\u003c/code>, but that file no dey for that path.","t":"Check the path and the folder wey you dey run from: \u003ccode>path.join(__dirname, &quot;does-not-exist.txt&quot;)\u003c/code>","l":"\u003ccode>ENOENT\u003c/code> mean &quot;Error NO ENTry&quot;. The file or folder no exist for the path."},"n":{"hd":"Error: Node no find \u003ccode>does-not-exist.txt\u003c/code>","h":"Node try to open \u003ccode>does-not-exist.txt\u003c/code>, but no file dey that path.","t":"Check the path and the working directory: \u003ccode>path.join(__dirname, &quot;does-not-exist.txt&quot;)\u003c/code>","l":"\u003ccode>ENOENT\u003c/code> mean the file or folder no exist for the path you give."}}];
-var cur = 0;
-var timer = null;
-var out = document.getElementById("out");
-var pick = document.getElementById("pick");
+var HERO = [{"id":"ref-not-defined","label":"Ref not defined","match":"^ReferenceError: (\\w+) is not defined","sample":"ReferenceError: name is not defined","fix_code":"let {1} = \"Ada\";","what":"JavaScript looked for `{1}` in the current scope and did not find it. It was never created, or it was created in a different scope.","tones":{"street":{"headline":"You call `{1}`, but JavaScript no sabi am","happen":"You dey call `{1}` like say JavaScript know am, but e no sabi who be that. You never introduce am o.","todo":"Create am first:","learn":"\"not defined\" mean say the variable no dey anywhere JavaScript fit see."},"normal":{"headline":"JavaScript no sabi `{1}`","happen":"You dey use `{1}`, but JavaScript no sabi am. You never create am.","todo":"Create am first:","learn":"\"not defined\" mean say the variable no dey anywhere JavaScript fit see."}},"code":"console.log(total);","line":1,"column":13},{"id":"undefined-property","label":"Undefined property","match":"^TypeError: Cannot read properties of (undefined|null) \\(reading '(.+)'\\)","sample":"TypeError: Cannot read properties of undefined (reading 'name')","fix_code":"thing?.{2}","what":"The code tried to read `{2}` from a value that is `{1}`. `undefined` and `null` have no properties, so JavaScript stops before it can read anything.","tones":{"street":{"headline":"You try collect `{2}` from `{1}`","happen":"You wan pick `{2}` from inside empty hand. The thing na `{1}`, e get nothing to give you.","todo":"Check am first before you collect:","learn":"`{1}` mean say nothing dey there."},"normal":{"headline":"You try read `{2}` from `{1}`","happen":"You wan collect `{2}` from something wey no get value. That thing na `{1}`.","todo":"Check say the thing dey before you use am:","learn":"`{1}` mean say nothing dey there."}},"code":"const user = users.find((u) => u.id === 1);\nconsole.log(user.name);","line":2,"column":18},{"id":"not-a-function","label":"Not a function","match":"^TypeError: (.+) is not a function","sample":"TypeError: greet is not a function","fix_code":"console.log(typeof {1});","what":"The name `{1}` exists, but its value is not a function. JavaScript can only call values that are functions, so it throws a TypeError.","tones":{"street":{"headline":"`{1}` no be function","happen":"You shout `{1}()`, but `{1}` no be function o. Na another thing dey there.","todo":"Check your spelling. Then ask am wetin e be:","learn":"To \"call\" a function na to run am with `()`."},"normal":{"headline":"`{1}` no be function","happen":"You try run `{1}()`, but `{1}` no be function.","todo":"Check your spelling. Then check wetin `{1}` be:","learn":"To \"call\" a function na to run am with `()`."}},"code":"const greet = \"hello\";\ngreet();","line":2,"column":1},{"id":"json-parse","label":"Json parse","match":"^SyntaxError: (?:Unexpected token .+ in JSON at position \\d+|Unexpected token .+, .+ is not valid JSON)$","sample":"SyntaxError: Unexpected token '\u003c', \"\u003c!DOCTYPE html>\" is not valid JSON","fix_code":"console.log(text.slice(0, 80));","what":"The code passed text to `JSON.parse`, but the text was not valid JSON. A common cause is a server returning an HTML error page instead of JSON.","tones":{"street":{"headline":"`JSON.parse` no fit read this text","happen":"You give `JSON.parse` one text wey no be JSON. Maybe na HTML page or ordinary text come back from the request.","todo":"Check wetin the server return before you parse am:","learn":"JSON na strict format. One small `\u003c` or missing quote fit make am invalid."},"normal":{"headline":"`JSON.parse` no fit read this text","happen":"You pass text wey no be JSON to `JSON.parse`. Maybe the response be HTML page or plain text.","todo":"Check the response before you parse am:","learn":"JSON na strict text format. One small mistake fit make am invalid."}},"code":"const data = JSON.parse(\"\u003chtml>\");","line":1,"column":19}];
+var heroIndex = 0;
+var heroView = "pidgin";
+var heroTone = "street";
+var heroTimer = null;
 var still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+var heroOut = document.getElementById("hero-out");
+var heroCode = document.getElementById("hero-code");
 
-function readTone() {
-  try {
-    var saved = localStorage.getItem("sabicode-tone");
-    return saved === "normal" || saved === "street" ? saved : "street";
-  } catch (error) {
-    return "street";
+function esc(value) {
+  return String(value).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
+function fill(template, captures) {
+  return String(template).replace(/\{(\d+)\}/g, function (placeholder, index) {
+    var value = captures[Number(index) - 1];
+    return value === undefined ? placeholder : value;
+  });
+}
+
+function inline(template, captures) {
+  return esc(fill(template, captures)).replace(/`([^`]+)`/g, "<code>$1</code>");
+}
+
+function matchHero(entry) {
+  var match = new RegExp(entry.match).exec(entry.sample);
+  return match ? match.slice(1) : [];
+}
+
+function englishOutput(entry) {
+  return '<span class="cmd">$ node app.js</span>\n<span class="err">' + esc(entry.sample) + '</span>\n<span class="dim">    at Object.&lt;anonymous&gt; (/app.js:' + entry.line + ':' + entry.column + ')</span>';
+}
+
+function pidginOutput(entry) {
+  var captures = matchHero(entry);
+  var copy = entry.tones[heroTone];
+  var errorClass = String(entry.sample).split(":")[0];
+  var fix = entry.fix_code ? '<div><b>Wetin to do:</b> ' + inline(copy.todo, captures) + ' <code>' + esc(fill(entry.fix_code, captures)) + '</code></div>' : '<div><b>Wetin to do:</b> ' + inline(copy.todo, captures) + '</div>';
+  return '<span class="cmd">$ sabi run app.js</span>\n' +
+    '<div class="pg">' +
+    '<div class="hd">🦜 ' + esc(errorClass) + ': ' + inline(copy.headline, captures) + '</div>' +
+    '<div><b>Wetin happen:</b> ' + inline(copy.happen, captures) + '</div>' +
+    fix +
+    '<div><b>Learn am:</b> ' + inline(copy.learn, captures) + '</div>' +
+    '<div class="en">English: ' + esc(entry.sample) + '</div>' +
+    '</div>';
+}
+
+function renderHero(animate) {
+  var entry = HERO[heroIndex];
+  heroCode.textContent = entry.code;
+  clearTimeout(heroTimer);
+
+  if (!animate || still) {
+    heroOut.innerHTML = heroView === "english" ? englishOutput(entry) : pidginOutput(entry);
+    return;
   }
+
+  heroOut.setAttribute("aria-live", "off");
+  heroOut.innerHTML = '<span class="cmd">$ </span><span class="caret"></span>';
+  var command = heroView === "english" ? "node app.js" : "sabi run app.js";
+  var index = 0;
+
+  (function type() {
+    index += 1;
+    heroOut.innerHTML = '<span class="cmd">$ ' + esc(command.slice(0, index)) + '</span><span class="caret"></span>';
+    if (index < command.length) {
+      heroTimer = setTimeout(type, 40);
+    } else {
+      heroTimer = setTimeout(function () {
+        heroOut.innerHTML = heroView === "english" ? englishOutput(entry) : pidginOutput(entry);
+        heroOut.setAttribute("aria-live", "polite");
+        talk();
+      }, 240);
+    }
+  })();
 }
 
-function saveTone(value) {
-  try {
-    localStorage.setItem("sabicode-tone", value);
-  } catch (error) {
-    // Storage can be unavailable; the page still renders with the current tone.
+function setViewButtons() {
+  var buttons = document.querySelectorAll(".seg button[data-view]");
+  for (var i = 0; i < buttons.length; i++) {
+    buttons[i].setAttribute("aria-pressed", String(buttons[i].dataset.view === heroView));
   }
-}
-
-var tone = readTone();
-
-function esc(s) {
-  return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-}
-
-function headline(e) {
-  var p = e[tone === "street" ? "s" : "n"];
-  return '🦜 ' + p.hd;
-}
-
-function card(e) {
-  var p = e[tone === "street" ? "s" : "n"];
-  return '<div class="pg"><div><b>Wetin happen:</b> ' + p.h + '</div><div><b>Wetin to do:</b> ' + p.t + '</div><div><b>Learn am:</b> ' + p.l + '</div><div class="en">English: ' + esc(e.cmd) + '</div></div>';
 }
 
 function talk() {
@@ -1022,114 +2008,85 @@ function talk() {
   parrot.classList.add("talk");
 }
 
-function render(animate) {
-  var e = E[cur];
-  var head = '<span class="cmd">$ sabi run app.js</span>\n<span class="err">' + headline(e) + '</span>';
-  clearTimeout(timer);
-  if (!animate || still) {
-    out.setAttribute("aria-live", "polite");
-    out.innerHTML = head + card(e);
-    talk();
-    return;
-  }
-  out.setAttribute("aria-live", "off");
-  out.innerHTML = '<span class="cmd">$ </span>';
-  var full = "sabi run app.js";
-  var i = 0;
-  (function type() {
-    i++;
-    out.innerHTML = '<span class="cmd">$ ' + full.slice(0, i) + '</span>';
-    if (i < full.length) {
-      timer = setTimeout(type, 45);
-    } else {
-      timer = setTimeout(function () {
-        out.innerHTML = head;
-        timer = setTimeout(function () {
-          out.innerHTML = head + card(e);
-          out.setAttribute("aria-live", "polite");
-          talk();
-        }, 450);
-      }, 300);
-    }
-  })();
-}
-
-function setToneButtons() {
-  var buttons = document.querySelectorAll(".seg button");
-  for (var i = 0; i < buttons.length; i++) {
-    buttons[i].setAttribute("aria-pressed", String(buttons[i].dataset.tone === tone));
-  }
-}
-
-E.forEach(function (e, i) {
-  var button = document.createElement("button");
-  button.type = "button";
-  button.textContent = e.label;
-  button.title = e.cmd;
-  button.setAttribute("aria-pressed", String(i === 0));
-  button.onclick = function () {
-    cur = i;
-    for (var j = 0; j < pick.children.length; j++) {
-      pick.children[j].setAttribute("aria-pressed", String(j === i));
-    }
-    render(false);
-  };
-  pick.appendChild(button);
-});
-
-var toneButtons = document.querySelectorAll(".seg button");
-for (var t = 0; t < toneButtons.length; t++) {
-  toneButtons[t].onclick = function () {
-    tone = this.dataset.tone;
-    saveTone(tone);
-    setToneButtons();
-    render(false);
+var viewButtons = document.querySelectorAll(".seg button[data-view]");
+for (var v = 0; v < viewButtons.length; v++) {
+  viewButtons[v].onclick = function () {
+    heroView = this.dataset.view;
+    setViewButtons();
+    renderHero(true);
   };
 }
 
-setToneButtons();
-render(true);
+document.getElementById("hero-next").onclick = function () {
+  heroIndex = (heroIndex + 1) % HERO.length;
+  renderHero(true);
+};
 
-document.getElementById("copy").onclick = function () {
-  var note = document.getElementById("copied");
-  var command = "npx sabicode app.js";
+setViewButtons();
+renderHero(true);
+
+function copyCommand(button, note, command) {
   var done = function () {
-    note.textContent = "Copied. Sabicode is coming to npm soon.";
+    note.textContent = "Copied. Run it in your project.";
   };
   var fail = function () {
     note.textContent = "Copy failed. Select the command and copy it by hand.";
   };
+  var legacy = function (text) {
+    try {
+      var area = document.createElement("textarea");
+      area.value = text;
+      area.setAttribute("readonly", "");
+      area.style.position = "fixed";
+      area.style.opacity = "0";
+      document.body.appendChild(area);
+      area.select();
+      var ok = document.execCommand("copy");
+      document.body.removeChild(area);
+      return ok;
+    } catch (error) {
+      return false;
+    }
+  };
+
   try {
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(command).then(done, function () {
-        if (legacyCopy(command)) done(); else fail();
+        if (legacy(command)) done(); else fail();
       });
-    } else if (legacyCopy(command)) {
+    } else if (legacy(command)) {
       done();
     } else {
       fail();
     }
   } catch (error) {
-    if (legacyCopy(command)) done(); else fail();
-  }
-};
-
-function legacyCopy(text) {
-  try {
-    var area = document.createElement("textarea");
-    area.value = text;
-    area.setAttribute("readonly", "");
-    area.style.position = "fixed";
-    area.style.opacity = "0";
-    document.body.appendChild(area);
-    area.select();
-    var ok = document.execCommand("copy");
-    document.body.removeChild(area);
-    return ok;
-  } catch (error) {
-    return false;
+    if (legacy(command)) done(); else fail();
   }
 }
+
+document.getElementById("copy").onclick = function () {
+  copyCommand(this, document.getElementById("copied"), "npx sabicode app.js");
+};
+
+document.getElementById("copy2").onclick = function () {
+  copyCommand(this, document.getElementById("copied2"), "npx sabicode app.js");
+};
+
+(function reveal() {
+  var items = document.querySelectorAll(".reveal");
+  if (still || !("IntersectionObserver" in window)) {
+    for (var i = 0; i < items.length; i++) items[i].classList.add("in");
+    return;
+  }
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add("in");
+      observer.unobserve(entry.target);
+    });
+  }, { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
+  for (var j = 0; j < items.length; j++) observer.observe(items[j]);
+})();
 </script>
 </body>
 </html>

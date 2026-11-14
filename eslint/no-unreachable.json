@@ -1,0 +1,29 @@
+{
+  "id": "no-unreachable",
+  "language": "javascript",
+  "concept": "control-flow",
+  "match": "^Unreachable code\\.?$",
+  "samples": [
+    "Unreachable code."
+  ],
+  "review": {
+    "status": "draft",
+    "reviewers": [],
+    "contentHash": null
+  },
+  "what": "This line can never run because an earlier statement always exits, returns, or throws.",
+  "tone": {
+    "street": {
+      "headline": "This line no go ever run",
+      "happen": "Something before this line already return, throw, or stop the function. So this code no fit run at all.",
+      "todo": "Remove the dead code, or move am before the statement wey stop the function.",
+      "learn": "\"unreachable\" mean say the program no fit reach that line."
+    },
+    "normal": {
+      "headline": "This line can never run",
+      "happen": "An earlier statement always returns, throws, or exits. Control never reaches this line, so the code is dead.",
+      "todo": "Remove the dead code, or move am before the statement wey stop the function.",
+      "learn": "\"unreachable\" mean say the program no fit reach that line."
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "id": "no-import-assign",
+  "language": "javascript",
+  "concept": "modules",
+  "match": "^(?:'[^']+' is read-only|The members of '[^']+' are read-only)\\.?$",
+  "samples": [
+    "'imported' is read-only."
+  ],
+  "review": {
+    "status": "draft",
+    "reviewers": [],
+    "contentHash": null
+  },
+  "what": "An assignment targets an imported binding or an imported namespace. Imports are read-only.",
+  "tone": {
+    "street": {
+      "headline": "You try change imported value",
+      "happen": "Wetin you import na read-only. You no fit assign new value to am, and you no fit change the namespace members.",
+      "todo": "Create a local variable from the import, then change that one.",
+      "learn": "\"read-only\" mean say you fit read am, but you no fit write am."
+    },
+    "normal": {
+      "headline": "Imported values are read-only",
+      "happen": "You tried to assign to an imported binding or a member of an imported namespace. Both are read-only.",
+      "todo": "Create a local variable from the import, then change that one.",
+      "learn": "\"read-only\" mean say you fit read am, but you no fit write am."
+    }
+  }
+}

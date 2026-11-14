@@ -5,6 +5,7 @@ const path = require('node:path');
 const { reviewState } = require('./review');
 
 const DICTIONARY_DIR = path.join(__dirname, '..', 'dictionary');
+const ESLINT_DIR = path.join(__dirname, '..', 'eslint');
 
 // Presentation order for the demo and `sabi list`. Unknown ids sort after these.
 const ENTRY_ORDER = [
@@ -27,7 +28,9 @@ const ENTRY_ORDER = [
   'enoent'
 ];
 
-function loadDictionary(dir = DICTIONARY_DIR) {
+function loadEntries(dir, order = []) {
+  if (!fs.existsSync(dir)) return [];
+
   const files = fs
     .readdirSync(dir)
     .filter((name) => name.endsWith('.json'))
@@ -49,12 +52,20 @@ function loadDictionary(dir = DICTIONARY_DIR) {
       };
     })
     .sort((a, b) => {
-      const aIndex = ENTRY_ORDER.indexOf(a.id);
-      const bIndex = ENTRY_ORDER.indexOf(b.id);
-      const aRank = aIndex === -1 ? ENTRY_ORDER.length : aIndex;
-      const bRank = bIndex === -1 ? ENTRY_ORDER.length : bIndex;
+      const aIndex = order.indexOf(a.id);
+      const bIndex = order.indexOf(b.id);
+      const aRank = aIndex === -1 ? order.length : aIndex;
+      const bRank = bIndex === -1 ? order.length : bIndex;
       return aRank - bRank || a.id.localeCompare(b.id);
     });
 }
 
-module.exports = { DICTIONARY_DIR, loadDictionary };
+function loadDictionary(dir = DICTIONARY_DIR) {
+  return loadEntries(dir, ENTRY_ORDER);
+}
+
+function loadEslintRules(dir = ESLINT_DIR) {
+  return loadEntries(dir);
+}
+
+module.exports = { DICTIONARY_DIR, ESLINT_DIR, loadDictionary, loadEslintRules };

@@ -2,9 +2,9 @@
 
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { loadDictionary } = require('../src/dictionary');
+const { loadDictionary, loadEslintRules } = require('../src/dictionary');
 
-const entries = loadDictionary();
+const entries = [...loadDictionary(), ...loadEslintRules()];
 
 for (const entry of entries) {
   for (const sample of entry.samples) {

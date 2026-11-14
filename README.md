@@ -8,13 +8,18 @@ code frame and stack trace stay where they are, and the original English line is
 kept in the explanation. The child's exit code is preserved, and the explanation
 teaches the real term along the way.
 
+It can also run the ESLint already installed in your project and explain those
+findings in Pidgin, so you can meet potential bugs before they crash.
+
 - Pidgin-first output, with `append` and `raw` modes
 - JavaScript on Node 18, 20, or 22
-- 17 dictionary entries across 11 concepts
+- 17 runtime error entries and 13 ESLint rule entries across 14 concepts
+- `sabi scan` adapter for the project's local ESLint
 - `street` tone (default) and `normal` tone
 - zero runtime dependencies
 - no network calls, telemetry, accounts, or AI fallback
 - site: <https://mutawakkil-yusuf.github.io/Sabicode/>
+- live demo: <https://mutawakkil-yusuf.github.io/Sabicode/demo.html>
 
 ## Install and run
 
@@ -131,16 +136,55 @@ An invalid tone prints a one-line warning and falls back to `street`.
 sabi explain "TypeError: x is not a function"
 sabi list
 sabi concepts
+sabi rules
+sabi scan [paths...] [--all]
 sabi --help
 sabi --version
 ```
 
 `sabi explain` explains a pasted error without running anything. `sabi list`
-shows every covered entry, its concept, and whether a Pidgin speaker has
-reviewed it. `sabi concepts` shows the concept catalog and how many errors cover
-each idea.
+shows every covered runtime entry, its concept, and whether a Pidgin speaker has
+reviewed it. `sabi concepts` shows the concept catalog and how many runtime and
+ESLint entries cover each idea. `sabi rules` lists the ESLint rule catalog.
 
-## Covered errors
+## Scan for potential bugs
+
+`sabi scan` runs the ESLint that is already installed in your project, then
+explains each finding in Pidgin. It does not bundle ESLint, install anything, or
+make a network call.
+
+```sh
+npm install --save-dev eslint   # once, in your project
+sabi scan
+sabi scan src app.js --all
+```
+
+```text
+components/UserCard.jsx:6:46  error  eqeqeq
+🦜 You use `==`, but `===` dey safer
+   Wetin happen: `==` dey compare after e change the values. `===` compare the
+                 value and the type, so e no dey do magic conversion.
+   Wetin to do:  Change am to:
+                 `a === b`
+   Learn am:     `==` fit say `1` and `"1"` equal. `===` no go gree.
+   English: Expected '===' and instead saw '=='.
+
+   Polly: Oya, fix am.
+```
+
+- By default the first 10 findings are shown. `--all` shows every finding.
+- The ESLint exit code is preserved: `0` for clean or warnings only, `1` when
+  errors were found, and `2` when ESLint could not run.
+- Covered rules get specific Pidgin copy. Any other rule gets a generic Pidgin
+  explanation plus the exact English message.
+- `SABI_ESLINT=/path/to/eslint` points Sabicode at a local ESLint package or
+  binary when automatic discovery is not what you want.
+- Sabicode does not auto-fix code. It explains the finding and leaves the edit to
+  you.
+
+If ESLint is missing, `sabi scan` exits `2` and prints the install command.
+
+## Covered runtime errors
 
 | id | concept | English |
 | --- | --- | --- |
@@ -162,6 +206,24 @@ each idea.
 | `enoent` | `filesystem` | `Error: ENOENT: no such file or directory, open 'file'` |
 | `not-iterable` | `iteration` | `TypeError: x is not iterable` |
 
+## Covered ESLint rules
+
+| rule | concept | English |
+| --- | --- | --- |
+| `eqeqeq` | `operators` | `Expected '===' and instead saw '=='.` |
+| `no-async-promise-executor` | `async` | `Promise executor functions should not be async.` |
+| `no-const-assign` | `bindings` | `'value' is constant.` |
+| `no-dupe-keys` | `objects` | `Duplicate key 'a'.` |
+| `no-func-assign` | `bindings` | `'fn' is a function.` |
+| `no-import-assign` | `modules` | `'imported' is read-only.` |
+| `no-redeclare` | `bindings` | `'value' is already defined.` |
+| `no-shadow` | `scope` | `'inner' is already declared in the upper scope...` |
+| `no-undef` | `scope` | `'name' is not defined.` |
+| `no-unreachable` | `control-flow` | `Unreachable code.` |
+| `no-unsafe-optional-chaining` | `undefined-and-null` | `Unsafe usage of optional chaining...` |
+| `no-unused-vars` | `bindings` | `'count' is assigned a value but never used.` |
+| `parse-error` | `syntax` | `Parsing error: Unexpected token ;` |
+
 ## Add a dictionary entry
 
 1. Pick the concept first. Add or reuse an id from `concepts/concepts.json`.
@@ -180,13 +242,27 @@ each idea.
    matches only its own entry, the Pidgin style rules, the renderer, the review
    hash, and the real CLI.
 
+## Add an ESLint rule entry
+
+The ESLint catalog lives in `eslint/<rule-id>.json`. It uses the same schema and
+rendering as the runtime dictionary, so an entry looks and reviews the same way.
+
+1. Create `eslint/<rule-id>.json`. The filename is the ESLint rule id.
+2. Set `match` to a regular expression that matches the rule's English message
+   and captures the parts used by the Pidgin copy.
+3. Add at least one real `samples` message from ESLint, the plain-English
+   `what`, both tones, and a `fix_code` when a safe fix is obvious.
+4. Run `npm run review -- list --eslint` to see the ESLint catalog.
+5. Run `npm test`. The schema, samples, style, and collision checks cover both
+   catalogs. Uncovered rules still work through the generic Pidgin fallback.
+
 ## Help with the Pidgin
 
 The Pidgin here is a draft until a Pidgin speaker signs it off. If a phrase
 sounds wrong, too formal, or not like how people actually talk, open an issue or
 a pull request that changes only the `tone` strings (including `headline`) in
-the relevant dictionary file. Keep the layout and the English technical terms
-intact, then run `npm test`.
+the relevant `dictionary/` or `eslint/` file. Keep the layout and the English
+technical terms intact, then run `npm test`.
 
 A sign-off is recorded against a hash of the reviewed content. If the copy
 changes, the review becomes stale automatically:
@@ -196,20 +272,24 @@ npm run review -- list
 npm run review -- show ref-not-defined
 npm run review -- sign ref-not-defined --reviewer "Ada Obi" --github adaobi
 npm run review -- verify
+npm run review -- list --eslint
+npm run review -- show eqeqeq --eslint
+npm run review -- sign eqeqeq --reviewer "Ada Obi" --github adaobi --eslint
 ```
 
 See `docs/review.md` for the rubric and the full workflow. Reviewer credits
-appear in the entry, in `sabi list`, and on the generated error pages.
+appear in the entry, in `sabi list`, in `sabi rules`, and on the generated error
+pages.
 
 ## Development
 
 ```sh
 npm test
 npm run build
-npm run review -- list
+npm run review -- verify
 ```
 
-The site is generated into `site/` from the dictionary. The build command and
+The site is generated into `site/` from both catalogs. The build command and
 output directory are also in `site/DEPLOY.md`. Contributor guidance is in
 `CONTRIBUTING.md`. Maintainers should follow `docs/release.md` for versioning,
 tagging, staged npm approval, and the provenance publish workflow. Release notes

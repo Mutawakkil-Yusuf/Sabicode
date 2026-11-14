@@ -50,6 +50,21 @@
     "summary": "Turning text into data, and what happens when the text is not the format you expected."
   },
   {
+    "id": "objects",
+    "title": "Objects and properties",
+    "summary": "Building objects, reading their keys, and what happens when a key repeats."
+  },
+  {
+    "id": "operators",
+    "title": "Operators and comparisons",
+    "summary": "How values are compared and combined, and when JavaScript converts them first."
+  },
+  {
+    "id": "control-flow",
+    "title": "Control flow",
+    "summary": "Which lines can run, which ones return early, and which ones can never run."
+  },
+  {
     "id": "filesystem",
     "title": "Files and paths",
     "summary": "Reading or writing a file that is missing or not reachable."

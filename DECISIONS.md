@@ -7,7 +7,9 @@ room for interpretation.
 
 - Package version starts at `0.1.0`; `0.2.0` adds Pidgin-first output, the
   concept schema, the review workflow, and the first concept-first dictionary
-  expansion. Version `0.2.0` is published on npm as `sabicode`.
+  expansion. `0.2.1` refreshes the packaged README. `0.3.0` adds the optional
+  ESLint scan adapter, the ESLint rule catalog, and the live browser demo.
+  Versions through `0.2.1` are published on npm as `sabicode`.
 - The CLI is CommonJS and uses only Node built-ins. There are no runtime
   dependencies.
 - Node 18, 20, and 22 are the supported and tested versions.
@@ -59,6 +61,35 @@ room for interpretation.
 - `SABI_MODE` and `--mode` are resolved before the script path, like tone. An
   invalid mode warns once and falls back to `pidgin-first`.
 
+## ESLint adapter (v0.3)
+
+- `sabi scan` is optional and uses the ESLint already installed for the project.
+  Sabicode does not bundle, install, or download ESLint, and it makes no network
+  calls.
+- Discovery first resolves `eslint/package.json` from the current working
+  directory, then reads the package's `bin` entry. `SABI_ESLINT` overrides this
+  and accepts a package directory, a `package.json`, or an executable path.
+- The adapter spawns `node <eslint-bin> --format json --no-color <paths>` with
+  `process.execPath` and an argument array, never a shell. It sets
+  `FORCE_COLOR=0` so the JSON is clean.
+- The ESLint exit code is preserved: `0` for clean or warnings only, `1` for
+  errors, and `2` when ESLint could not run. A missing ESLint, a missing config,
+  or unreadable JSON returns `2` with a short Pidgin-friendly next step.
+- Findings are sorted by file path, line, column, and rule id. The default output
+  shows the first 10; `--all` shows every finding.
+- A finding is matched by rule id first, then by the entry's message regex. Parse
+  errors with no rule id map to the `parse-error` entry. Any other rule gets a
+  generic Pidgin explanation plus the exact English message.
+- The ESLint catalog lives in `eslint/` and uses the same schema, renderer, and
+  content-hash review model as the runtime dictionary. Runtime and ESLint
+  entries are loaded separately so `sabi scan` never matches a runtime error
+  pattern against an ESLint message.
+- `sabi rules` lists the ESLint catalog. `sabi concepts` counts both catalogs
+  together. `scripts/review.js` accepts `--eslint` and `--runtime`; without
+  either flag, `list` and `verify` cover both.
+- Sabicode does not auto-fix code. `sabi scan` explains the finding and leaves
+  the edit to the developer.
+
 ## Dictionary
 
 - Schema v2 adds `language` and `concept` to every entry. `language` is
@@ -101,11 +132,26 @@ room for interpretation.
 
 ## Site
 
-- The editable page source is `scripts/landing.template.html` and
-  `scripts/site.css`; the build writes `site/index.html` and
-  `site/errors/<id>.html`. Generated site files are committed so the static
-  host can deploy the repository output directly. `SABI_SITE_OUT` can redirect
-  the build to another directory for tests.
+- The editable page sources are `scripts/landing.template.html`,
+  `scripts/demo.template.html`, and `scripts/site.css`; the build writes
+  `site/index.html`, `site/demo.html`, and `site/errors/<id>.html`. Generated
+  site files are committed so the static host can deploy the repository output
+  directly. `SABI_SITE_OUT` can redirect the build to another directory for
+  tests.
+- The landing page tells the problem → how it works → why the dictionary model
+  is different → before/after → two commands → audience → open dictionary →
+  coverage → schools → free story. The hero switches between English and Pidgin
+  and cycles through four errors.
+- The demo page has three tabs. Run mode executes JavaScript in a Web Worker
+  created from a Blob URL, with a fake `console`, a 3 second timeout, and no DOM,
+  `require`, or filesystem access. Explain mode matches the same dictionary
+  patterns as `sabi explain`. Scan mode replays a recorded ESLint result and
+  lets the reader select a finding.
+- The demo is a preview, not Node. The page says so, and the real CLI remains
+  the supported path for runtime errors.
+- Both pages use `minmax(0, 1fr)` grid tracks so long `<pre>` samples scroll
+  inside their cards instead of widening the page. The overflow check runs from
+  360 px to 1280 px.
 - The canonical base URL is `https://mutawakkil-yusuf.github.io/Sabicode`.
   `SITE_URL` can be changed in `scripts/build-site.js`, or overridden with
   `SABI_SITE_URL` for a custom domain.
@@ -125,20 +171,24 @@ room for interpretation.
 
 ## Verification
 
-- `npm test` passed on Node 18.20.8, 20.20.2, and 22.23.5 (165 tests each) at
-  v0.2.0. The suite covers Pidgin-first, modes, line rewriting, review hashes,
-  concepts, and all 17 fixtures.
+- `npm test` passes 221 tests on the development Node version. The suite covers
+  Pidgin-first, modes, line rewriting, review hashes, concepts, the ESLint
+  adapter, both catalogs, the generated site, and all 17 runtime fixtures.
 - The integration test runs every fixture and checks that the original English
   error is still in stderr, that the Pidgin block follows it, and that the
   child's exit code is preserved.
-- `npm pack --dry-run` contains 33 files, 18.4 kB packed, with `bin/`, `src/`,
-  `dictionary/`, `concepts/`, the licence, README, style guide, changelog, and
+- The ESLint adapter was exercised against ESLint 8.57.1 and 9.39.5 with clean
+  files, warnings, errors, parse errors, unknown rules, and a missing config.
+- `npm pack --dry-run` contains 47 files, about 26.9 kB packed, with `bin/`,
+  `src/`, both catalogs, the licence, README, style guide, changelog, and
   package metadata.
-- The release workflow publishes from a `v*` tag with npm provenance. It needs
-  the `NPM_TOKEN` repository secret and `id-token: write` permission.
-- `npm view sabicode` returned `E404` on 2026-11-08, so the public package name
-  was free at that moment. Nothing was published.
-- The site was checked with static HTML parsing, link checks, inline script
-  syntax checks, page-size checks, and the automated site test. A browser and
-  Lighthouse were not available in the build environment, so the animation and
-  Lighthouse scores still need a visual pass.
+- The release workflow stages the package from a `v*` tag with npm provenance.
+  It needs the `NPM_TOKEN` repository secret and `id-token: write` permission.
+  A maintainer approves the staged version with 2FA on npmjs.com.
+- The site is checked with static HTML parsing, link checks, inline script
+  syntax checks, page-size checks, and the automated site test. A Playwright
+  pass exercised the run, explain, and scan demo tabs, the hero English/Pidgin
+  switch, tone switching, the timeout path, and the scan replay at 360–1280 px
+  with no console errors or horizontal overflow.
+- Lighthouse has not been run in this environment, so performance and
+  accessibility scores still need a separate pass.

@@ -23,6 +23,12 @@ Sabicode runs the learner's real code, keeps the code frame and stack trace,
 and replaces the error line with a short Pidgin headline. The detailed
 explanation follows in Pidgin, and the exact English line is kept in the output.
 
+It also includes `sabi scan`, an optional adapter that runs the ESLint already
+installed in the project and explains potential bugs in the same Pidgin voice.
+Sabicode does not bundle ESLint, install it, or turn the scan into a quality
+gate. The tool explains what the project's own linter found; the project still
+owns its rules and its exit code.
+
 The English is not a fallback. It is part of the lesson:
 
 - It keeps the error searchable.
@@ -77,6 +83,22 @@ Tone:
 
 - `street` (default): how people actually talk.
 - `normal`: calmer, for classrooms and documentation.
+
+Scan:
+
+```text
+components/UserCard.jsx:6:46  error  eqeqeq
+🦜 You use `==`, but `===` dey safer
+   Wetin happen: `==` dey compare after e change the values...
+   Wetin to do:  Change am to:
+                 `a === b`
+   Learn am:     `==` fit say `1` and `"1"` equal. `===` no go gree.
+   English: Expected '===' and instead saw '=='.
+```
+
+The scan keeps the same fixed layout and the same English line. A rule without
+reviewed Pidgin still gets a generic explanation and the exact English message,
+so the learner is never blocked by a missing entry.
 
 ## Principles
 
@@ -145,21 +167,30 @@ and the review is invalidated. Credits live on the site and in the repository.
   templates, roadmap, good first issues.
 - First real npm publish with provenance.
 
-### v0.3 — Learning loop
+### v0.3 — Scan and live demo
+
+- `sabi scan`: an optional ESLint adapter that explains potential bugs in
+  Pidgin using the ESLint already in the project.
+- 13 ESLint rule entries, `sabi rules`, and a generic fallback for every other
+  rule.
+- A browser demo that runs real JavaScript in a sandboxed worker, explains a
+  pasted error, and replays an ESLint scan.
+- A landing page built around the problem, the dictionary model, and proof.
+
+### v0.4 — Learning loop
 
 - `sabi map`: local concept progress.
 - `sabi report`: static class report.
 - Classroom kit: portable Node, CLI, lessons, exercises, and reports.
 
-### v0.4 — Surfaces
+### v0.5 — Surfaces
 
 - VS Code extension.
-- Web playground.
-- Shareable error cards.
+- Deeper web playground and shareable error cards.
 
 ### Later
 
-- Python tracebacks, browser console, TypeScript, ESLint, Git.
+- Python tracebacks, browser console, TypeScript, and Git adapters.
 - Yoruba, Igbo, and Hausa language packs.
 - MCP server so agents can use reviewed Pidgin without Sabicode itself using
   AI.

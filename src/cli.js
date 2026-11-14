@@ -5,7 +5,8 @@ const path = require('node:path');
 const packageJson = require('../package.json');
 const { resolveMode, resolveTone } = require('./config');
 const { loadConcepts } = require('./concepts');
-const { loadDictionary } = require('./dictionary');
+const { loadDictionary, loadEslintRules } = require('./dictionary');
+const { scanProject } = require('./eslint');
 const { matchError } = require('./match');
 const { findErrorLine } = require('./parse');
 const {
@@ -17,7 +18,7 @@ const {
 } = require('./render');
 const { runScript } = require('./run');
 
-const COMMANDS = new Set(['run', 'explain', 'list', 'concepts']);
+const COMMANDS = new Set(['run', 'explain', 'list', 'concepts', 'scan', 'rules']);
 
 const HELP = `Sabicode - your errors, finally in your language.
 
@@ -27,14 +28,17 @@ Usage:
   sabi explain "<error message>"
   sabi list
   sabi concepts
+  sabi rules
+  sabi scan [paths...] [--all]
   sabi --help
   sabi --version
 
-Options (place them before the script path):
+Options (before the script path; scan accepts them before or after paths):
   --mode=pidgin-first|append|raw
                         How errors are shown. Default: pidgin-first
   --raw                 Shortcut for --mode=raw
   --tone=street|normal  Explanation tone. Default: street
+  --all                 With scan, show every finding (default: first 10)
   --no-color            Do not use ANSI colors
   --no-emoji            Print [Polly] instead of the parrot
 
@@ -47,6 +51,12 @@ Mode can also come from SABI_MODE. Tone can also come from SABI_TONE or the
 nearest .sabirc file:
   { "tone": "normal" }
 
+ESLint scan:
+  scan uses the ESLint already installed in your project. Sabicode does not
+  bundle ESLint, install anything, or make network calls. If ESLint is missing:
+    npm install --save-dev eslint
+  You can also point at a local copy with SABI_ESLINT=/path/to/eslint.
+
 Everything after the script path is passed to your script untouched.
 `;
 
@@ -56,18 +66,26 @@ function parseInvocation(argv) {
     mode: undefined,
     color: true,
     emoji: true,
+    all: false,
     help: false,
     version: false
   };
+  const positionals = [];
   let index = 0;
+  let literal = false;
 
-  const parseFlags = () => {
+  // For run and the simple commands, flags stop at the first positional so the
+  // rest can go to the child untouched. Scan accepts flags before or after its
+  // paths, because paths are not passed through to another program.
+  const parseFlags = (allowPaths) => {
     while (index < argv.length) {
       const arg = argv[index];
 
       if (arg === '--') {
         index += 1;
-        return { literal: true };
+        positionals.push(...argv.slice(index));
+        literal = true;
+        return null;
       }
 
       if (arg === '--no-color') {
@@ -84,6 +102,12 @@ function parseInvocation(argv) {
 
       if (arg === '--raw') {
         options.mode = 'raw';
+        index += 1;
+        continue;
+      }
+
+      if (arg === '--all') {
+        options.all = true;
         index += 1;
         continue;
       }
@@ -134,28 +158,30 @@ function parseInvocation(argv) {
         return { error: `unknown option "${arg}"` };
       }
 
-      break;
+      if (!allowPaths) break;
+
+      positionals.push(arg);
+      index += 1;
     }
 
     return null;
   };
 
-  let result = parseFlags();
+  let result = parseFlags(false);
   if (result && result.error) return { error: result.error };
-  if (result && result.literal) {
-    return { command: 'run', options, positionals: argv.slice(index) };
-  }
+  if (literal) return { command: 'run', options, positionals };
 
   let command = 'run';
   if (COMMANDS.has(argv[index])) {
     command = argv[index];
     index += 1;
+  }
 
-    result = parseFlags();
-    if (result && result.error) return { error: result.error };
-    if (result && result.literal) {
-      return { command, options, positionals: argv.slice(index) };
-    }
+  result = parseFlags(command === 'scan');
+  if (result && result.error) return { error: result.error };
+
+  if (command === 'scan' || literal) {
+    return { command, options, positionals };
   }
 
   return { command, options, positionals: argv.slice(index) };
@@ -203,6 +229,29 @@ function listConcepts(entries, concepts) {
     const count = counts.get(concept.id) || 0;
     const label = count === 1 ? '1 entry ' : `${count} entries`;
     process.stdout.write(`${concept.id.padEnd(width)}  ${label.padEnd(9)}  ${concept.title}\n`);
+  }
+
+  return 0;
+}
+
+function listRules(entries) {
+  const width = Math.max(4, ...entries.map((entry) => entry.id.length));
+  const conceptWidth = Math.max(7, ...entries.map((entry) => entry.concept.length));
+
+  process.stdout.write(`ESLint rules: ${entries.length}\n\n`);
+  process.stdout.write(`${'rule'.padEnd(width)}  ${'concept'.padEnd(conceptWidth)}  reviewed\n`);
+  process.stdout.write(`${'-'.repeat(width)}  ${'-'.repeat(conceptWidth)}  --------\n`);
+
+  for (const entry of entries) {
+    const state =
+      entry.reviewStatus === 'reviewed'
+        ? 'yes'
+        : entry.reviewStatus === 'stale'
+          ? 'stale'
+          : 'no';
+    process.stdout.write(
+      `${entry.id.padEnd(width)}  ${entry.concept.padEnd(conceptWidth)}  ${state}\n`
+    );
   }
 
   return 0;
@@ -296,6 +345,7 @@ async function main(argv = []) {
   });
   const entries = loadDictionary();
   const concepts = loadConcepts();
+  const eslintRules = loadEslintRules();
 
   if (command === 'list') {
     if (positionals.length > 0) {
@@ -304,11 +354,43 @@ async function main(argv = []) {
     return listErrors(entries, concepts);
   }
 
+  if (command === 'rules') {
+    if (positionals.length > 0) {
+      return usageError(`unexpected argument "${positionals[0]}"`);
+    }
+    return listRules(eslintRules);
+  }
+
   if (command === 'concepts') {
     if (positionals.length > 0) {
       return usageError(`unexpected argument "${positionals[0]}"`);
     }
-    return listConcepts(entries, concepts);
+    return listConcepts([...entries, ...eslintRules], concepts);
+  }
+
+  if (command === 'scan') {
+    const color = resolveColor({
+      noColor: !options.color,
+      env: process.env,
+      isTTY: process.stdout.isTTY
+    });
+    const result = scanProject({
+      cwd: process.cwd(),
+      paths: positionals.length > 0 ? positionals : ['.'],
+      rules: eslintRules,
+      all: options.all,
+      tone,
+      color,
+      emoji: options.emoji
+    });
+
+    if (result.error) {
+      process.stderr.write(`sabi: ${result.error}`);
+    }
+    if (result.output) {
+      process.stdout.write(result.output);
+    }
+    return result.code;
   }
 
   if (command === 'explain') {

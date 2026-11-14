@@ -4,6 +4,47 @@ All notable changes to Sabicode are recorded here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project uses
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] - 2026-11-14
+
+### Added
+
+- `sabi scan [paths...]`, an optional adapter that runs the ESLint already
+  installed in the project and explains each finding in Pidgin. It bundles no
+  ESLint, installs nothing, makes no network calls, and does not auto-fix code.
+- Pidgin coverage for 13 ESLint rules, including `eqeqeq`, `no-undef`,
+  `no-unused-vars`, `no-unreachable`, `no-shadow`, `no-dupe-keys`,
+  `no-unsafe-optional-chaining`, and parse errors. Uncovered rules get a generic
+  Pidgin explanation plus the exact English message.
+- `sabi rules` to list the ESLint catalog, and `sabi scan --all` to show every
+  finding instead of the first 10.
+- `SABI_ESLINT=/path/to/eslint` for explicit local ESLint discovery.
+- Three concepts — `objects`, `operators`, and `control-flow` — for 14 concepts
+  across both catalogs.
+- A dedicated live demo at `/demo.html`: run real JavaScript in a sandboxed
+  worker, paste an error, or replay an ESLint scan with selectable findings.
+- A rewritten landing page built around the problem, the dictionary model, a
+  before/after comparison, the two commands, and the people it serves.
+- `npm run review -- list --eslint` and `--runtime` catalog selection. `verify`
+  now reports runtime and ESLint review state separately.
+
+### Changed
+
+- `sabi concepts` counts runtime and ESLint entries together.
+- The generated site now builds 19 pages: landing, demo, and 17 runtime error
+  pages. The demo data includes both catalogs.
+- The npm package includes the `eslint/` catalog and the updated docs.
+
+### Fixed
+
+- Horizontal overflow on the landing page caused by grid tracks growing to the
+  min-content width of long code samples.
+
+### Verified
+
+- The adapter was exercised against ESLint 8.57.1 and 9.39.5, including clean
+  runs, warnings, errors, parse errors, unknown rules, and missing configs.
+- `npm test` passes 221 tests on the development Node version.
+
 ## [0.2.1] - 2026-11-14
 
 ### Fixed

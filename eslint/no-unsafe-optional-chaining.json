@@ -1,0 +1,30 @@
+{
+  "id": "no-unsafe-optional-chaining",
+  "language": "javascript",
+  "concept": "undefined-and-null",
+  "match": "^Unsafe usage of optional chaining\\.",
+  "samples": [
+    "Unsafe usage of optional chaining. If it short-circuits with 'undefined' the evaluation will throw TypeError."
+  ],
+  "fix_code": "thing?.a?.b",
+  "review": {
+    "status": "draft",
+    "reviewers": [],
+    "contentHash": null
+  },
+  "what": "An optional chain is used in a place that still throws when the chain short-circuits to undefined.",
+  "tone": {
+    "street": {
+      "headline": "Your `?.` fit still throw `TypeError`",
+      "happen": "You use `?.` inside brackets, call, or spread. If the left side short-circuit to `undefined`, the next operation still throw.",
+      "todo": "Check the value before you use am, or add another `?.`:",
+      "learn": "`?.` only protect the step wey e dey on. E no protect the next operation."
+    },
+    "normal": {
+      "headline": "This optional chain can still throw `TypeError`",
+      "happen": "The optional chain is used in a context that still throws when the chain short-circuits to `undefined`, such as a call, spread, or bracket access.",
+      "todo": "Check the value before you use am, or add another `?.`:",
+      "learn": "`?.` only protect the step wey e dey on. E no protect the next operation."
+    }
+  }
+}

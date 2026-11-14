@@ -1,6 +1,6 @@
 # Sabicode Pidgin style
 
-These rules apply to every Pidgin string in `dictionary/`.
+These rules apply to every Pidgin string in `dictionary/` and `eslint/`.
 
 1. Use one spelling per word: `dey`, `wetin`, `na`, `don`, `wey`, `no`, `am`, `go`, `abeg`, `oya`, `sabi`, `gree`.
 2. Technical terms stay in English, in backticks. Never invent Pidgin words for them.
@@ -10,5 +10,6 @@ These rules apply to every Pidgin string in `dictionary/`.
 6. Banned: text-speak (`u`, `ur`, `pls`), and any blame phrasing such as "you forgot" or "your fault".
 7. A `headline` is one short line. It names the action or the thing that broke; the renderer adds the English error class.
 8. An entry teaches one concept. Tag it with an id from `concepts/concepts.json`; if the concept does not exist, add it with a title and a one-sentence summary first.
+9. ESLint entries use the same layout and tone rules. The headline names the mistake, not the rule id; the rule id stays in the location line and the English message stays in `English:`.
 
 The Pidgin in this repository is a draft until a Pidgin speaker reviews it.

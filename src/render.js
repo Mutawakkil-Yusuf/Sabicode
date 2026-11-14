@@ -194,8 +194,11 @@ function renderBlock(entry, captures, options = {}) {
     renderEnglish(options.english, color, lines);
   }
 
-  lines.push('');
-  lines.push(layout.closer + CLOSERS[tone]);
+  const closer = options.closer === undefined ? CLOSERS[tone] : options.closer;
+  if (closer) {
+    lines.push('');
+    lines.push(layout.closer + closer);
+  }
 
   return `${lines.join('\n')}\n`;
 }

@@ -1,0 +1,30 @@
+{
+  "id": "no-const-assign",
+  "language": "javascript",
+  "concept": "bindings",
+  "match": "^'([^']+)' is constant\\.?$",
+  "samples": [
+    "'value' is constant."
+  ],
+  "fix_code": "let {1} = ...;",
+  "review": {
+    "status": "draft",
+    "reviewers": [],
+    "contentHash": null
+  },
+  "what": "ESLint found an assignment to a variable declared with const.",
+  "tone": {
+    "street": {
+      "headline": "You try change `{1}`, but you mark am as `const`",
+      "happen": "`{1}` na `const`. Once you assign am, you no fit assign another value.",
+      "todo": "If e need to change, use `let`:",
+      "learn": "`const` mean say the binding no dey change."
+    },
+    "normal": {
+      "headline": "`{1}` na `const`, so you no fit reassign am",
+      "happen": "`{1}` was declared with `const`. A `const` binding cannot be reassigned after it is created.",
+      "todo": "If e need to change, use `let`:",
+      "learn": "`const` mean say the binding no dey change."
+    }
+  }
+}

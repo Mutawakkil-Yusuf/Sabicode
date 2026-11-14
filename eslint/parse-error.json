@@ -1,0 +1,29 @@
+{
+  "id": "parse-error",
+  "language": "javascript",
+  "concept": "syntax",
+  "match": "^Parsing error: (.+)$",
+  "samples": [
+    "Parsing error: Unexpected token ;"
+  ],
+  "review": {
+    "status": "draft",
+    "reviewers": [],
+    "contentHash": null
+  },
+  "what": "ESLint could not parse the file. The code has a syntax problem before any rule can run.",
+  "tone": {
+    "street": {
+      "headline": "ESLint no fit read this file",
+      "happen": "The parser stop before linting start. E see `{1}` for the place wey the syntax break.",
+      "todo": "Check the line for a missing bracket, quote, comma, or keyword.",
+      "learn": "\"parsing error\" mean say the code no follow JavaScript grammar."
+    },
+    "normal": {
+      "headline": "ESLint cannot parse this file",
+      "happen": "Parsing stopped before linting began. The parser reported `{1}` where the syntax breaks.",
+      "todo": "Check the line for a missing bracket, quote, comma, or keyword.",
+      "learn": "\"parsing error\" mean say the code no follow JavaScript grammar."
+    }
+  }
+}

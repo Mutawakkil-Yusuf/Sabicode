@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{{HEAD}}
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+{{SVG_DEFS}}
+<div class="wrap">
+  <nav>
+    <a class="logo" href="index.html">{{LOGO_SVG}}<span>sabicode</span></a>
+    <div class="nav-links">
+      <a class="s" href="index.html">Home</a>
+      <a class="s" href="demo.html" aria-current="page">Live demo</a>
+      <a class="s" href="index.html#why">Why it's different</a>
+      <a class="s nav-github" href="{{REPO_URL}}">GitHub</a>
+    </div>
+  </nav>
+</div>
+
+<main id="main" class="demo-page">
+  <div class="wrap">
+    <header class="demo-hero">
+      <p class="eyebrow">Live demo · runs in your browser</p>
+      <h1>Try Sabicode without installing anything.</h1>
+      <p class="lead">Run real JavaScript, paste an error, or replay a scan. The dictionary is the same one the CLI uses. Your code never leaves this page.</p>
+    </header>
+
+    <div class="playground">
+      <div class="tabs" role="tablist" aria-label="Demo mode">
+        <button type="button" role="tab" id="tab-run" aria-controls="pane-run" aria-selected="true" data-pane="run">Run code</button>
+        <button type="button" role="tab" id="tab-explain" aria-controls="pane-explain" aria-selected="false" tabindex="-1" data-pane="explain">Paste an error</button>
+        <button type="button" role="tab" id="tab-scan" aria-controls="pane-scan" aria-selected="false" tabindex="-1" data-pane="scan">Preview a scan</button>
+      </div>
+
+      <section id="pane-run" role="tabpanel" aria-labelledby="tab-run" class="pane">
+        <div class="play-grid">
+          <div class="play-editor">
+            <div class="presets" id="presets" role="group" aria-label="Example errors"></div>
+            <label class="sr-only" for="code">JavaScript code</label>
+            <textarea id="code" spellcheck="false" autocapitalize="off" autocomplete="off" aria-describedby="run-note"></textarea>
+            <div class="editor-actions">
+              <button class="btn" id="run" type="button">Run code</button>
+              <button class="btn alt" id="reset" type="button">Reset</button>
+              <span class="note" id="run-note">Runs in a sandboxed worker. 3 second limit.</span>
+            </div>
+          </div>
+          <div class="term demo-term">
+            <div class="bar">
+              {{POLLY_TERMINAL}}<span class="nm">Polly Glot says: Wetin happen?</span>
+              <div class="seg" role="group" aria-label="Tone">
+                <button type="button" data-tone="street" aria-pressed="true">street</button>
+                <button type="button" data-tone="normal" aria-pressed="false">normal</button>
+              </div>
+            </div>
+            <div class="out" id="run-out" aria-live="polite"></div>
+          </div>
+        </div>
+        <p class="note demo-note">This browser sandbox is not Node. It supports modern JavaScript, <code>console</code>, and timers, but not <code>require</code>, <code>fs</code>, or the DOM. The real CLI runs Node and has the full dictionary.</p>
+      </section>
+
+      <section id="pane-explain" role="tabpanel" aria-labelledby="tab-explain" class="pane" hidden>
+        <div class="play-grid">
+          <div class="play-editor">
+            <div class="presets" id="error-presets" role="group" aria-label="Example error messages"></div>
+            <label class="sr-only" for="error-input">Error message</label>
+            <textarea id="error-input" spellcheck="false" autocapitalize="off" autocomplete="off">TypeError: Cannot read properties of undefined (reading 'name')</textarea>
+            <div class="editor-actions">
+              <button class="btn" id="explain" type="button">Explain am</button>
+            </div>
+          </div>
+          <div class="term demo-term">
+            <div class="bar">
+              {{POLLY_TERMINAL}}<span class="nm">Polly Glot says: Wetin happen?</span>
+              <div class="seg" role="group" aria-label="Tone">
+                <button type="button" data-tone="street" aria-pressed="true">street</button>
+                <button type="button" data-tone="normal" aria-pressed="false">normal</button>
+              </div>
+            </div>
+            <div class="out" id="explain-out" aria-live="polite"></div>
+          </div>
+        </div>
+        <p class="note demo-note">Paste a Node or browser error line. Sabicode matches the same patterns as <code>sabi explain</code>.</p>
+      </section>
+
+      <section id="pane-scan" role="tabpanel" aria-labelledby="tab-scan" class="pane" hidden>
+        <div class="scan-head">
+          <div>
+            <h2>Example scan</h2>
+            <p class="sub">A React component with five findings. This is a recorded sample; the real command runs your project's ESLint.</p>
+          </div>
+          <button class="btn" id="replay-scan" type="button">Replay scan</button>
+        </div>
+        <div class="scan-grid">
+          <div class="scan-code" id="scan-code" aria-label="Example file"></div>
+          <div class="scan-side">
+            <div class="scan-findings" id="scan-findings" aria-label="ESLint findings"></div>
+            <div class="term demo-term scan-term">
+              <div class="bar">{{POLLY_TERMINAL}}<span class="nm">Selected finding</span></div>
+              <div class="out" id="scan-out" aria-live="polite"></div>
+            </div>
+          </div>
+        </div>
+        <p class="note demo-note">Sabicode does not bundle ESLint and makes no network calls. Install ESLint in your project once, then run <code>sabi scan</code>.</p>
+      </section>
+    </div>
+
+    <section class="demo-cta">
+      <div>
+        <h2>This is the browser preview. The real thing is one command.</h2>
+        <p>Install Sabicode and run it against your own file, or scan a whole project with the ESLint you already have.</p>
+      </div>
+      <div class="cta">
+        <button class="btn" id="copy" type="button">Copy npx sabicode app.js</button>
+        <a class="btn alt" href="{{REPO_URL}}">View on GitHub</a>
+      </div>
+      <p class="note" id="copied" aria-live="polite"></p>
+    </section>
+  </div>
+</main>
+
+<div class="wrap">
+  <footer>
+    <span>Sabicode is open source. Pidgin explanations are a draft until reviewers sign off.</span>
+    <span>Pidgin reviewers: <span class="credit-placeholder">[reviewer credits placeholder]</span> · <a href="{{PIDGIN_URL}}">Suggest a phrase</a> · <a href="{{REPO_URL}}">GitHub</a></span>
+  </footer>
+</div>
+
+<script>
+var ERRORS = {{DEMO_ERRORS}};
+var SCAN = {{SCAN_DEMO}};
+var still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+var tone = readTone();
+var lastRun = null;
+var lastExplain = null;
+var selectedFinding = 0;
+var runWorker = null;
+var runTimer = null;
+var runUrl = null;
+
+function readTone() {
+  try {
+    var saved = localStorage.getItem("sabicode-tone");
+    return saved === "normal" || saved === "street" ? saved : "street";
+  } catch (error) {
+    return "street";
+  }
+}
+
+function saveTone(value) {
+  try {
+    localStorage.setItem("sabicode-tone", value);
+  } catch (error) {
+    // Storage can be unavailable; the page still renders with the current tone.
+  }
+}
+
+function esc(value) {
+  return String(value).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
+function fill(template, captures) {
+  return String(template).replace(/\{(\d+)\}/g, function (placeholder, index) {
+    var value = captures[Number(index) - 1];
+    return value === undefined ? placeholder : value;
+  });
+}
+
+function inline(template, captures) {
+  return esc(fill(template, captures)).replace(/`([^`]+)`/g, "<code>$1</code>");
+}
+
+function errorLine(text) {
+  var lines = String(text).split(/\r?\n/);
+  for (var i = 0; i < lines.length; i++) {
+    var match = /^(?:Uncaught )?(\w*Error)(?: \[(\w+)\])?: (.+)$/.exec(lines[i].trim());
+    if (match) {
+      return { name: match[1], code: match[2] || null, message: match[3], line: lines[i].trim() };
+    }
+  }
+  return null;
+}
+
+function matchError(normalized) {
+  for (var i = 0; i < ERRORS.length; i++) {
+    var match = new RegExp(ERRORS[i].match).exec(normalized);
+    if (match) {
+      return { entry: ERRORS[i], captures: match.slice(1).map(function (value) { return value === undefined ? "" : value; }) };
+    }
+  }
+  return null;
+}
+
+function renderExplanation(entry, captures, english, label) {
+  var copy = entry.tones[tone];
+  var head = label ? esc(label) + ": " : "";
+  var fix = entry.fix_code ? '<div class="fix"><code>' + esc(fill(entry.fix_code, captures)) + '</code></div>' : "";
+  return '<div class="pg">' +
+    '<div class="hd">🦜 ' + head + inline(copy.headline, captures) + '</div>' +
+    '<div><b>Wetin happen:</b> ' + inline(copy.happen, captures) + '</div>' +
+    '<div><b>Wetin to do:</b> ' + inline(copy.todo, captures) + fix + '</div>' +
+    '<div><b>Learn am:</b> ' + inline(copy.learn, captures) + '</div>' +
+    '<div class="en">English: ' + esc(english) + '</div>' +
+    '</div>';
+}
+
+function renderUnknown(english, label) {
+  var head = label ? esc(label) + ": " : "";
+  return '<div class="pg">' +
+    '<div class="hd">🦜 ' + head + 'This one na new to me</div>' +
+    '<div>Check the English message below. We go add am soon.</div>' +
+    '<div class="en">English: ' + esc(english) + '</div>' +
+    '</div>';
+}
+
+function renderGeneric(ruleId, english) {
+  var copy = {
+    street: {
+      headline: "ESLint catch one problem: `" + ruleId + "`",
+      happen: "ESLint rule `" + ruleId + "` flag this code. Sabicode never get a full Pidgin explanation for this rule yet, so check the English message below.",
+      todo: "Fix the code, or read the rule docs. Run `sabi rules` to see the rules wey get Pidgin.",
+      learn: "The rule id na the English name for the check wey ESLint run."
+    },
+    normal: {
+      headline: "ESLint flagged this code with `" + ruleId + "`",
+      happen: "ESLint rule `" + ruleId + "` flagged this code. Sabicode does not have a full Pidgin explanation for this rule yet, so check the English message below.",
+      todo: "Fix the code, or read the rule docs. Run `sabi rules` to see the rules wey get Pidgin.",
+      learn: "The rule id na the English name for the check wey ESLint run."
+    }
+  }[tone];
+
+  return '<div class="pg">' +
+    '<div class="hd">🦜 ' + inline(copy.headline, []) + '</div>' +
+    '<div><b>Wetin happen:</b> ' + inline(copy.happen, []) + '</div>' +
+    '<div><b>Wetin to do:</b> ' + inline(copy.todo, []) + '</div>' +
+    '<div><b>Learn am:</b> ' + inline(copy.learn, []) + '</div>' +
+    '<div class="en">English: ' + esc(english) + '</div>' +
+    '</div>';
+}
+
+function setRunOutput(html) {
+  document.getElementById("run-out").innerHTML = html;
+}
+
+function renderRun() {
+  if (!lastRun) {
+    setRunOutput('<span class="cmd">$ sabi run app.js</span>\n<span class="dim">Press "Run code" to see the Pidgin explanation.</span>');
+    return;
+  }
+
+  var html = '<span class="cmd">$ sabi run app.js</span>\n';
+
+  if (lastRun.logs && lastRun.logs.length) {
+    html += '<div class="logs">' + lastRun.logs.map(esc).join("\n") + '</div>';
+  }
+
+  if (lastRun.kind === "ok") {
+    html += '<div class="ok">No error. Sabicode only speaks when something breaks.</div>';
+  } else if (lastRun.kind === "timeout") {
+    html += '<div class="pg">' +
+      '<div class="hd">🦜 Your code no finish</div>' +
+      '<div><b>Wetin happen:</b> E run pass 3 seconds. Something dey loop forever, or e dey wait for something wey no go come.</div>' +
+      '<div><b>Wetin to do:</b> Check your <code>while</code> and <code>for</code> loops, and any <code>await</code> wey no go resolve.</div>' +
+      '<div><b>Learn am:</b> A loop needs a condition wey go eventually become false.</div>' +
+      '</div>';
+  } else {
+    var english = lastRun.name + ": " + lastRun.message;
+    var found = matchError(english);
+    html += found ? renderExplanation(found.entry, found.captures, english, lastRun.name) : renderUnknown(english, lastRun.name);
+  }
+
+  setRunOutput(html);
+}
+
+var WORKER_SOURCE = [
+  'self.onmessage = async function (event) {',
+  '  var code = event.data.code;',
+  '  var logs = [];',
+  '  function show(value) {',
+  '    if (typeof value === "string") return value;',
+  '    try { return JSON.stringify(value); } catch (error) { return String(value); }',
+  '  }',
+  '  var fakeConsole = {};',
+  '  ["log", "info", "warn", "error"].forEach(function (level) {',
+  '    fakeConsole[level] = function () {',
+  '      var parts = [];',
+  '      for (var i = 0; i < arguments.length; i++) parts.push(show(arguments[i]));',
+  '      logs.push(parts.join(" "));',
+  '    };',
+  '  });',
+  '  try {',
+  '    var AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;',
+  '    var fn = new AsyncFunction("console", code);',
+  '    await fn(fakeConsole);',
+  '    self.postMessage({ type: "done", logs: logs });',
+  '  } catch (error) {',
+  '    self.postMessage({',
+  '      type: "error",',
+  '      logs: logs,',
+  '      name: error && error.name ? error.name : "Error",',
+  '      message: error && error.message ? error.message : String(error)',
+  '    });',
+  '  }',
+  '};'
+].join("\n");
+
+function finishWorker() {
+  clearTimeout(runTimer);
+  runTimer = null;
+  if (runWorker) {
+    runWorker.terminate();
+    runWorker = null;
+  }
+  if (runUrl) {
+    URL.revokeObjectURL(runUrl);
+    runUrl = null;
+  }
+}
+
+function runCode() {
+  finishWorker();
+  lastRun = null;
+  setRunOutput('<span class="cmd">$ sabi run app.js</span>\n<span class="dim">Running in a sandbox...</span>');
+
+  var blob = new Blob([WORKER_SOURCE], { type: "text/javascript" });
+  runUrl = URL.createObjectURL(blob);
+  runWorker = new Worker(runUrl);
+
+  runWorker.onmessage = function (event) {
+    var data = event.data || {};
+    finishWorker();
+    lastRun = {
+      kind: data.type === "done" ? "ok" : "error",
+      logs: data.logs || [],
+      name: data.name || "Error",
+      message: data.message || "Unknown error"
+    };
+    renderRun();
+  };
+
+  runWorker.onerror = function (event) {
+    finishWorker();
+    lastRun = {
+      kind: "error",
+      logs: [],
+      name: "Error",
+      message: event.message || "The sandbox stopped."
+    };
+    renderRun();
+  };
+
+  runWorker.postMessage({ code: document.getElementById("code").value });
+
+  runTimer = setTimeout(function () {
+    finishWorker();
+    lastRun = { kind: "timeout", logs: [] };
+    renderRun();
+  }, 3000);
+}
+
+var PRESETS = [
+  {
+    label: "undefined property",
+    code: 'const user = { name: "Ada" };\nconsole.log(user.profile.name);'
+  },
+  {
+    label: "ReferenceError",
+    code: 'console.log(price);'
+  },
+  {
+    label: "not a function",
+    code: 'const greet = "hello";\ngreet();'
+  },
+  {
+    label: "JSON parse",
+    code: 'JSON.parse("<html>");'
+  },
+  {
+    label: "const assign",
+    code: 'const count = 1;\ncount = 2;\nconsole.log(count);'
+  },
+  {
+    label: "infinite loop",
+    code: 'while (true) {}'
+  },
+  {
+    label: "works",
+    code: 'console.log("Sabicode is ready");'
+  }
+];
+
+function setCode(code) {
+  document.getElementById("code").value = code;
+}
+
+function buildPresets() {
+  var box = document.getElementById("presets");
+  PRESETS.forEach(function (preset, index) {
+    var button = document.createElement("button");
+    button.type = "button";
+    button.textContent = preset.label;
+    button.setAttribute("aria-pressed", String(index === 0));
+    button.onclick = function () {
+      for (var i = 0; i < box.children.length; i++) {
+        box.children[i].setAttribute("aria-pressed", String(i === index));
+      }
+      setCode(preset.code);
+      runCode();
+    };
+    box.appendChild(button);
+  });
+}
+
+var ERROR_PRESETS = [
+  "TypeError: Cannot read properties of undefined (reading 'name')",
+  "ReferenceError: name is not defined",
+  "TypeError: greet is not a function",
+  "SyntaxError: Unexpected token ';'",
+  "SyntaxError: Unexpected token '<', \"<!DOCTYPE html>\" is not valid JSON"
+];
+
+function buildErrorPresets() {
+  var box = document.getElementById("error-presets");
+  ERROR_PRESETS.forEach(function (message) {
+    var button = document.createElement("button");
+    button.type = "button";
+    button.textContent = message.replace(/^(\w+): .*/, "$1");
+    button.title = message;
+    button.onclick = function () {
+      document.getElementById("error-input").value = message;
+      explainError();
+    };
+    box.appendChild(button);
+  });
+}
+
+function explainError() {
+  var input = document.getElementById("error-input").value;
+  var foundLine = errorLine(input);
+  var out = document.getElementById("explain-out");
+
+  if (!foundLine) {
+    lastExplain = null;
+    out.innerHTML = '<span class="cmd">$ sabi explain</span>\n<div class="pg"><div class="hd">🦜 No JavaScript error line</div><div>I no see line like <code>ReferenceError: ...</code> inside that message. Paste the full error line or the stack trace.</div></div>';
+    return;
+  }
+
+  var normalized = foundLine.name + ": " + foundLine.message;
+  var found = matchError(normalized);
+  lastExplain = { found: found, english: foundLine.line, label: foundLine.name };
+
+  out.innerHTML = '<span class="cmd">$ sabi explain</span>\n' +
+    (found
+      ? renderExplanation(found.entry, found.captures, foundLine.line, foundLine.name)
+      : renderUnknown(foundLine.line, foundLine.name));
+}
+
+function renderScanCode() {
+  var box = document.getElementById("scan-code");
+  var lines = SCAN.code.split("\n");
+  var findingLines = {};
+  SCAN.findings.forEach(function (finding) {
+    findingLines[finding.line] = true;
+  });
+
+  box.innerHTML = lines.map(function (line, index) {
+    var number = index + 1;
+    var cls = "scan-line" + (findingLines[number] ? " has-finding" : "");
+    return '<div class="' + cls + '" data-line="' + number + '"><span class="ln">' + number + '</span><span class="lc">' + esc(line) + '</span></div>';
+  }).join("");
+}
+
+function renderFindings() {
+  var box = document.getElementById("scan-findings");
+  box.innerHTML = "";
+
+  SCAN.findings.forEach(function (finding, index) {
+    var button = document.createElement("button");
+    button.type = "button";
+    button.className = "finding" + (index === selectedFinding ? " active" : "");
+    button.innerHTML = '<span class="severity ' + finding.severity + '">' + finding.severity + '</span>' +
+      '<span class="f-rule">' + esc(finding.ruleId) + '</span>' +
+      '<span class="f-loc">' + esc(SCAN.file) + ':' + finding.line + ':' + finding.column + '</span>';
+    button.onclick = function () {
+      selectedFinding = index;
+      renderFindings();
+      renderSelectedFinding();
+    };
+    box.appendChild(button);
+  });
+}
+
+function renderSelectedFinding() {
+  var finding = SCAN.findings[selectedFinding];
+  var out = document.getElementById("scan-out");
+  if (!finding) {
+    out.innerHTML = "";
+    return;
+  }
+
+  document.querySelectorAll(".scan-line").forEach(function (line) {
+    line.classList.toggle("selected", Number(line.dataset.line) === finding.line);
+  });
+
+  var entry = null;
+  for (var i = 0; i < ERRORS.length; i++) {
+    if (ERRORS[i].id === finding.ruleId) {
+      entry = ERRORS[i];
+      break;
+    }
+  }
+
+  var matched = null;
+  if (entry) {
+    var match = new RegExp(entry.match).exec(finding.message);
+    if (match) {
+      matched = { entry: entry, captures: match.slice(1).map(function (value) { return value === undefined ? "" : value; }) };
+    }
+  }
+
+  out.innerHTML = '<div class="finding-head"><span class="severity ' + finding.severity + '">' + finding.severity + '</span> <code>' + esc(finding.ruleId) + '</code> · ' + esc(SCAN.file) + ':' + finding.line + ':' + finding.column + '</div>' +
+    (matched
+      ? renderExplanation(matched.entry, matched.captures, finding.message, null)
+      : renderGeneric(finding.ruleId, finding.message));
+}
+
+var scanPlayed = false;
+
+function replayScan() {
+  var box = document.getElementById("scan-findings");
+  box.innerHTML = "";
+  selectedFinding = 0;
+
+  if (still) {
+    renderFindings();
+    renderSelectedFinding();
+    return;
+  }
+
+  SCAN.findings.forEach(function (finding, index) {
+    setTimeout(function () {
+      var button = document.createElement("button");
+      button.type = "button";
+      button.className = "finding reveal-in" + (index === selectedFinding ? " active" : "");
+      button.innerHTML = '<span class="severity ' + finding.severity + '">' + finding.severity + '</span>' +
+        '<span class="f-rule">' + esc(finding.ruleId) + '</span>' +
+        '<span class="f-loc">' + esc(SCAN.file) + ':' + finding.line + ':' + finding.column + '</span>';
+      button.onclick = function () {
+        selectedFinding = index;
+        renderFindings();
+        renderSelectedFinding();
+      };
+      box.appendChild(button);
+      if (index === 0) renderSelectedFinding();
+    }, index * 160);
+  });
+}
+
+function showPane(name) {
+  var tabs = document.querySelectorAll('[role="tab"]');
+  for (var i = 0; i < tabs.length; i++) {
+    var selected = tabs[i].dataset.pane === name;
+    tabs[i].setAttribute("aria-selected", String(selected));
+    tabs[i].tabIndex = selected ? 0 : -1;
+    document.getElementById("pane-" + tabs[i].dataset.pane).hidden = !selected;
+  }
+
+  if (name === "scan" && !scanPlayed) {
+    scanPlayed = true;
+    replayScan();
+  }
+}
+
+function setToneButtons() {
+  var buttons = document.querySelectorAll(".seg button[data-tone]");
+  for (var i = 0; i < buttons.length; i++) {
+    buttons[i].setAttribute("aria-pressed", String(buttons[i].dataset.tone === tone));
+  }
+}
+
+document.querySelectorAll('[role="tab"]').forEach(function (tab) {
+  tab.onclick = function () {
+    showPane(this.dataset.pane);
+  };
+  tab.onkeydown = function (event) {
+    if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
+    event.preventDefault();
+    var tabs = Array.prototype.slice.call(document.querySelectorAll('[role="tab"]'));
+    var index = tabs.indexOf(this);
+    var next = event.key === "ArrowRight" ? (index + 1) % tabs.length : (index - 1 + tabs.length) % tabs.length;
+    tabs[next].focus();
+    showPane(tabs[next].dataset.pane);
+  };
+});
+
+document.querySelectorAll(".seg button[data-tone]").forEach(function (button) {
+  button.onclick = function () {
+    tone = this.dataset.tone;
+    saveTone(tone);
+    setToneButtons();
+    renderRun();
+    if (lastExplain) {
+      document.getElementById("explain-out").innerHTML = '<span class="cmd">$ sabi explain</span>\n' +
+        (lastExplain.found
+          ? renderExplanation(lastExplain.found.entry, lastExplain.found.captures, lastExplain.english, lastExplain.label)
+          : renderUnknown(lastExplain.english, lastExplain.label));
+    }
+    if (scanPlayed) renderSelectedFinding();
+  };
+});
+
+document.getElementById("run").onclick = runCode;
+document.getElementById("explain").onclick = explainError;
+document.getElementById("replay-scan").onclick = replayScan;
+document.getElementById("reset").onclick = function () {
+  setCode(PRESETS[0].code);
+  runCode();
+};
+
+document.getElementById("copy").onclick = function () {
+  var note = document.getElementById("copied");
+  var command = "npx sabicode app.js";
+  var done = function () {
+    note.textContent = "Copied. Run it in your project.";
+  };
+  var fail = function () {
+    note.textContent = "Copy failed. Select the command and copy it by hand.";
+  };
+  var legacy = function (text) {
+    try {
+      var area = document.createElement("textarea");
+      area.value = text;
+      area.setAttribute("readonly", "");
+      area.style.position = "fixed";
+      area.style.opacity = "0";
+      document.body.appendChild(area);
+      area.select();
+      var ok = document.execCommand("copy");
+      document.body.removeChild(area);
+      return ok;
+    } catch (error) {
+      return false;
+    }
+  };
+
+  try {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(command).then(done, function () {
+        if (legacy(command)) done(); else fail();
+      });
+    } else if (legacy(command)) {
+      done();
+    } else {
+      fail();
+    }
+  } catch (error) {
+    if (legacy(command)) done(); else fail();
+  }
+};
+
+buildPresets();
+buildErrorPresets();
+renderScanCode();
+renderFindings();
+setCode(PRESETS[0].code);
+setToneButtons();
+renderRun();
+runCode();
+</script>
+</body>
+</html>

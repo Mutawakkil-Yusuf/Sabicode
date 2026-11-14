@@ -1,0 +1,29 @@
+{
+  "id": "no-dupe-keys",
+  "language": "javascript",
+  "concept": "objects",
+  "match": "^Duplicate key '([^']+)'\\.?$",
+  "samples": [
+    "Duplicate key 'a'."
+  ],
+  "review": {
+    "status": "draft",
+    "reviewers": [],
+    "contentHash": null
+  },
+  "what": "An object literal declares the same key more than once. The last value wins.",
+  "tone": {
+    "street": {
+      "headline": "You put `{1}` two times inside one object",
+      "happen": "The object get `{1}` two times. JavaScript go keep the last one, so the first value disappear quietly.",
+      "todo": "Remove one of them, or rename the second key.",
+      "learn": "\"duplicate key\" mean say the same key show more than once."
+    },
+    "normal": {
+      "headline": "`{1}` dey inside the object more than once",
+      "happen": "The object literal declares `{1}` twice. JavaScript keeps the last value, so the first one is silently lost.",
+      "todo": "Remove one of them, or rename the second key.",
+      "learn": "\"duplicate key\" mean say the same key show more than once."
+    }
+  }
+}
