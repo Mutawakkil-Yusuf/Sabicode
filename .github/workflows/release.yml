@@ -19,18 +19,18 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
           registry-url: 'https://registry.npmjs.org'
 
+      - name: Install npm with staged publishing
+        run: npm install -g npm@^12.2.2
+
       - name: Check npm credentials
-        run: |
-          npm whoami
-          npm token list --json | jq '[.[] | {id, token, readonly, automation, cidr_whitelist, created, updated}]'
-          npm profile get --json | jq '{name, tfa, email_verified}'
+        run: npm whoami
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Publish with provenance
-        run: npm publish --provenance --access public
+      - name: Stage release for approval
+        run: npm stage publish --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
