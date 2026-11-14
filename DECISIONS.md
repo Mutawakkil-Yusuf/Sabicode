@@ -7,7 +7,7 @@ room for interpretation.
 
 - Package version starts at `0.1.0`; `0.2.0` adds Pidgin-first output, the
   concept schema, the review workflow, and the first concept-first dictionary
-  expansion. The package is not published during this build.
+  expansion. Version `0.2.0` is published on npm as `sabicode`.
 - The CLI is CommonJS and uses only Node built-ins. There are no runtime
   dependencies.
 - Node 18, 20, and 22 are the supported and tested versions.
