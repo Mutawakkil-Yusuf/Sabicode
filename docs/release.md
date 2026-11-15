@@ -16,7 +16,8 @@ uses GitHub's OIDC identity instead of a long-lived token.
 
 ## Repository setup
 
-This was completed for `0.2.0`, `0.2.1`, and `0.3.0`; keep it for reference.
+This was completed for `0.2.0`, `0.2.1`, `0.3.0`, and `0.3.1`; keep it for
+reference.
 
 1. Create a granular access token with **All packages: Read and write**.
    Staged publishing does not require the 2FA-bypass option.

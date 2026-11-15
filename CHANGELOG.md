@@ -4,6 +4,17 @@ All notable changes to Sabicode are recorded here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project uses
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.1] - 2026-11-15
+
+### Changed
+
+- All 17 runtime entries and 13 ESLint rule entries are signed off as reviewed
+  by Mutawakkil Yusuf ([@Mutawakkil-Yusuf](https://github.com/Mutawakkil-Yusuf)).
+  New or edited entries start as drafts, and any edit to a signed entry marks it
+  stale automatically.
+- The site now credits the reviewer, and every generated error page shows the
+  reviewed state.
+
 ## [0.3.0] - 2026-11-14
 
 ### Added
