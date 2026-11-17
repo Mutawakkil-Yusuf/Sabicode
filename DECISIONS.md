@@ -152,6 +152,10 @@ room for interpretation.
   layout sections.
 - On small screens the navigation keeps only the logo and the GitHub pill, so it
   never wraps into a second row.
+- The hero uses a floating Polly Glot mascot as its brand object instead of a
+  decorative 3D cube. A separate id-free SVG avoids clashing with the talking
+  parrot in the terminal, and the float animation is disabled under reduced
+  motion.
 - The demo page has three tabs. Run mode executes JavaScript in a Web Worker
   created from a Blob URL, with a fake `console`, a 3 second timeout, and no DOM,
   `require`, or filesystem access. Explain mode matches the same dictionary

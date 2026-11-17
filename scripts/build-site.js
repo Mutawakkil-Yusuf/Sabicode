@@ -201,6 +201,11 @@ function pollySvg() {
   return `<svg class="p" id="polly" viewBox="0 0 48 48" aria-hidden="true"><path class="crest" d="M13 14C10 7 15 3 18 9C19 3 25 3 25 11C29 7 32 11 28 16Z" fill="var(--yellow)"/><circle cx="22" cy="27" r="16" fill="var(--green)"/><path class="beak" d="M34 21C46 20 48 31 40 38C39 33 36 31 33 31Z" fill="var(--yellow)"/><circle cx="26" cy="23" r="5" fill="#fff"/><circle cx="27.5" cy="23" r="2.3" fill="#16241c"/><ellipse class="lid" cx="26" cy="23" rx="5.4" ry="5.4" fill="var(--green)"/></svg>`;
 }
 
+// A decorative mascot without the id used by the talking terminal parrot.
+function mascotSvg() {
+  return pollySvg().replace(' id="polly"', '');
+}
+
 function footer() {
   return `<div class="wrap">
   <footer>
@@ -441,6 +446,7 @@ function renderIndex() {
     SVG_DEFS: svgDefs(),
     LOGO_SVG: logoSvg(),
     POLLY_TERMINAL: pollySvg(),
+    HERO_POLLY: mascotSvg(),
     ERROR_COUNT: String(entries.length),
     RUNTIME_CONCEPT_COUNT: String(runtimeConcepts),
     ESLINT_COUNT: String(eslintEntries.length),

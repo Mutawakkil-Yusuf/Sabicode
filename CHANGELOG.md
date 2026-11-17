@@ -15,6 +15,9 @@ All notable changes to Sabicode are recorded here. The format follows
 - Unified the color tokens and organized the stylesheet into shared, landing,
   demo, and error sections. Small-screen navigation no longer wraps.
 - Added Instrument Serif and Inter to the site font stack.
+- Added a floating Polly Glot mascot to the hero — above the badge on mobile and
+  beside the headline on desktop. It floats, blinks, and sways, and stops under
+  reduced motion.
 
 ## [0.3.1] - 2026-11-15
 
