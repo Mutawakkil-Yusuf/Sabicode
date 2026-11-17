@@ -8,9 +8,12 @@ All notable changes to Sabicode are recorded here. The format follows
 
 ### Changed
 
-- Redesigned the landing page with a dark editorial style: black canvas, serif
-  display headline, hairline borders, and a full-width live example window. The
-  demo and error pages keep their existing theme.
+- Redesigned the whole site with a dark editorial style: black canvas, serif
+  display headlines, hairline borders, and large code windows. The landing page
+  has a full-width live example, the demo has a tabbed playground, and error
+  pages show both tones in matched cards.
+- Unified the color tokens and organized the stylesheet into shared, landing,
+  demo, and error sections. Small-screen navigation no longer wraps.
 - Added Instrument Serif and Inter to the site font stack.
 
 ## [0.3.1] - 2026-11-15

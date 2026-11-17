@@ -163,8 +163,7 @@ function head({ title, description, canonical, assetPrefix = '' }) {
 <meta name="description" content="${escapeHtml(description)}">
 <meta name="robots" content="index,follow">
 <link rel="canonical" href="${escapeHtml(canonical)}">
-<meta name="theme-color" content="#faf7ef" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#101712" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#000000">
 <link rel="icon" href="${assetPrefix}assets/polly.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
