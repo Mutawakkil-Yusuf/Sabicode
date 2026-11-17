@@ -145,6 +145,10 @@ room for interpretation.
   is different → before/after → two commands → audience → open dictionary →
   coverage → schools → free story. The hero switches between English and Pidgin
   and cycles through four errors.
+- The landing page now uses a dark editorial design: black canvas, off-white
+  copy, a serif display headline, hairline section borders, and a large code
+  window. The restyle is scoped to the landing page with `body.lp`, so the demo
+  and error pages keep their existing theme.
 - The demo page has three tabs. Run mode executes JavaScript in a Web Worker
   created from a Blob URL, with a fake `console`, a 3 second timeout, and no DOM,
   `require`, or filesystem access. Explain mode matches the same dictionary

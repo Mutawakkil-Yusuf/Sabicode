@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
 {{HEAD}}
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: light)">
 </head>
-<body>
+<body class="lp">
 <a class="skip" href="#main">Skip to content</a>
 {{SVG_DEFS}}
 <div class="wrap">
@@ -18,26 +19,31 @@
   </nav>
 </div>
 
+<main id="main">
 <header class="hero" id="top">
-  <div class="wrap hero-grid">
-    <div class="hero-copy">
-      <p class="eyebrow">For Nigerian developers · Pidgin first</p>
-      <h1>Your errors, finally in your language.</h1>
-      <p class="lead">Sabicode runs your JavaScript and explains the error in clear Nigerian Pidgin — while keeping the original English, the code frame, and the stack trace. You fix the bug and learn the term.</p>
-      <div class="cta">
-        <a class="btn" href="demo.html">Try the live demo</a>
-        <button class="btn alt" id="copy" type="button" title="Copy the install command">npx sabicode app.js</button>
-      </div>
-      <p class="note">Published on npm as <a href="{{NPM_URL}}"><code>sabicode</code></a>. Zero runtime dependencies. Works offline.</p>
-      <p class="note" id="copied" aria-live="polite"></p>
-      <ul class="hero-facts">
-        <li><strong>{{ERROR_COUNT}}</strong> Node errors</li>
-        <li><strong>{{ESLINT_COUNT}}</strong> ESLint rules</li>
-        <li><strong>0</strong> runtime deps</li>
-        <li><strong>Node 18+</strong></li>
-      </ul>
+  <div class="wrap hero-copy">
+    <p class="eyebrow">For Nigerian developers · Pidgin first</p>
+    <h1>Your errors,<br>finally in your language.</h1>
+    <p class="lead">Sabicode runs your JavaScript and explains the error in clear Nigerian Pidgin — while keeping the original English, the code frame, and the stack trace. You fix the bug and learn the term.</p>
+    <div class="cta">
+      <a class="btn" href="demo.html">Try the live demo</a>
+      <button class="btn alt" id="copy" type="button" title="Copy the install command">npx sabicode app.js</button>
     </div>
+    <p class="note">Published on npm as <a href="{{NPM_URL}}"><code>sabicode</code></a>. Zero runtime dependencies. Works offline.</p>
+    <p class="note" id="copied" aria-live="polite"></p>
+    <ul class="hero-facts">
+      <li><strong>{{ERROR_COUNT}}</strong> Node errors</li>
+      <li><strong>{{ESLINT_COUNT}}</strong> ESLint rules</li>
+      <li><strong>0</strong> runtime deps</li>
+      <li><strong>Node 18+</strong></li>
+    </ul>
+  </div>
+</header>
 
+<section class="lp-showcase" aria-label="Live Sabicode example">
+  <div class="wrap">
+    <p class="lp-kicker">01 — Live example</p>
+    <h2 class="lp-showcase-title">The real error. Then the Pidgin.</h2>
     <div class="term hero-term" id="hero-demo" aria-label="Live example of Sabicode">
       <div class="bar">
         {{POLLY_TERMINAL}}<span class="nm">Polly Glot says: Wetin happen?</span>
@@ -54,9 +60,8 @@
       </div>
     </div>
   </div>
-</header>
+</section>
 
-<main id="main">
 <section class="section-problem">
   <div class="wrap">
     <p class="eyebrow reveal">The real problem</p>

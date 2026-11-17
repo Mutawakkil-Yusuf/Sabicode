@@ -4,6 +4,15 @@ All notable changes to Sabicode are recorded here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project uses
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+
+- Redesigned the landing page with a dark editorial style: black canvas, serif
+  display headline, hairline borders, and a full-width live example window. The
+  demo and error pages keep their existing theme.
+- Added Instrument Serif and Inter to the site font stack.
+
 ## [0.3.1] - 2026-11-15
 
 ### Changed
